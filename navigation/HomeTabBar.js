@@ -5,7 +5,6 @@ import ProfileScreen from '../screens/ProfileScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
-
 export function HomeTabBar() {
   return (
     <Tab.Navigator>
@@ -13,7 +12,7 @@ export function HomeTabBar() {
         tabBarLabel: 'Home',
         tabBarIcon: () => (
             <Ionicons name="home" size={20} />
-        )
+        ),
         }}/>
       <Tab.Screen name="Profile" component={ProfileScreen} options={{
         tabBarLabel: 'Profile',
@@ -23,5 +22,5 @@ export function HomeTabBar() {
         }}
       />
     </Tab.Navigator>
-  );
+    );
 }
