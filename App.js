@@ -4,6 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import SignupScreen from './screens/SignupScreen'
+import ProductDetailScreen from './screens/ProductDetailScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import { BottomTabNavigator } from './navigation/BottomTabBar';
 
 // import { StatusBar } from 'expo-status-bar';
 // import { StyleSheet, Text, View } from 'react-native';
@@ -20,7 +23,10 @@ export default function App() {
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="SignUp" component={SignupScreen} />
-          <Stack.Screen name="Home" component={HomeScreen} initialParams= {{userID: userid, email: email, fullName: fullname, userRole: role}} />
+          <Stack.Screen name="Home" component={HomeScreen} options={{title:'Products'}} initialParams= {{userID: userid, email: email, fullName: fullname, userRole: role}} />
+          <Stack.Screen name="Detail" component={ProductDetailScreen}  />
+          <Stack.Screen name="Profile" component={ProfileScreen} options={{title:'Profile'}}/>
+          <Stack.Screen name="Nav" component={BottomTabNavigator} />
           {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
           {/* <Stack.Screen name="Page2" component={Page2Screen} /> */}
           {/* <Stack.Screen name="Home"
