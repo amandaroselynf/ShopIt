@@ -50,6 +50,7 @@ function LoginScreen({navigation}) {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.title}>Welcome to ShopIt</Text>
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%' }}
                 keyboardShouldPersistTaps="always">
@@ -97,7 +98,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
-
+        fontSize: 35,
+        fontFamily: 'Impact',
+        fontWeight: 'bold',
+        marginTop: 20,
+        marginBottom: 20,
+        textAlign: 'center'
     },
     logo: {
         flex: 1,
