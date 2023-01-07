@@ -17,6 +17,17 @@ function ProfileScreen({navigation}) {
     const userId = firebase.auth().currentUser.uid;
     const userRef = db.collection('users').doc(userId);
   
+    const handleSignOut = () => {
+      firebase.auth().signOut().then(()=> {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Login'}]
+        });
+      });
+    }
+    // const onUpdatePress = () => {
+    //   userRef.update
+    // }
     // const handleSubmit = () => {
     //   userRef.update({fullname, email})
     //     .then(() => {
@@ -55,20 +66,23 @@ function ProfileScreen({navigation}) {
     return (
       <View style={styles.container}>
         <Text style={styles.label}>Name:</Text>
-        <TextInput
-          style={styles.input}
+        <Text onChangeText={setName}>{fullname}</Text>
+        {/* <TextInput
+          style={styles.TextInput}
           value={fullname}
           onChangeText={setName}
-        />
+        /> */}
         <Text style={styles.label}>Email:</Text>
-        <TextInput
+        <Text onChangeText={setEmail}>{email}</Text>
+        {/* <TextInput
           style={styles.input}
           value={email}
           onChangeText={setEmail}
-        />
-        {error && <Text style={styles.error}>Error: {error}</Text>}
+        /> */}
+        {/* {error && <Text style={styles.error}>Error: {error}</Text>}
         {success && <Text style={styles.success}>Success: {success}</Text>}
-        {/* <Button title="Submit" onPress={handleSubmit} /> */}
+        <Button title="Update" onPress={onUpdatePress} /> */}
+        <Button title="Sign Out" onPress={handleSignOut} /> 
       </View>
     );
   };

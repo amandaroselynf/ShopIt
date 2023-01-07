@@ -35,9 +35,9 @@ function LoginScreen({navigation}) {
                 
                         navigation.reset({
                             index: 0,
-                            routes: [{ name: 'Nav'}]
+                            routes: [{ name: 'Home'}]
                         });
-                        navigation.navigate('Nav', {userID: userData.id, userName: userData.fullName, userRole: userData.role})
+                        // navigation.navigate('Home', {userID: userData.id, userName: userData.fullName, userRole: userData.role})
                     })
                     .catch(error => {
                         alert(error)
