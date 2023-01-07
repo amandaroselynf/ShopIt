@@ -29,7 +29,7 @@ function ProductDetailScreen({ route, navigation}) {
         };
         fetchUser()
       }, []);
-
+//
       
     return(
         <View>
