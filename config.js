@@ -1,5 +1,8 @@
 import firebase from 'firebase/compat/app';
-// import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
+// import {
+//   getFirestore
+// } from "firebase/firestore"
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
@@ -14,12 +17,15 @@ const firebaseConfig = {
     appId: "1:272523576628:web:33709096eae82232961161"
   };
   
+  // const app = initializeApp(firebaseConfig)
+
+  // export const db = getFirestore(app)
   if (!firebase.apps.length) 
   {
       firebase.initializeApp(firebaseConfig)
-    } else {
-      firebase.app()
-    }
+  } else {
+    firebase.app()
+  }
    
   export { firebase };
   

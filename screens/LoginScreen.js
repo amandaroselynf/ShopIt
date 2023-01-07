@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
@@ -6,6 +6,11 @@ import { firebase } from '../config'
 function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    useEffect(() => {
+        setEmail("amanda@gmail.com")
+        setPassword("12345678")
+    })
 
     const onSignupNavPress = () => {
         navigation.navigate('SignUp')
@@ -30,9 +35,9 @@ function LoginScreen({navigation}) {
                 
                         navigation.reset({
                             index: 0,
-                            routes: [{ name: 'Home'}]
+                            routes: [{ name: 'Nav'}]
                         });
-                        navigation.navigate('Home', {userID: userData.id, userName: userData.fullName, userRole: userData.role})
+                        navigation.navigate('Nav', {userID: userData.id, userName: userData.fullName, userRole: userData.role})
                     })
                     .catch(error => {
                         alert(error)
