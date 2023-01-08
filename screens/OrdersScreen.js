@@ -38,6 +38,7 @@ function OrdersScreen({ navigation }) {
               service,
               delivery,
               total,
+              status,
               paymentType,
               createdAt,
               totalQty
