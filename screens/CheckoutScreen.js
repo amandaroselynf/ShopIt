@@ -7,6 +7,7 @@ import CheckBox from 'expo-checkbox'
 import { Picker } from '@react-native-picker/picker';
 import { appStyles } from '../constants/style';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { PROCESSING } from '../constants/const';
 
 function CheckoutScreen({ route, navigation }) {
 
