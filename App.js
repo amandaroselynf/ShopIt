@@ -47,6 +47,7 @@ export default function App() {
             })
           }/>
           {/* <Stack.Screen name="Home" component={HomeTabBar} options={{headerShown: false}} initialParams= {{userID: userid, email: email, fullName: fullname, userRole: role}} /> */}
+          <Stack.Screen name="Checkout" component={CheckoutScreen}  />
           <Stack.Screen name="Detail" component={ProductDetailScreen}  />
           <Stack.Screen name="Cart" component={CartScreen} options={({ route }) => ({
             headerTitle: getHeaderTitle(route)
@@ -56,7 +57,7 @@ export default function App() {
             headerTitle: getHeaderTitle(route)
             })
           }/>
-	<Stack.Screen name="Checkout" component={CheckoutScreen}  />        </Stack.Navigator>
+          </Stack.Navigator>
       </NavigationContainer>
   );
 }

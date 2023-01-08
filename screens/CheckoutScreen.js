@@ -4,8 +4,6 @@ import { Image, Text, TextInput, Button, FlatList, TouchableOpacity, Pressable, 
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
 
-import { firebase} from './config'
-
 function CheckoutScreen({ route, navigate }) {
      const { cart } = route.params
      const [ subtotal, setSubtotal] = useState(0)
@@ -32,14 +30,14 @@ function CheckoutScreen({ route, navigate }) {
 
 	const handleCheckout = async () => {
 	   const orders = [] 
-	   await for(item in cart) {
+	   for(item in cart) {
 		const { id, name, image, price, qty } = item
 		const order = ({ 
-		  id: cartRef.doc().id,
-       		  userId: userId,
-       		  productId: product.id,
-      		  qty: qty,
-		  price: price});
+		  	id: cartRef.doc().id,
+			userId: userId,
+			productId: product.id,
+			qty: qty,
+		price: price});
 		cartRef.add(order) 
      		.then(() => {
 		 orders.push(order) 
@@ -75,7 +73,7 @@ function CheckoutScreen({ route, navigate }) {
 
 }
 
-export styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         width: '100%',
         backgroundColor: '#FAFAFA',

@@ -19,8 +19,8 @@ function CartScreen({ navigation }) {
 
 
     const onCheckoutPress = () => {
-         navigation.navigate('Checkout', {
-	 cart : products } )
+        navigation.navigate('Checkout', {
+        cart : products } )
     } 
 
     const fetchProductDetail = ((productId) => {
@@ -59,30 +59,22 @@ function CartScreen({ navigation }) {
                     qty,
                     userId
                 })
-                //  products.push(fetchProductDetail(productId))
             })          
             setCarts(carts) 
-            // Promise.all(products).then((result) => {
-            //     console.log("NOTF", "s")
-            //     console.log(result.toString(), 'A')
-            //     setProducts(result)
-            // });
           }
         )
         const products = []
         for(let i = 0; i < carts.length; i++) {
             await fetchProductDetail(carts[i].productId).then((product) => {
                 const {name, price, image} = product
-                console.log(name, price)
                 products.push({
-                    id: carts[i].id,
+                    cartId: carts[i].id,
                     name,
                     price,
                     image,
-		    productId: carts[i].productId, 
+		                productId: carts[i].productId, 
                     qty: carts[i].qty}
                 )
-                console.log(products[i].name, 'push')
             });
         }
         setProducts(products)
@@ -110,7 +102,7 @@ function CartScreen({ navigation }) {
                     <View style={styles.priceContainer}>
                         <Text style={styles.productPrice}>${item.price}</Text>
                     </View>
-                    <Text style={styles.productPrice}>${item.qty}</Text>
+                    <Text style={styles.productPrice}>{item.qty} pc</Text>
                     <TouchableOpacity onPress={() => console.log('Add to cart')}>
                         <Text style={styles.addToCartText }>Add to Cart</Text>
                     </TouchableOpacity>
@@ -118,8 +110,8 @@ function CartScreen({ navigation }) {
               </Pressable>
             )}
           />
-          <TouchableOpacity onPress={() => console.log('Add to cart')}>
-              <Text style={styles.btnCheckout}>Checkout</Text>
+          <TouchableOpacity style={styles.btnCheckout} onPress={onCheckoutPress}>
+              <Text style={styles.checkoutTextw}>Checkout</Text>
           </TouchableOpacity>
         </View>
     );
