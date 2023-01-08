@@ -6,12 +6,13 @@ export const appStyles = StyleSheet.create({
     buttonText: {
 		color: 'white',
 		fontWeight: 'bold',
+        fontSize: 15,
 	},
     button: {
         backgroundColor: COLOR_BTN_PRIMARY,
         marginHorizontal: 10,
         marginTop: 20,
-        padding: 10,
+        padding: 12,
         borderRadius: 5,
         alignItems: "center",
         justifyContent: 'center'
@@ -20,7 +21,7 @@ export const appStyles = StyleSheet.create({
         backgroundColor: COLOR_BTN_PRIMARY_DISABLED,
         marginHorizontal: 10,
         marginTop: 20,
-        padding: 10,
+        padding: 12,
         borderRadius: 5,
         alignItems: "center",
         justifyContent: 'center'

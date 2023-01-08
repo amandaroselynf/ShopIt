@@ -24,26 +24,34 @@ function CartScreen({ navigation }) {
         cart : carts } )
     } 
 
-    const manageQty= (index, cartId, qty, action) => {
-        var newQty = qty
-            if(action === 'Add' ) {
-                newQty++
-            } else
-        if(action === 'Remove') {
-                if(qty==1) {
-            return 
-        } 
+    const manageQty= (cartId, qty, action) => {
+      var newQty = qty
+          if(action === 'Add' ) {
+              newQty++
+          } else
+          if(action === 'Remove') {
+              if(qty==1) {
+              return 
+          } 
         newQty--
       } 
       cartRef.doc(cartId).update({
         qty: newQty
       }).catch((e) => {
-        alert('Something went wrong please try again later.')
+        alert(e)
       })
       // .then(() => {
       //   alert('The product has been added to your cart!');
       // });
     } 
+
+    const removeItem = (cartId) => {
+      cartRef.doc(cartId).delete({
+
+      }).catch((e) => {
+        alert('Something went wrong please try again later.')
+      })
+    }
     
     const fetchCart = async () => {
       const promises = [];
@@ -78,64 +86,64 @@ function CartScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-         {/* <Text style={styles.sectionTitle}>Your Cart</Text> */}
+        {carts.length===0 && <Text style={styles.emptyCart}>Your cart is empty.</Text>}
         <FlatList
             style={styles.productsContainer}
             data={carts}
             contentContainerStyle={styles.productItemContainer}
             renderItem={({ item }, index) => (
-              <Pressable style={styles.cardContainer}
-                onPress={() => navigation.navigate('Detail', {
-                  product: item
-                })} 
-              >
+              <View style={styles.cardContainer}>
                 <View style={styles.innerCardContainer}>
                     <Image
                         style={styles.productImage}
                         source={{ uri: item.image }}
                     />
                     <View style={styles.cartInfo}>
-                      <Text style={styles.productTitle}>{item.productName}</Text>
+                      <View style={styles.topContainer}>
+                          <Text style={styles.productTitle}>{item.productName}</Text>
+                          <TouchableOpacity 
+                          style={styles.btnRemove}
+                          onPress={() => removeItem(item.cartId) }
+                        >
+                          <Ionicons style={styles.trash} name="trash-outline" size={15} color="white" />
+                        </TouchableOpacity>
+                      </View>
                       <View style={styles.priceContainer}>
                           <Text style={styles.productPrice}>${item.price}</Text>
                       </View>
 
 
                       <View style={styles.qtyContainer}>
-                      <TouchableOpacity 
-                        style={styles.button}
-                        onPress={() => manageQty(index, item.cartId, item.qty, 'Remove' ) }
-                      >
-                        <Ionicons name="remove-outline" size={15} color="white" />
-                      </TouchableOpacity>
-                      <TextInput 
-                        style={styles.inputQuantity}
-                        value={'' + item.qty}
-                        keyboardType="numeric"
-                        onChangeText={(qty) => {
-                          // setQty(qty);
-                        }}
-                      />
-                      <TouchableOpacity 
-                        style={styles.button}
-                        onPress={() => manageQty(index, item.cartId, item.qty, 'Add' ) }
-                      >
-                        <Ionicons name="add-outline" size={15} color="white" />
-                      </TouchableOpacity>
+                        <TouchableOpacity 
+                          style={styles.buttonQty}
+                          onPress={() => manageQty(item.cartId, item.qty, 'Remove' ) }
+                        >
+                          <Ionicons name="remove-outline" size={15} color="white" />
+                        </TouchableOpacity>
+                        <TextInput 
+                          style={styles.inputQuantity}
+                          value={'' + item.qty}
+                          keyboardType="numeric"
+                          onChangeText={(qty) => {
+                            // setQty(qty);
+                          }}
+                        />
+                        <TouchableOpacity 
+                          style={styles.buttonQty}
+                          onPress={() => manageQty(item.cartId, item.qty, 'Add' ) }
+                        >
+                          <Ionicons name="add-outline" size={15} color="white" />
+                        </TouchableOpacity>
                     </View>
-                    
-                    <TouchableOpacity style={styles.btnRemove} onPress={() => console.log('Remove')}>
-                        <Text style={styles.removeText }>Remove</Text>
-                    </TouchableOpacity>
                     </View>
                 </View>
-              </Pressable>
+              </View>
             )}
           />
 
           <TouchableOpacity 
-            disabled={(!carts)}
-            style={(!carts) ? styles.button : styles.buttonDisabled}
+            disabled={(carts.length===0)}
+            style={(carts.length>0) ? styles.button : styles.buttonDisabled}
             onPress={onCheckoutPress}>
                 <Text style={styles.buttonText}>Checkout</Text>
           </TouchableOpacity>
@@ -151,10 +159,22 @@ const styles = {...appStyles, ...StyleSheet.create({
         height: '100%',
         backgroundColor: '#FAFAFA',
       },
+      emptyCart: {
+        padding: 15,
+        fontSize: 15,
+        alignSelf: 'center',
+      },
+      topContainer: {
+        flexDirection: 'row',
+      },
+      trash: {
+        color: 'blue',
+        fontSize: 21,
+      },
       btnRemove: {
-        backgroundColor: 'red',
-        padding: 3,
-        borderRadius: 100,
+        padding: 4,
+        borderColor: 'gray',
+        borderRadius: 5,
         borderWidth: 0.5, 
       },
       removeText: {
@@ -166,7 +186,9 @@ const styles = {...appStyles, ...StyleSheet.create({
         marginLeft: 0,
       },
       productTitle: {
-        fontSize: 15,
+        textAlignVertical: 'center',
+        fontSize: 18,
+        flex: 1,
         color: '#333',
         fontWeight: 'bold',
       },
@@ -177,9 +199,12 @@ const styles = {...appStyles, ...StyleSheet.create({
       },
       cartInfo: {
         flex: 3,
+        marginStart: 5,
         flexDirection: 'column',
       },
       productImage: {
+        width: '100%',
+        height: undefined,
         flex: 1,
         aspectRatio: 1,
         borderRadius: 10,
@@ -198,16 +223,19 @@ const styles = {...appStyles, ...StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         flexWrap: 'wrap',
+        marginVertical: 5,
       },
       inputQuantity: {
-        flex: 2,
-        height: 20,
-        backgroundColor: '#FAFAFA',
+        backgroundColor: 'white',
+        flex: 8,
+        borderRadius: 5,
+        marginHorizontal: 5,
         textAlign: 'center',
         justifyContent: 'center',
       },
-      button: {
+      buttonQty: {
         flex: 1,
+        padding: 10,
         backgroundColor: '#788eec',
         borderRadius: 5,
         alignItems: 'center',
@@ -248,11 +276,11 @@ const styles = {...appStyles, ...StyleSheet.create({
         color: 'white',
         fontWeight: 'bold'
       },
-      sectionTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: "center",
-        marginTop: 20,
-        marginBottom: 10,
-      },
+      // sectionTitle: {
+      //   fontSize: 24,
+      //   fontWeight: 'bold',
+      //   textAlign: "center",
+      //   marginTop: 20,
+      //   marginBottom: 10,
+      // },
 })};

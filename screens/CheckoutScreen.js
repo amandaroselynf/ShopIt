@@ -138,20 +138,21 @@ function CheckoutScreen({ route, navigation }) {
 	    
 	return (
         <KeyboardAwareScrollView 
-			style={{ flex: 1, width: '100%' }}
+			style={[ styles.container,{ flex: 1, width: '100%' }]}
 			keyboardShouldPersistTaps="always"
 		>
 			<Text style={styles.paymentLabel}>Payment Options</Text>
-			<Picker
-				style={Platform.OS === 'ios'? styles.iosPicker : styles.picker}
-				selectedValue={selectedPayment}
-				mode="dropdown"
-				onValueChange={(itemValue, itemIndex) =>
-					setSelectedPayment(itemValue)
-				}>
-				<Picker.Item label="Cash" value="CASH" />
-				<Picker.Item label="Card" value="CARD" />
-			</Picker>
+			<View style={Platform.OS === 'ios'? styles.iosPicker : styles.picker}>
+				<Picker
+					selectedValue={selectedPayment}
+					mode="dropdown"
+					onValueChange={(itemValue, itemIndex) =>
+						setSelectedPayment(itemValue)
+					}>
+					<Picker.Item label="Cash" value="CASH" />
+					<Picker.Item label="Card" value="CARD" />
+				</Picker>
+			</View>
 			{selectedPayment==='CARD' && (
 				<View style={styles.paymentContainer}>
 					<TextInput
@@ -177,11 +178,15 @@ function CheckoutScreen({ route, navigation }) {
 					</View>
 				</View>
 			)}
+			
+			<View style={styles.addressContainer}>
 			<Text style={styles.addressLabel}>Address</Text>
 			<TextInput
-				style={styles.TextInput}
+				style={styles.addressInput}
 				value={address}
 				onChangeText={setAddress}
+				multiline={true}
+				numberOfLines={3}
 				placeholder='Please enter your address.'
 			/>
 			<View style={styles.checkboxContainer}>
@@ -192,18 +197,32 @@ function CheckoutScreen({ route, navigation }) {
 					/>
 				<Text style={styles.label}> Would you like to save this address for next time?</Text>
 			</View>
-			<Text style={styles.subtotalLabel}>Subtotal</Text>
-			<Text style={styles.subtotalText}>${subtotal.toFixed(2)}</Text>
-			<Text style={styles.deliveryLabel}>Delivery Fee</Text>
-			<Text style={styles.deliveryText}>${delivery.toFixed(2)}</Text>
-			<Text style={styles.serviceLabel}>Service Fee</Text>
-			<Text style={styles.serviceText}>${service.toFixed(2)}</Text>
-			<Text style={styles.totalLabel}>Total Price</Text>
-			<Text style={styles.totalText}>${total.toFixed(2)}</Text>
-			{error && <Text style={styles.error}>{error}</Text>}
+			</View>
+			<View style={styles.LineAbove}></View>
+			<View style={styles.SubtotalContainer}>
+				<Text style={styles.subtotalLabel}>Subtotal</Text>
+				<Text style={styles.subtotalText}>${subtotal.toFixed(2)}</Text>
+			</View>
+
+			<View style={styles.DeliveryContainer}>
+				<Text style={styles.deliveryLabel}>Delivery Fee</Text>
+				<Text style={styles.deliveryText}>${delivery.toFixed(2)}</Text>
+			</View>	
+
+			<View style={styles.ServiceContainer}>
+				<Text style={styles.serviceLabel}>Service Fee</Text>
+				<Text style={styles.serviceText}>${service.toFixed(2)}</Text>
+			</View>
+			<View style={styles.LineAbove}></View>
+			<View style={styles.TotalContainer}>
+				<Text style={styles.totalLabel}>Total Price</Text>
+				<Text style={styles.totalText}>${total.toFixed(2)}</Text>
+				{error && <Text style={styles.error}>{error}</Text>}
+			</View>
+			<View style={styles.LineAbove}></View>
 			<TouchableOpacity 
 				disabled={!address && (selectedPayment === 'CARD' && (!cardNumber && !cardExp && !cardCVV))}
-				style={(address && ((selectedPayment === 'CARD' && (cardNumber && cardExp && cardCVV))) || (selectedPayment === 'CASH'))? styles.button : styles.buttonDisabled}
+				style={[(address && ((selectedPayment === 'CARD' && (cardNumber && cardExp && cardCVV))) || (selectedPayment === 'CASH'))? styles.button : styles.buttonDisabled, {marginHorizontal: 0}]}
 				onPress={handleCheckout}>
 				<Text style={styles.buttonText}>Purchase</Text>
 			</TouchableOpacity>
@@ -214,12 +233,9 @@ function CheckoutScreen({ route, navigation }) {
 
 const styles = {...appStyles, ...StyleSheet.create({
 	container: {
-        width: '100%',
         backgroundColor: '#FAFAFA',
-	},
-	checkboxContainer: {
-		flexDirection: "row",
-		marginBottom: 20,
+		padding:15,
+		flex: 1,
 	},
 	paymentContainer: {
 		margin: 5,
@@ -232,11 +248,99 @@ const styles = {...appStyles, ...StyleSheet.create({
 		borderColor: "black",
 		borderRadius: 10,
 		marginTop: 10,
-		marginHorizontal: 4,
+	},
+	paymentLabel: {
+		fontSize: 16,
+	},
+	checkboxContainer: {
+		padding: 5,
+		flexDirection: "row",
+		marginBottom: 5,
+	},
+	checkbox: {
+		width: 20,
 	},
 	flex: {
 		flex: 1,
-	}
+	},
+	addressContainer: {
+	},
+	addressInput: {
+		textAlignVertical: 'top',
+		padding: 10,
+        borderRadius: 5,
+        overflow: 'hidden',
+        backgroundColor: 'white',
+        marginVertical:5,
+	},
+	addressLabel: {
+		fontSize: 18,
+		marginTop: 10,
+		fontWeight: 'bold'
+	},
+	LineAbove: {
+		borderBottomWidth: 2,
+		borderBottomColor: '#D3D3D3',
+	},
+	SubtotalContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingVertical: 8,
+	},
+	subtotalLabel: {
+		fontSize: 16,
+		color: '#333'
+	  },
+	subtotalText: {
+		fontSize: 16,
+		color: '#333',
+	  },
+	DeliveryContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingVertical: 5,
+	},
+	deliveryLabel: {
+		color: '#333'
+	},
+	deliveryText: {
+		color: '#333',
+	},
+	ServiceContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingVertical: 5,
+	},
+	serviceLabel: {
+		color: '#333'
+	},
+	serviceText: {
+		color: '#333',
+	},
+	TotalContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingVertical: 10
+	},
+	totalLabel: {
+		fontSize: 18,
+		color: '#333',
+		fontWeight: 'bold'
+	},
+	totalText: {
+		fontSize: 18,
+		color: '#333',
+		fontWeight: 'bold'
+	},
+	LineBelow: {
+		borderBottomWidth: 2,
+		marginTop: 5,
+		borderBottomColor: '#D3D3D3',
+	},
+	error: {
+		fontSize: 16,
+		color: 'red',
+	},
 })};
 
 export default CheckoutScreen;
