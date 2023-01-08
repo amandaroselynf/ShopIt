@@ -64,6 +64,7 @@ function HomeScreen({navigation}) {
           <FlatList
             style={styles.productsContainer}
             data={filteredProducts}
+            columnWrapperStyle={styles.productRow}
             numColumns={2}
             renderItem={({ item }) => (
               <Pressable style={styles.cardContainer}
@@ -99,8 +100,12 @@ const styles = StyleSheet.create({
   productsContainer: {
     backgroundColor: '#FAFAFA',
   },
+  productRow: {
+    flex: 1,
+    justifyContent: "space-around",
+  },
   cardContainer: {
-    width: '47%',
+    maxWidth: '47.5%',
     backgroundColor: "#F8F8F8",
     padding: 15,
     borderRadius: 10,
@@ -154,10 +159,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 20,
         marginBottom: 10,
-      },
-      productCard: {
-        width: 200,
-        marginRight: 20,
       },
       productImage: {
         width: '100%',
