@@ -6,11 +6,12 @@ import { firebase } from '../config'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { appStyles } from '../constants/style';
 
+
 function ProfileScreen({navigation}) {
 
     const [user, setUser] = useState('');
-    const [fullname, setName] = useState('');
-    const [email, setEmail] = useState('');
+    const [fullName, setName] = useState('');
+    const [address, setAddress] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
   
@@ -30,7 +31,7 @@ function ProfileScreen({navigation}) {
       userRef.update
     }
     const handleSubmit = () => {
-      userRef.update({fullname, email})
+      userRef.update({fullName, address})
         .then(() => {
           setSuccess('Profile updated successfully');
           setError(null);
@@ -50,7 +51,7 @@ function ProfileScreen({navigation}) {
               const data = doc.data()
                 setUser(data)
                 setName(data.fullName)
-                setEmail(data.email)
+                setAddress(data.address)
             } else {
               console.log('Error', 'User not found.');
             }
@@ -62,24 +63,24 @@ function ProfileScreen({navigation}) {
     return (
       <View style={styles.container}>
         <Text style={styles.label}>Name:</Text>
-        <Text onChangeText={setName}>{fullname}</Text>
+        <Text onChangeText={setName}>{fullName}</Text>
         <TextInput
           style={styles.TextInput}
-          value={fullname}
+          value={fullName}
           onChangeText={setName}
         />
-        <Text style={styles.label}>Email:</Text>
-        <Text onChangeText={setEmail}>{email}</Text>
+        <Text style={styles.label}>Address:</Text>
+        <Text onChangeText={setAddress}>{address}</Text>
         <TextInput
           style={styles.TextInput}
-          value={email}
-          onChangeText={setEmail}
+          value={address}
+          onChangeText={setAddress}
         />
         {error && <Text style={styles.error}>Error: {error}</Text>}
         {success && <Text style={styles.success}>Success: {success}</Text>}
         <Button
           title="Update"
-          onPress={onUpdatePress}
+          onPress={handleSubmit}
           style={styles.button}
         />
         <TouchableOpacity 
