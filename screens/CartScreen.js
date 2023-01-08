@@ -24,13 +24,6 @@ function CartScreen({ navigation }) {
     } 
 
     const fetchProductDetail = ((productId) => {
-        // productRef.doc(productId).get().then(prod => {
-        //     if(prod.exists)  {
-        //         return new Promise (resolve => {
-        //             resolve({price, image} = prod.data())
-        //         });
-        //     }
-        // })
         return new Promise
             ((resolve, reject) => {
                 productRef.doc(productId).get().then(prod => {
@@ -42,7 +35,6 @@ function CartScreen({ navigation }) {
                 }
             });
         });
-
     });
 
     const fetchCart = async () => {
@@ -69,7 +61,7 @@ function CartScreen({ navigation }) {
                 const {name, price, image} = product
                 products.push({
                     cartId: carts[i].id,
-                    name,
+                    productName: name,
                     price,
                     image,
 		                productId: carts[i].productId, 
@@ -111,7 +103,7 @@ function CartScreen({ navigation }) {
             )}
           />
           <TouchableOpacity style={styles.btnCheckout} onPress={onCheckoutPress}>
-              <Text style={styles.checkoutTextw}>Checkout</Text>
+              <Text style={styles.checkoutText}>Checkout</Text>
           </TouchableOpacity>
         </View>
     );

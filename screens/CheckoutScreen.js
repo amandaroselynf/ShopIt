@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, Text, TextInput, Button, FlatList, TouchableOpacity, Pressable, View, StyleSheet, LogBox } from 'react-native'
+import { Image, Text, TextInput, Button, FlatList, TouchableOpacity, Pressable, View, StyleSheet, LogBox, InteractionManager } from 'react-native'
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
@@ -15,12 +15,16 @@ function CheckoutScreen({ route, navigate }) {
      const ordersRef = firebase.firestore().collection('orders')
      
 	useEffect(() => {
-	   const subtotal = 0.0
-	   for(item in cart) {
-		subtotal += (item.price * item.qty)
+		var subtotal = 0
+		console.log("cart", cart.toString())
+		for(item in cart) {
+			const { cartId, productName, price, image, productId, qty } = item
+			subtotal += (price * qty)
+			console.log(price, qty)
 	    } 
-	   setDelivery(generateFees(2, 10)) 
-	   setTotal(subtotal + service + delivery) 
+		setSubtotal(subtotal)
+		setDelivery(generateFees(2, 10)) 
+		setTotal(subtotal + service + delivery) 
 	}, [] );
 	
 	const generateFees = (min, max) => {
