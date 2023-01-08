@@ -77,6 +77,10 @@ function ProductDetailScreen({ route, navigation}) {
       
     return(
         <View style={styles.container}>
+	    <Image
+                style={styles.productImage}
+                source={{ uri: product.image }}
+            />
             <Text>{product.name}</Text>
             <Text>{product.price}</Text>
 
