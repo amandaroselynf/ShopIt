@@ -77,12 +77,9 @@ function ProductDetailScreen({ route, navigation}) {
       
     return(
         <View style={styles.container}>
-	    <Image
-                style={styles.productImage}
-                source={{ uri: product.image }}
-            />
-            <Text>{product.name}</Text>
-            <Text>{product.price}</Text>
+            <Text style={styles.productName}>{product.name}</Text>
+            <Text style={styles.productDesc}>{product.desc}</Text>
+            <Text  style={styles.productPrice}>{product.price}</Text>
 
             <View style={styles.qtyContainer}>
               <TouchableOpacity 

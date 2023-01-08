@@ -46,7 +46,7 @@ function HomeScreen({navigation}) {
   const bannerPosition = useRef(new Animated.Value(0)).current;
   const bannerOpacity = useRef(new Animated.Value(0)).current;
 
-  const filteredProducts = products.filter(product => product.name.includes(searchText));
+  const filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchText.toLowerCase()));
   
   return (  
     // <ScrollView>
