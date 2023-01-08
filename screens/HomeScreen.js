@@ -23,10 +23,11 @@ function HomeScreen({navigation}) {
         querySnapshot => {
           const products = []
           querySnapshot.forEach((doc) => {
-            const { name, price, image} = doc.data()
+            const { name, desc, price, image} = doc.data()
             products.push({
               id: doc.id,
               name,
+	      desc, 
               price,
               image
             })
