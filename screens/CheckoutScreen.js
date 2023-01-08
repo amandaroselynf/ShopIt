@@ -87,9 +87,7 @@ function CheckoutScreen({ route, navigation }) {
 			})
 		} 
 	   	// creating order
-	   	const doc = ordersRef.doc()
 		const data = {
-			// id: doc.id,
 			userId: userId,
 			orderDetail: details,
 			address: address,
