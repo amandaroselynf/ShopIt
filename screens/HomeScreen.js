@@ -13,9 +13,10 @@ function HomeScreen({navigation}) {
   const [products, setProducts] = useState([])
   const productRef = firebase.firestore().collection('products');
   const [searchText, setSearchText] = useState('');
+  const userId = firebase.auth().currentUser.uid;
+  const cartRef = firebase.firestore().collection('carts');
   
   
-
   useEffect(() => {
     const fetchProducts = async () => {
       productRef
@@ -40,6 +41,50 @@ function HomeScreen({navigation}) {
     fetchProducts();
 
   }, [])
+
+  const addCart = async () => {
+    const docId = cartRef.doc()
+    await docId.set({
+      id: docId.id,
+      userId: userId,
+      productId: product.id,
+      qty: qty,
+    })
+    .then(() => {
+      alert('The product has been added to your cart!');
+    })
+  }
+
+  const updateExisting = async (qty) => {
+    await cartRef.doc(doc.docs[0].id).update({
+      qty: (qty+1)
+    }).then(() => {
+      alert('The product has been added to your cart!');
+    });
+  }
+
+  const handleAdd = async () => {
+    if(qty < 1 || typeof qty !== 'number') {
+      setError('Please enter a valid quantity.')
+      return
+    }
+    setError(false)
+    cartRef.where('productId', '==', product.id).where('userId', '==', userId)
+      .get()
+      .then(doc => {
+        if(doc.empty) {
+          addCart()            
+        } else {
+          updateExisting(doc.docs[0].data().qty)
+        }
+          
+          // navigation.navigate('Home', {userID: userData.id, userName: userData.fullName, userRole: userData.role})
+    })
+    .catch(e => {
+        setError(e.message)
+        // alert(error)
+    });
+  }
 
   const [bannerIndex, setBannerIndex] = useState(0);
 
@@ -78,8 +123,9 @@ function HomeScreen({navigation}) {
                   />
                 <Text style={styles.productTitle}>{item.name}</Text>
                 <View style={styles.priceContainer}>
-                  <Text style={styles.productPrice}>${Number(item.price).toFixed(2)}</Text>
-                  <TouchableOpacity onPress={() => console.log('Add to cart')}>
+                  <Text style={styles.productPrice}>${item.price}</Text>
+                  <TouchableOpacity 
+                    onPress={handleAdd}>
                     <Text style={styles.addToCartText }>Add to Cart</Text>
                   </TouchableOpacity>
                 </View>
