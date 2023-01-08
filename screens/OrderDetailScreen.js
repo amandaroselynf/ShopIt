@@ -11,18 +11,14 @@ function OrderDetailScreen ({route, navigation}) {
     const [ details, setDetails] = useState([])
     // const { id, userId, etail, address, subtotal, service, delivery, total, paymentType, status, } = detail 
     useEffect(() => {
-        // const details = []
-        // for(let d of detail) {
-        //     details.push(d)
-        // }
         setDetails(detail.orderDetail)
-        console.log(JSON.stringify(details.orderDetail[0]))
         // console.log(JSON.stringify(details))
         
     }, [])
 
     return (
     <View style={styles.container}>
+    <Text style={styles.productsHeader}>Products</Text>
       <FlatList
           style={styles.ordersContainer}
           data={details}
@@ -32,24 +28,24 @@ function OrderDetailScreen ({route, navigation}) {
                 {/* <View style={styles.imageContainer}> */}
                   <Image
                       style={styles.productImage}
-                      source={{ uri: item.orderDetail[0].productImage }}
+                      source={{ uri: item.productImage }}
                   />
                   {/* </View> */}
                   <View style={styles.infoContainer}>
-                  <View style={styles.titleContainer}>
-                    <Text style={styles.productTitle}>{item.orderDetail[0].productName}</Text>
-                    <Text style={styles.orderDate}>{new Date(item.createdAt.toDate()).toDateString()}</Text>
-                  </View>
-                    {(item.orderDetail.length > 1) && <Text style={styles.orderOthers}>+ {(item.orderDetail.length - 1)} more items</Text>}
-                    {/* <Text style={styles.orderQty}>{item.totalQty} items</Text> */}
-                    <View style={styles.orderPriceContainer}>
-                      <Text style={styles.orderPriceLabel}>Total</Text>
-                      <Text style={styles.orderPrice}>${item.total}</Text>
-                    </View>
+                    <Text style={styles.productTitle}>{item.productName}</Text>
+                  <Text style={styles.productPrice}>${Number(item.price).toFixed(2)} x {item.qty} pc</Text>
+                  <Text style={styles.productTitle}>${(Math.round(item.price * item.qty)* 100)/100}</Text>
                 </View>
               </View>
           )}
         />
+        {/* <Text style={styles.orderDate}>{new Date(item.createdAt.toDate()).toDateString()}</Text>
+        {(item.orderDetail.length > 1) && <Text style={styles.orderOthers}>+ {(item.orderDetail.length - 1)} more items</Text>}
+                    {/* <Text style={styles.orderQty}>{item.totalQty} items</Text> 
+                    <View style={styles.orderPriceContainer}>
+                      <Text style={styles.orderPriceLabel}>Total</Text>
+                      <Text style={styles.orderPrice}>${item.total}</Text>
+                    </View> */}
     </View>
     );
 }
@@ -104,7 +100,7 @@ const styles = {...appStyles, ...StyleSheet.create({
       fontSize: 14,
       color: '#333',
       fontWeight: 'bold',
-      marginLeft: 150,
+      flex: 1,
     },
     productImage: {
       width: "25%",

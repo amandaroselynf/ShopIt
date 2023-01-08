@@ -78,7 +78,7 @@ function HomeScreen({navigation}) {
                   />
                 <Text style={styles.productTitle}>{item.name}</Text>
                 <View style={styles.priceContainer}>
-                  <Text style={styles.productPrice}>${item.price}</Text>
+                  <Text style={styles.productPrice}>${Number(item.price).toFixed(2)}</Text>
                   <TouchableOpacity onPress={() => console.log('Add to cart')}>
                     <Text style={styles.addToCartText }>Add to Cart</Text>
                   </TouchableOpacity>

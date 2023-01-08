@@ -86,8 +86,8 @@ function ProductDetailScreen({ route, navigation}) {
               source={{ uri: product.image }}
             />
             <View style={{flexDirection: 'row'}}>
-            <Text style={styles.productName}>{product.name} asdawd w asd awd</Text>
-            <Text style={styles.productPrice}>{'$' + product.price}</Text>
+            <Text style={styles.productName}>{product.name}</Text>
+            <Text style={styles.productPrice}>${Number(product.price).toFixed(2)}</Text>
           </View>
           <Text style={styles.productDesc}>{product.desc}</Text>
 

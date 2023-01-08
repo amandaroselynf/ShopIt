@@ -135,17 +135,16 @@ function CheckoutScreen({ route, navigation }) {
 			keyboardShouldPersistTaps="always"
 		>
 			<Text style={styles.paymentLabel}>Payment Options</Text>
-			<View style={styles.picker}>
-				<Picker
-					selectedValue={selectedPayment}
-					mode="dropdown"
-					onValueChange={(itemValue, itemIndex) =>
-						setSelectedPayment(itemValue)
-					}>
-					<Picker.Item label="Cash" value="CASH" />
-					<Picker.Item label="Card" value="CARD" />
-				</Picker>
-			</View>
+			<Picker
+				style={Platform.OS === 'ios'? styles.iosPicker : styles.picker}
+				selectedValue={selectedPayment}
+				mode="dropdown"
+				onValueChange={(itemValue, itemIndex) =>
+					setSelectedPayment(itemValue)
+				}>
+				<Picker.Item label="Cash" value="CASH" />
+				<Picker.Item label="Card" value="CARD" />
+			</Picker>
 			{selectedPayment==='CARD' && (
 				<View style={styles.paymentContainer}>
 					<TextInput
