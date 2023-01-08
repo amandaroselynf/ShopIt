@@ -25,20 +25,20 @@ function ProfileScreen({navigation}) {
         });
       });
     }
-    // const onUpdatePress = () => {
-    //   userRef.update
-    // }
-    // const handleSubmit = () => {
-    //   userRef.update({fullname, email})
-    //     .then(() => {
-    //       setSuccess('Profile updated successfully');
-    //       setError(null);
-    //     })
-    //     .catch(error => {
-    //       setError(error.message);
-    //       setSuccess(null);
-    //     });
-    // };
+    const onUpdatePress = () => {
+      userRef.update
+    }
+    const handleSubmit = () => {
+      userRef.update({fullname, email})
+        .then(() => {
+          setSuccess('Profile updated successfully');
+          setError(null);
+        })
+        .catch(error => {
+          setError(error.message);
+          setSuccess(null);
+        });
+    };
   
     useEffect(() => {
       const fetchUser = async () => {
@@ -54,11 +54,11 @@ function ProfileScreen({navigation}) {
               console.log('Error', 'User not found.');
             }
           });
-        // userRef.once('value', snapshot => {
-        //   const userData = snapshot.val();
-        //   setName(userData.fullname);
-        //   setEmail(userData.email);
-        // });
+        userRef.once('value', snapshot => {
+          const userData = snapshot.val();
+          setName(userData.fullname);
+          setEmail(userData.email);
+        });
       };
       fetchUser()
     }, []);
@@ -67,22 +67,30 @@ function ProfileScreen({navigation}) {
       <View style={styles.container}>
         <Text style={styles.label}>Name:</Text>
         <Text onChangeText={setName}>{fullname}</Text>
-        {/* <TextInput
+        <TextInput
           style={styles.TextInput}
           value={fullname}
           onChangeText={setName}
-        /> */}
+        />
         <Text style={styles.label}>Email:</Text>
         <Text onChangeText={setEmail}>{email}</Text>
-        {/* <TextInput
-          style={styles.input}
+        <TextInput
+          style={styles.TextInput}
           value={email}
           onChangeText={setEmail}
-        /> */}
-        {/* {error && <Text style={styles.error}>Error: {error}</Text>}
+        />
+        {error && <Text style={styles.error}>Error: {error}</Text>}
         {success && <Text style={styles.success}>Success: {success}</Text>}
-        <Button title="Update" onPress={onUpdatePress} /> */}
-        <Button title="Sign Out" onPress={handleSignOut} /> 
+        <Button
+          title="Update"
+          onPress={onUpdatePress}
+          style={styles.button}
+        />
+        <Button
+          title="Sign Out"
+          onPress={handleSignOut}
+          style={styles.button}
+        />
       </View>
     );
   };
@@ -94,18 +102,27 @@ function ProfileScreen({navigation}) {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+      padding: 20,
     },
     label: {
       fontSize: 20,
+      fontWeight: 'bold',
       marginBottom: 10,
     },
-    input: {
-      width: '80%',
+    TextInput: {
+      width: '100%',
       height: 40,
       borderColor: 'gray',
       borderWidth: 1,
-      marginBottom: 20,
+      marginBottom: 10,
       padding: 10,
+    },
+    button: {
+      backgroundColor: '#3f51b5', // Material Design color
+      padding: 15,
+      borderRadius: 5,
+      width: '100%',
+      margin: 10,
     },
     error: {
       color: 'red',

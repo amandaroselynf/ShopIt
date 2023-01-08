@@ -24,13 +24,13 @@ function CartScreen({ navigation }) {
     } 
 
     const fetchProductDetail = ((productId) => {
-        // productRef.doc(productId).get().then(prod => {
-        //     if(prod.exists)  {
-        //         return new Promise (resolve => {
-        //             resolve({price, image} = prod.data())
-        //         });
-        //     }
-        // })
+        productRef.doc(productId).get().then(prod => {
+            if(prod.exists)  {
+                return new Promise (resolve => {
+                    resolve({price, image} = prod.data())
+                });
+            }
+        })
         return new Promise
             ((resolve, reject) => {
                 productRef.doc(productId).get().then(prod => {
@@ -59,14 +59,14 @@ function CartScreen({ navigation }) {
                     qty,
                     userId
                 })
-                //  products.push(fetchProductDetail(productId))
+                 products.push(fetchProductDetail(productId))
             })          
             setCarts(carts) 
-            // Promise.all(products).then((result) => {
-            //     console.log("NOTF", "s")
-            //     console.log(result.toString(), 'A')
-            //     setProducts(result)
-            // });
+            Promise.all(products).then((result) => {
+                console.log("NOTF", "s")
+                console.log(result.toString(), 'A')
+                setProducts(result)
+            });
           }
         )
         const products = []
@@ -90,7 +90,7 @@ function CartScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-        <Text>AAA</Text>
+         <Text style={styles.sectionTitle}>Your Cart</Text>
         <FlatList
             style={styles.productsContainer}
             data={products}
@@ -102,6 +102,8 @@ function CartScreen({ navigation }) {
                 })} 
               >
                 <View style={styles.innerCardContainer}>
+
+                <View style={{marginTop: -80}}>
                     <Image
                         style={styles.productImage}
                         source={{ uri: item.image }}
@@ -110,17 +112,44 @@ function CartScreen({ navigation }) {
                     <View style={styles.priceContainer}>
                         <Text style={styles.productPrice}>${item.price}</Text>
                     </View>
-                    <Text style={styles.productPrice}>${item.qty}</Text>
-                    <TouchableOpacity onPress={() => console.log('Add to cart')}>
-                        <Text style={styles.addToCartText }>Add to Cart</Text>
+
+
+                    <View style={styles.qtyContainer}>
+                    <TouchableOpacity 
+                      style={styles.button}
+                      // onPress={removeQty}
+                    >
+                      <Ionicons name="remove-outline" size={15} color="white" />
                     </TouchableOpacity>
+                    <TextInput 
+                      style={styles.inputQuantity}
+                      // value={'' + qty}
+                      keyboardType="numeric"
+                      onChangeText={(qty) => {
+                        // setQty(qty);
+                      }}
+                    />
+                    <TouchableOpacity 
+                      style={styles.button}
+                      // onPress={addQty}
+                    >
+                      <Ionicons name="add-outline" size={15} color="white" />
+                    </TouchableOpacity>
+                  </View>
+                    <TouchableOpacity style={styles.btnRemove} onPress={() => console.log('Remove')}>
+                        <Text style={styles.removeText }>Remove</Text>
+                    </TouchableOpacity>
+                </View>
                 </View>
               </Pressable>
             )}
           />
+
           <TouchableOpacity onPress={() => console.log('Add to cart')}>
-              <Text style={styles.btnCheckout}>Checkout</Text>
-          </TouchableOpacity>
+                      <View style={{width: 300}}>
+                        <Text style={styles.btnCheckout}>Checkout</Text>
+                      </View>
+                    </TouchableOpacity>
         </View>
     );
 }
@@ -132,18 +161,79 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#FAFAFA',
       },
+      btnRemove: {
+        backgroundColor: 'red',
+        padding: 3,
+        width: '25%',
+        borderRadius: 100,
+        borderWidth: 0.5, 
+        marginLeft: 185,
+        top: 5,
+      },
+      removeText: {
+        textAlign: 'center',
+        color: 'white',
+        fontSize: 14,
+      },
+      priceContainer: {
+        marginLeft: 0,
+      },
+      productTitle: {
+        fontSize: 15,
+        color: '#333',
+        fontWeight: 'bold',
+        marginLeft: 150,
+      },
+      productPrice: {
+        fontSize: 14,
+        color: '#333',
+        fontWeight: 'bold',
+        marginLeft: 150,
+      },
+      productImage: {
+        width: 130,
+        height: 100,
+        resizeMode: 'cover',
+        borderRadius: 10,
+        position: 'relative', 
+        top: 82,
+        borderWidth: 2,  // add border width
+        borderColor: '#ccc',  // add border color
+      },
       productsContainer: {
         width: '100%',
+        height: '85%',
         backgroundColor: '#FAFAFA',
       },
       productItemContainer: {
         justifyContent:'center',
       },    
+      qtyContainer: {
+        width: 150,
+        flexDirection: 'row',
+        alignContent: 'center',
+        marginHorizontal: 150, 
+        flexWrap: 'wrap',
+      },
+      inputQuantity: {
+        flex: 2,
+        height: 20,
+        backgroundColor: '#FAFAFA',
+        textAlign: 'center',
+        justifyContent: 'center',
+      },
+      button: {
+        flex: 1,
+        backgroundColor: '#788eec',
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
       cardContainer: {
         width: '97%',
         backgroundColor: "#F8F8F8",
         padding: 15,
-        borderRadius: 10,
+        borderRadius: 15,
         margin: 5,
         borderWidth: 2,
         borderColor: '#000',
@@ -156,8 +246,25 @@ const styles = StyleSheet.create({
         elevation: 1,
       },
       innerCardContainer: {
-        alignItems: 'center',
+        // alignItems: 'center',
         flexDirection: 'column',
+      },
+      btnCheckout: {
+        color: '#fff',
+        fontSize: 15,
+        fontWeight: 'bold',
+        backgroundColor: 'green',
+        padding: 7,
+        textAlign: 'center',
+        borderRadius: 4,
+        marginLeft: 65,
+      },
+      sectionTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: "center",
+        marginTop: 20,
+        marginBottom: 10,
       },
 });
 
