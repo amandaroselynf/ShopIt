@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
+import { COLOR_BTN_PRIMARY, COLOR_BTN_PRIMARY_DISABLED } from '../constants/colors';
 import { ROLE_CUSTOMER } from '../constants/const';
+import { appStyles } from '../constants/style';
 
 export default function SignupScreen({navigation}) {
 
@@ -101,7 +103,8 @@ export default function SignupScreen({navigation}) {
                     autoCapitalize="none"
                 />
                 <TouchableOpacity
-                    style={styles.button}
+                    disabled={(!email && !password && !confirmPassword)}
+                    style={(email && password && confirmPassword) ? styles.button : styles.buttonDisabled}
                     onPress={() => onRegisterPress()}>
                     <Text style={styles.buttonTitle}>Create account</Text>
                 </TouchableOpacity>
@@ -114,7 +117,7 @@ export default function SignupScreen({navigation}) {
 };
 
 
-const styles = StyleSheet.create({
+const styles = {...appStyles, ...StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center'
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
         paddingLeft: 16
     },
     button: {
-        backgroundColor: '#788eec',
+        backgroundColor: COLOR_BTN_PRIMARY,
         marginLeft: 30,
         marginRight: 30,
         marginTop: 20,
@@ -154,6 +157,9 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: "center",
         justifyContent: 'center'
+    },
+    disabled: {
+        backgroundColor: COLOR_BTN_PRIMARY_DISABLED,
     },
     buttonTitle: {
         color: 'white',
@@ -175,3 +181,4 @@ const styles = StyleSheet.create({
         fontSize: 16
     }
 })
+}

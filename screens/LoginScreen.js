@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
+import { appStyles } from '../constants/style';
 
 function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
@@ -10,7 +11,7 @@ function LoginScreen({navigation}) {
     useEffect(() => {
         setEmail("amanda@gmail.com")
         setPassword("12345678")
-    })
+    },[])   
 
     const onSignupNavPress = () => {
         navigation.navigate('SignUp')
@@ -79,9 +80,10 @@ function LoginScreen({navigation}) {
                     autoCapitalize="none"
                 />
                 <TouchableOpacity
-                    style={styles.button}
+                    disabled={(!email && !password)}
+                    style={(email && password) ? styles.button : styles.buttonDisabled}
                     onPress={() => onLoginPress()}>
-                    <Text style={styles.buttonTitle}>Log in</Text>
+                    <Text style={styles.buttonText}>Log in</Text>
                 </TouchableOpacity>
                 <View style={styles.footerView}>
                     <Text style={styles.footerText}>Don't have an account? <Text onPress={onSignupNavPress} style={styles.footerLink}>Sign up</Text></Text>
@@ -93,7 +95,7 @@ function LoginScreen({navigation}) {
 
 export default LoginScreen;
 
-const styles = StyleSheet.create({
+const styles = {...appStyles, ...StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center'
@@ -125,20 +127,8 @@ const styles = StyleSheet.create({
         marginRight: 30,
         paddingLeft: 16,
     },
-    button: {
-        backgroundColor: '#788eec',
-        marginLeft: 30,
-        marginRight: 30,
-        marginTop: 20,
-        height: 48,
-        borderRadius: 5,
-        alignItems: "center",
-        justifyContent: 'center'
-    },
-    buttonTitle: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: "bold"
+    customButton: {
+        marginHorizontal: 20,
     },
     footerView: {
         flex: 1,
@@ -154,4 +144,4 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 16
     }
-})
+})}
