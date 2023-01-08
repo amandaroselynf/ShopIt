@@ -30,7 +30,6 @@ function OrdersScreen({ navigation }) {
           for(let detail of orderDetail) {
             totalQty+=detail.qty
           }
-          const previewImage = 
             orders.push({
               id,
               orderDetail,
@@ -39,6 +38,7 @@ function OrdersScreen({ navigation }) {
               service,
               delivery,
               total,
+              status,
               paymentType,
               createdAt,
               totalQty

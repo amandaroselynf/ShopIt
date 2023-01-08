@@ -44,14 +44,6 @@ function CartScreen({ navigation }) {
       //   alert('The product has been added to your cart!');
       // });
     } 
-
-    const deleteCart = async (cartId) => {
-      try {
-        await cartRef.doc(cartId).delete();
-      } catch (error) {
-        console.error("Error removing document: ", error);
-      }
-    }
     
     const fetchCart = async () => {
       const promises = [];
@@ -98,48 +90,44 @@ function CartScreen({ navigation }) {
                 })} 
               >
                 <View style={styles.innerCardContainer}>
-                <View style={{marginTop: -80}}>
                     <Image
                         style={styles.productImage}
-                        source={{ uri: item.image }}/>
-
-                    <View style={styles.titleContainer}>
+                        source={{ uri: item.image }}
+                    />
+                    <View style={styles.cartInfo}>
                       <Text style={styles.productTitle}>{item.productName}</Text>
+                      <View style={styles.priceContainer}>
+                          <Text style={styles.productPrice}>${item.price}</Text>
+                      </View>
+
+
+                      <View style={styles.qtyContainer}>
+                      <TouchableOpacity 
+                        style={styles.button}
+                        onPress={() => manageQty(index, item.cartId, item.qty, 'Remove' ) }
+                      >
+                        <Ionicons name="remove-outline" size={15} color="white" />
+                      </TouchableOpacity>
+                      <TextInput 
+                        style={styles.inputQuantity}
+                        value={'' + item.qty}
+                        keyboardType="numeric"
+                        onChangeText={(qty) => {
+                          // setQty(qty);
+                        }}
+                      />
+                      <TouchableOpacity 
+                        style={styles.button}
+                        onPress={() => manageQty(index, item.cartId, item.qty, 'Add' ) }
+                      >
+                        <Ionicons name="add-outline" size={15} color="white" />
+                      </TouchableOpacity>
                     </View>
-
-                    <View style={styles.priceContainer}>
-                        <Text style={styles.productPrice}>${item.price}</Text>
+                    
+                    <TouchableOpacity style={styles.btnRemove} onPress={() => console.log('Remove')}>
+                        <Text style={styles.removeText }>Remove</Text>
+                    </TouchableOpacity>
                     </View>
-
-                    <View style={styles.qtyContainer}>
-                    <TouchableOpacity 
-                      style={styles.button}
-                      onPress={() => manageQty(index, item.cartId, item.qty, 'Remove' ) }>
-                      <Ionicons name="remove-outline" size={15} color="white" />
-                    </TouchableOpacity>
-
-                    <TextInput 
-                      style={styles.inputQuantity}
-                      value={'' + item.qty}
-                      keyboardType="numeric"
-                      onChangeText={(qty) => {
-                        // setQty(qty);
-                      }}/>
-
-                    <TouchableOpacity 
-                      style={styles.button}
-                      onPress={() => manageQty(index, item.cartId, item.qty, 'Add' ) }>
-                      <Ionicons name="add-outline" size={15} color="white" />
-                    </TouchableOpacity>
-
-
-                  </View>
-                  <TouchableOpacity 
-                    style={styles.btnRemove}
-                    onPress={() => deleteCart(item.cartId)}>
-                    <Ionicons name="trash-outline" size={13} color="white" style={{marginRight: 5}}>Remove</Ionicons>
-                  </TouchableOpacity>
-                  </View>
                 </View>
               </Pressable>
             )}
@@ -166,11 +154,8 @@ const styles = {...appStyles, ...StyleSheet.create({
       btnRemove: {
         backgroundColor: 'red',
         padding: 3,
-        width: '23%',
         borderRadius: 100,
         borderWidth: 0.5, 
-        marginLeft: 190,
-        top: 5,
       },
       removeText: {
         textAlign: 'center',
@@ -180,27 +165,24 @@ const styles = {...appStyles, ...StyleSheet.create({
       priceContainer: {
         marginLeft: 0,
       },
-      titleContainer: {
-        flexDirection: 'row',
-      },
       productTitle: {
         fontSize: 15,
         color: '#333',
         fontWeight: 'bold',
-        marginLeft: 150,
       },
       productPrice: {
         fontSize: 14,
         color: '#333',
         fontWeight: 'bold',
-        marginLeft: 150,
+      },
+      cartInfo: {
+        flex: 3,
+        flexDirection: 'column',
       },
       productImage: {
-        width: 130,
-        height: 100,
+        flex: 1,
+        aspectRatio: 1,
         borderRadius: 10,
-        position: 'relative', 
-        top: 82,
         borderWidth: 2,  // add border width
         borderColor: '#ccc',  // add border color
       },
@@ -213,10 +195,8 @@ const styles = {...appStyles, ...StyleSheet.create({
         justifyContent:'center',
       },    
       qtyContainer: {
-        width: 150,
         flexDirection: 'row',
         alignContent: 'center',
-        marginHorizontal: 150, 
         flexWrap: 'wrap',
       },
       inputQuantity: {
@@ -251,7 +231,7 @@ const styles = {...appStyles, ...StyleSheet.create({
       },
       innerCardContainer: {
         // alignItems: 'center',
-        flexDirection: 'column',
+        flexDirection: 'row',
       },
       btnCheckout: {
         color: '#fff',
@@ -259,7 +239,7 @@ const styles = {...appStyles, ...StyleSheet.create({
         textAlign: 'center',
         backgroundColor: '#788eec',
         marginTop: 20,
-        height: 48,
+        padding: 20,
         borderRadius: 5,
         alignItems: "center",
         justifyContent: 'center'
@@ -276,4 +256,3 @@ const styles = {...appStyles, ...StyleSheet.create({
         marginBottom: 10,
       },
 })};
-
