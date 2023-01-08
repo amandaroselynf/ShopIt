@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { firebase } from '../config'
 import { COLOR_BTN_PRIMARY, COLOR_BTN_PRIMARY_DISABLED } from '../constants/colors';
 import { ROLE_CUSTOMER } from '../constants/const';
+import { appStyles } from '../constants/style';
 
 export default function SignupScreen({navigation}) {
 
@@ -102,7 +103,8 @@ export default function SignupScreen({navigation}) {
                     autoCapitalize="none"
                 />
                 <TouchableOpacity
-                    style={address ? styles.button : Object.assign({}, styles.button, styles.disabled)}
+                    disabled={(!email && !password && !confirmPassword)}
+                    style={(email && password && confirmPassword) ? styles.button : styles.buttonDisabled}
                     onPress={() => onRegisterPress()}>
                     <Text style={styles.buttonTitle}>Create account</Text>
                 </TouchableOpacity>
@@ -115,7 +117,7 @@ export default function SignupScreen({navigation}) {
 };
 
 
-const styles = StyleSheet.create({
+const styles = {...appStyles, ...StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center'
@@ -179,3 +181,4 @@ const styles = StyleSheet.create({
         fontSize: 16
     }
 })
+}
