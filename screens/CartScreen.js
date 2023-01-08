@@ -20,7 +20,7 @@ function CartScreen({ navigation }) {
 
     const onCheckoutPress = () => {
          navigation.navigate('Checkout', {
-	 cart : carts } )
+	 cart : products } )
     } 
 
     const fetchProductDetail = ((productId) => {
@@ -79,6 +79,7 @@ function CartScreen({ navigation }) {
                     name,
                     price,
                     image,
+		    productId: carts[i].productId, 
                     qty: carts[i].qty}
                 )
                 console.log(products[i].name, 'push')
