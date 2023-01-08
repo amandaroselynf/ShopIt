@@ -51,7 +51,6 @@ function HomeScreen({navigation}) {
   return (  
     // <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.sectionTitle}>Featured Products</Text>
         <View style={styles.searchContainer}>
         <Ionicons name="ios-search" size={20} color="#CED0CE" style={styles.searchIcon} />
             <TextInput
@@ -96,6 +95,7 @@ function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FAFAFA',
+    flex: 1,
   },
   productsContainer: {
     backgroundColor: '#FAFAFA',
