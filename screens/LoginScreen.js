@@ -6,43 +6,17 @@ import { firebase } from '../config'
 function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
-    
+
     useEffect(() => {
-        // const checkLoggedIn = () => {
-        //     let currentUser = firebase.auth();
-        //     // console.log('checking', currentUser.toJSON)
-        //     if(currentUser != null) {
-        //         // console.log('checking', currentUser.currentUser.displayName)
-        //         navigation.reset({
-        //             index: 0,
-        //             routes: [{ name: 'Home'}]
-        //         });
-        //     } else {
-        //         navigation.reset({
-        //             index: 0,
-        //             routes: [{ name: 'Login'}]
-        //         });
-        //     }
-        // }
-        // checkLoggedIn()
         setEmail("amanda@gmail.com")
         setPassword("12345678")
-    }, []);
+    })
 
     const onSignupNavPress = () => {
         navigation.navigate('SignUp')
     }
 
     const onLoginPress = async () => {
-        if(typeof email === 'string' && email.length === 0) {
-            setError('Please enter your email.')
-            return
-        }
-        if(typeof password === 'string' && password.length === 0) {
-            setError('Please enter your password.')
-            return
-        }
         await firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
@@ -54,10 +28,9 @@ function LoginScreen({navigation}) {
                     .get()
                     .then(firestoreDocument => {
                         if (!firestoreDocument.exists) {
-                            setError(true)
+                            alert("User does not exist anymore.")
                             return;
                         }
-                        setError(false)
                         const userData = firestoreDocument.data()
                 
                         navigation.reset({
@@ -66,26 +39,26 @@ function LoginScreen({navigation}) {
                         });
                         // navigation.navigate('Home', {userID: userData.id, userName: userData.fullName, userRole: userData.role})
                     })
-                    .catch(e => {
-                        setError(e.message)
-                        // alert(error)
+                    .catch(error => {
+                        alert(error)
                     });
             })
-            .catch(e => {
-                setError('Invalid email or password.')
-                // alert(error)
+            .catch(error => {
+                alert(error)
             })
     }
 
     return (
         <View style={styles.container}>
+            <Image
+                style={styles.logo}
+                source={require('../assets/ShopIt.png')}
+            /> 
+            <Text style={styles.title}>Welcome to ShopIt</Text>
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%' }}
                 keyboardShouldPersistTaps="always">
-                {/* <Image
-                    style={styles.logo}
-                    source={require('../assets/apulogo.png')}
-                /> */}
+
                 <TextInput
                     style={styles.input}
                     placeholder='E-mail'
@@ -104,8 +77,7 @@ function LoginScreen({navigation}) {
                     value={password}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
-                />       
-                {error && <Text style={styles.error}>{error}</Text>}
+                />
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => onLoginPress()}>
@@ -124,30 +96,41 @@ export default LoginScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        marginHorizontal: 30,
+        alignItems: 'center'
     },
     title: {
-
+        position: 'absolute',
+        left: 75,
+        top: 55,
+        fontSize: 35,
+        fontFamily: 'Impact',
+        fontWeight: 'bold',
+        marginBottom: 150,
+        textAlign: 'center'
     },
     logo: {
+        marginTop: 50,
         flex: 1,
-        height: 120,
-        width: 90,
+        height: 100,
+        width: 150,
         alignSelf: "center",
-        margin: 30
+        margin: -50,
     },
     input: {
         height: 48,
         borderRadius: 5,
         overflow: 'hidden',
         backgroundColor: 'white',
-        marginTop: 10,
+        marginTop: -0,
         marginBottom: 10,
-        paddingLeft: 16
+        marginLeft: 30,
+        marginRight: 30,
+        paddingLeft: 16,
     },
     button: {
         backgroundColor: '#788eec',
+        marginLeft: 30,
+        marginRight: 30,
         marginTop: 20,
         height: 48,
         borderRadius: 5,
@@ -162,20 +145,15 @@ const styles = StyleSheet.create({
     footerView: {
         flex: 1,
         alignItems: "center",
-        marginTop: 20
+        marginTop: 20,
     },
     footerText: {
         fontSize: 16,
-        color: '#2e2e2d'
+        color: '#2e2e2d',
     },
     footerLink: {
         color: "#788eec",
         fontWeight: "bold",
         fontSize: 16
-    },
-    error: {
-        color: 'red',
-        fontWeight: 'bold',
-    },
-
+    }
 })
