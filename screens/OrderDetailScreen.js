@@ -13,8 +13,6 @@ function OrderDetailScreen ({route, navigation}) {
     // const { id, userId, etail, address, subtotal, service, delivery, total, paymentType, status, } = detail 
     useEffect(() => {
         setDetails(detail.orderDetail)
-        console.log(JSON.stringify(detail))
-        
     }, [])
 
     return (
