@@ -19,7 +19,8 @@ function CartScreen({ navigation }) {
 
 
     const onCheckoutPress = () => {
-         navigation.navigate('Checkout')
+         navigation.navigate('Checkout', {
+	 cart : carts } )
     } 
 
     const fetchProductDetail = ((productId) => {
