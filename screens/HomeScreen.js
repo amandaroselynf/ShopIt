@@ -5,7 +5,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { firebase } from '../config'
 import 'react-native-fonts';
 // import { useNavigation } from '@react-navigation/native'
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
+// import Icon from 'react-native-vector-icons/Ionicons';
 
 function HomeScreen({navigation}) {
 
@@ -47,11 +48,11 @@ function HomeScreen({navigation}) {
   const filteredProducts = products.filter(product => product.name.includes(searchText));
   
   return (  
-    <ScrollView>
+    // <ScrollView>
       <View style={styles.container}>
         <Text style={styles.sectionTitle}>Featured Products</Text>
         <View style={styles.searchContainer}>
-        <Icon name="ios-search" size={20} color="#CED0CE" style={styles.searchIcon} />
+        <Ionicons name="ios-search" size={20} color="#CED0CE" style={styles.searchIcon} />
             <TextInput
               style={styles.searchInput}
               placeholder="Search products..."
@@ -59,8 +60,8 @@ function HomeScreen({navigation}) {
               value={searchText}
             />
         </View>
-        <View style={styles.productsContainer}>
           <FlatList
+            style={styles.productsContainer}
             data={filteredProducts}
             numColumns={2}
             renderItem={({ item }) => (
@@ -85,9 +86,7 @@ function HomeScreen({navigation}) {
               </Pressable>
             )}
           />
-        </View>
       </View>
-    </ScrollView>
   );
 };
 
@@ -98,10 +97,6 @@ const styles = StyleSheet.create({
   },
   productsContainer: {
     backgroundColor: '#FAFAFA',
-    flex: 1, 
-    height: '100%', 
-    flexDirection: 'row',
-    flexWrap: 'wrap',
   },
   cardContainer: {
     width: '47%',

@@ -9,6 +9,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import { HomeTabBar } from './navigation/HomeTabBar';
 
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import CartScreen from './screens/CartScreen';
 // import { StatusBar } from 'expo-status-bar';
 // import { StyleSheet, Text, View } from 'react-native';
 const Stack = createNativeStackNavigator();
@@ -29,6 +30,8 @@ function getHeaderTitle(route) {
       return 'Products';
     case 'Profile':
       return 'My Profile';
+    case 'Cart':
+      return 'My Cart';
   }
 }
 
@@ -44,6 +47,10 @@ export default function App() {
           }/>
           {/* <Stack.Screen name="Home" component={HomeTabBar} options={{headerShown: false}} initialParams= {{userID: userid, email: email, fullName: fullname, userRole: role}} /> */}
           <Stack.Screen name="Detail" component={ProductDetailScreen}  />
+          <Stack.Screen name="Cart" component={CartScreen} options={({ route }) => ({
+            headerTitle: getHeaderTitle(route)
+            })
+          }/>
           <Stack.Screen name="Profile" component={ProfileScreen} options={({ route }) => ({
             headerTitle: getHeaderTitle(route)
             })

@@ -11,14 +11,22 @@ export default function SignupScreen({navigation}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [error, setError] = useState('')
 
     const onLoginNavPress = () => {
         navigation.navigate('Login')
     }
 
     const onRegisterPress = async () => {
+        if (typeof email === 'string' &&  email.length === 0) {
+            setError("Please enter an email.")
+            return
+        }
+        if(typeof password === 'string' && password.length === 0) {
+            setError("Please enter a password.")
+        }
         if (password !== confirmPassword) {
-            alert("Passwords don't match.")
+            setError("Passwords don't match.")
             return
         }
         firebase.auth()
@@ -44,62 +52,63 @@ export default function SignupScreen({navigation}) {
                         navigation.navigate('Home', {userID: uid, userName: fullName, userRole: role})
                     })
                     .catch((error) => {
-                        alert(error)
+                        setError(error)
                     });
             })
             .catch((error) => {
-                alert(error)
+                setError(error)
         });
     }
 
     return (
-                <View style={styles.container}>
-                <KeyboardAwareScrollView
-                    style={{ flex: 1, width: '100%' }}
-                    keyboardShouldPersistTaps="always">
-                    {/* <Image
-                        style={styles.logo}
-                        source={require('../assets/apulogo.png')}
-                    /> */}
-                    <TextInput
-                    style={styles.input}
-                    placeholder='Full Name'
-                    placeholderTextColor="#aaaaaa"
-                    onChangeText={(text) => setFullName(text)}
-                    value={fullName}
-                    underlineColorAndroid="transparent"
-                    autoCapitalize="none"
-                    />
-                    <TextInput
-                    style={styles.input}
-                    placeholder='E-mail'
-                    placeholderTextColor="#aaaaaa"
-                    onChangeText={(text) => setEmail(text)}
-                    value={email}
-                    underlineColorAndroid="transparent"
-                    autoCapitalize="none"
-                    />
-                    <TextInput
-                    style={styles.input}
-                    placeholderTextColor="#aaaaaa"
-                    secureTextEntry
-                    placeholder='Password'
-                    onChangeText={(text) => setPassword(text)}
-                    value={password}
-                    underlineColorAndroid="transparent"
-                    autoCapitalize="none"
-                    />
-                    <TextInput
-                    style={styles.input}
-                    placeholderTextColor="#aaaaaa"
-                    secureTextEntry
-                    placeholder='Confirm Password'
-                    onChangeText={(text) => setConfirmPassword(text)}
-                    value={confirmPassword}
-                    underlineColorAndroid="transparent"
-                    autoCapitalize="none"
-                    />
-                    <TouchableOpacity
+        <View style={styles.container}>
+            <KeyboardAwareScrollView
+            style={{ flex: 1, width: '100%' }}
+            keyboardShouldPersistTaps="always">
+                {/* <Image
+                    style={styles.logo}
+                    source={require('../assets/apulogo.png')}
+                /> */}
+                <TextInput
+                style={styles.input}
+                placeholder='Full Name'
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setFullName(text)}
+                value={fullName}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+                />
+                <TextInput
+                style={styles.input}
+                placeholder='E-mail'
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setEmail(text)}
+                value={email}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+                />
+                <TextInput
+                style={styles.input}
+                placeholderTextColor="#aaaaaa"
+                secureTextEntry
+                placeholder='Password'
+                onChangeText={(text) => setPassword(text)}
+                value={password}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+                />
+                <TextInput
+                style={styles.input}
+                placeholderTextColor="#aaaaaa"
+                secureTextEntry
+                placeholder='Confirm Password'
+                onChangeText={(text) => setConfirmPassword(text)}
+                value={confirmPassword}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+                />
+                {error && <Text style={styles.error}>Error: {error}</Text>}
+                <TouchableOpacity
                     style={styles.button}
                     onPress={() => onRegisterPress()}>
                     <Text style={styles.buttonTitle}>Create account</Text>
@@ -116,9 +125,10 @@ export default function SignupScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFF',
         alignItems: 'center',
         justifyContent: 'center',
+        marginHorizontal: 30,
+        marginTop: 30,
       },
       logo: {
         width: 200,
@@ -127,7 +137,7 @@ const styles = StyleSheet.create({
       },
       input: {
         height: 50,
-        width: '80%',
+        width: '100%',
         borderColor: '#333',
         borderWidth: 1,
         borderRadius: 5,
@@ -159,4 +169,7 @@ const styles = StyleSheet.create({
         color: '#333',
         fontWeight: 'bold',
       },
+      error: {
+        color: 'red',
+      }
 })

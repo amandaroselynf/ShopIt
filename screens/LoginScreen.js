@@ -6,7 +6,7 @@ import { firebase } from '../config'
 function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
+    const [error, setError] = useState('')
     
     useEffect(() => {
         // const checkLoggedIn = () => {
@@ -35,6 +35,14 @@ function LoginScreen({navigation}) {
     }
 
     const onLoginPress = async () => {
+        if(typeof email === 'string' && email.length === 0) {
+            setError('Please enter your email.')
+            return
+        }
+        if(typeof password === 'string' && password.length === 0) {
+            setError('Please enter your password.')
+            return
+        }
         await firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
@@ -46,9 +54,10 @@ function LoginScreen({navigation}) {
                     .get()
                     .then(firestoreDocument => {
                         if (!firestoreDocument.exists) {
-                            alert("User does not exist anymore.")
+                            setError(true)
                             return;
                         }
+                        setError(false)
                         const userData = firestoreDocument.data()
                 
                         navigation.reset({
@@ -57,12 +66,14 @@ function LoginScreen({navigation}) {
                         });
                         // navigation.navigate('Home', {userID: userData.id, userName: userData.fullName, userRole: userData.role})
                     })
-                    .catch(error => {
-                        alert(error)
+                    .catch(e => {
+                        setError(e.message)
+                        // alert(error)
                     });
             })
-            .catch(error => {
-                alert(error)
+            .catch(e => {
+                setError('Invalid email or password.')
+                // alert(error)
             })
     }
 
@@ -93,8 +104,8 @@ function LoginScreen({navigation}) {
                     value={password}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
-                />
-                {error && <Text style={styles.error}>Error: {error}</Text>}
+                />       
+                {error && <Text style={styles.error}>{error}</Text>}
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => onLoginPress()}>
@@ -113,7 +124,8 @@ export default LoginScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginHorizontal: 30,
     },
     title: {
 
@@ -132,14 +144,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         marginTop: 10,
         marginBottom: 10,
-        marginLeft: 30,
-        marginRight: 30,
         paddingLeft: 16
     },
     button: {
         backgroundColor: '#788eec',
-        marginLeft: 30,
-        marginRight: 30,
         marginTop: 20,
         height: 48,
         borderRadius: 5,
@@ -167,6 +175,7 @@ const styles = StyleSheet.create({
     },
     error: {
         color: 'red',
+        fontWeight: 'bold',
     },
 
 })
