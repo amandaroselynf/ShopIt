@@ -67,14 +67,18 @@ function OrdersScreen({ navigation }) {
                       source={{ uri: item.orderDetail[0].productImage }}
                   />
                   {/* </View> */}
+                  
                   <View style={styles.infoContainer}>
-                  <View style={styles.titleContainer}>
-                    <Text style={styles.productTitle}>{item.orderDetail[0].productName}</Text>
-                    <Text style={styles.orderDate}>{new Date(item.createdAt.toDate()).toDateString()}</Text>
-                  </View>
-                    {(item.orderDetail.length > 1) && <Text style={styles.orderOthers}>+ {(item.orderDetail.length - 1)} more items</Text>}
+                    <View style={styles.topContainer}>
+                      <View style={styles.titleContainer}>
+                        <Text style={styles.productTitle}>{item.orderDetail[0].productName}</Text>
+                        <Text style={styles.orderDate}>{new Date(item.createdAt.toDate()).toDateString()}</Text>
+                      </View>
+                        {(item.orderDetail.length > 1) && <Text style={styles.orderOthers}>+ {(item.orderDetail.length - 1)} more items</Text>}
+                      </View>
                     {/* <Text style={styles.orderQty}>{item.totalQty} items</Text> */}
                     <View style={styles.orderPriceContainer}>
+                      <Text style={styles.orderPaymentType}>{item.paymentType}</Text>
                       <Text style={styles.orderPriceLabel}>Total</Text>
                       <Text style={styles.orderPrice}>${item.total}</Text>
                     </View>
@@ -98,6 +102,16 @@ const styles = {...appStyles, ...StyleSheet.create({
     ordersItemContainer: {
       justifyContent:'center',
     },
+    titleContainer: {
+      flexDirection: 'row',
+    },
+    topContainer: {
+      flex: 1,
+    },
+    orderOthers: {
+    },
+    orderPaymentType: {
+    },
     productTitle: {
       fontSize: 15,
       flex: 1,
@@ -107,12 +121,9 @@ const styles = {...appStyles, ...StyleSheet.create({
     infoContainer: {
       flexDirection: 'column',
       marginLeft: 5,
-      flex: 2,
+      flex: 3,
     },
-    titleContainer: {
-      flexDirection: 'row',
-      flex: 1,
-    },
+    
     orderPriceContainer: {
       flexDirection: 'row',
     },
@@ -137,7 +148,7 @@ const styles = {...appStyles, ...StyleSheet.create({
       marginLeft: 150,
     },
     productImage: {
-      width: "25%",
+      flex: 1,
       height: undefined,
       aspectRatio: 1,
       resizeMode: 'cover',
@@ -158,7 +169,6 @@ const styles = {...appStyles, ...StyleSheet.create({
       padding: 15,
       borderRadius: 15,
       margin: 5,
-      flex: 1,
       borderWidth: 2,
       borderColor: '#000',
       shadowColor: '#000',
@@ -172,7 +182,6 @@ const styles = {...appStyles, ...StyleSheet.create({
     innerCardContainer: {
       // alignItems: 'center',
       flexDirection: 'row',
-      flexWrap: 'wrap',
     },
 })
 }
