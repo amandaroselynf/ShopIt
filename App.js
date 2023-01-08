@@ -11,6 +11,7 @@ import { HomeTabBar } from './navigation/HomeTabBar';
 
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import CartScreen from './screens/CartScreen';
+import OrderDetailScreen from './screens/OrderDetailScreen';
 // import { StatusBar } from 'expo-status-bar';
 // import { StyleSheet, Text, View } from 'react-native';
 const Stack = createNativeStackNavigator();
@@ -48,7 +49,8 @@ export default function App() {
           }/>
           {/* <Stack.Screen name="Home" component={HomeTabBar} options={{headerShown: false}} initialParams= {{userID: userid, email: email, fullName: fullname, userRole: role}} /> */}
           <Stack.Screen name="Checkout" component={CheckoutScreen}  />
-          <Stack.Screen name="Detail" component={ProductDetailScreen}  />
+          <Stack.Screen name="ProductDetail" component={ProductDetailScreen}  />
+          <Stack.Screen name="OrderDetail" component={OrderDetailScreen}  />
           <Stack.Screen name="Cart" component={CartScreen} options={({ route }) => ({
             headerTitle: getHeaderTitle(route)
             })

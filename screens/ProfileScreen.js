@@ -54,11 +54,6 @@ function ProfileScreen({navigation}) {
               console.log('Error', 'User not found.');
             }
           });
-        userRef.once('value', snapshot => {
-          const userData = snapshot.val();
-          setName(userData.fullname);
-          setEmail(userData.email);
-        });
       };
       fetchUser()
     }, []);

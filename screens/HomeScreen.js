@@ -68,7 +68,7 @@ function HomeScreen({navigation}) {
             numColumns={2}
             renderItem={({ item }) => (
               <Pressable style={styles.cardContainer}
-                onPress={() => navigation.navigate('Detail', {
+                onPress={() => navigation.navigate('ProductDetail', {
                   product: item
                 })}
               >

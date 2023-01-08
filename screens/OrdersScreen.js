@@ -4,7 +4,7 @@ import { Image, Text, TextInput, Button, FlatList, TouchableOpacity, Pressable, 
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
 
-import { firebase} from './config'
+import { firebase } from './config'
 
 function OrdersScreen({ route, navigate }) {
      const { cart } = route.params
@@ -22,39 +22,33 @@ function OrdersScreen({ route, navigate }) {
 	   ordersRef.
 		where('userId', '==', userId)
 		.onSnapshot(
-          querySnapshot => {
-            const orders = []
-            querySnapshot.forEach((doc) => {
-		const { id, productId, productName, qty, price, subtotal, service, delivery, total} = doc.data()
-                orders.push({
-                    id,
-                    productId,
-productName, 
-                    qty,
-price, 
-subtotal, 
-service, 
-delivery, 
-total, 
-                 
-                })
-})
-  setOrders(orders) 
+      querySnapshot => {
+        const orders = []
+        querySnapshot.forEach((doc) => {
+		    const { id, productId, productName, qty, price, subtotal, service, delivery, total} = doc.data()
+          orders.push({
+          id,
+          productId,
+          productName, 
+          qty,
+          price, 
+          subtotal, 
+          service, 
+          delivery, 
+          total,
+        });
+      });
+    setOrders(orders) 
+  });
 } 
-	    
+	   
   return (
     <View style={styles.container}>
-        
-</View>
-
-
-
-) ;
-	
-
+    </View>
+  );
 }
 
-export styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         width: '100%',
         backgroundColor: '#FAFAFA',

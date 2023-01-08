@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react'
-import { Image, Text, TextInput, Button, TouchableOpacity, View, StyleSheet, Dimensions } from 'react-native'
+import { Image, Text, TextInput, Button, KeyboardAvoidingView, TouchableOpacity, View, StyleSheet, Dimensions } from 'react-native'
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
@@ -77,43 +77,43 @@ function ProductDetailScreen({ route, navigation}) {
     }
       
     return(
-        <View style={styles.container}>
-            <Image
-                style={styles.productImage}
-                source={{ uri: product.image }}
-              />
-            <Text style={styles.productName}>{product.name}</Text>
-            <Text style={styles.productDesc}>{product.desc}</Text>
-            <Text  style={styles.productPrice}>{product.price}</Text>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS == "ios" ? "padding" : null}>
+          <Image
+              style={styles.productImage}
+              source={{ uri: product.image }}
+            />
+          <Text style={styles.productName}>{product.name}</Text>
+          <Text style={styles.productDesc}>{product.desc}</Text>
+          <Text  style={styles.productPrice}>{product.price}</Text>
 
-            <View style={styles.qtyContainer}>
-              <TouchableOpacity 
-                style={styles.button}
-                onPress={removeQty}>
-                  <Ionicons name="remove-outline" size={15} color="white" />
-                </TouchableOpacity>
-              <TextInput 
-                style={styles.inputQuantity}
-                value = {'' + qty}
-                keyboardType= 'numeric'
-                onChangeText={(qty) => {
-                  setQty(qty)
-                  }
-                }/>
-              <TouchableOpacity 
-                style={styles.button}
-                onPress={addQty}>
-                <Ionicons name="add-outline" size={15} color="white" />
-                </TouchableOpacity>
-            </View>
-            {error && <Text style={styles.error}>{error}</Text>}
+          <View style={styles.qtyContainer}>
             <TouchableOpacity 
-              style={styles.cartButton}
-              onPress={handleAdd} >
-                <Ionicons name="cart-outline" size={15} color="white" />
-                <Text style={styles.cartButtonText}> Add To Cart</Text>
-            </TouchableOpacity>
-        </View>
+              style={styles.button}
+              onPress={removeQty}>
+                <Ionicons name="remove-outline" size={15} color="white" />
+              </TouchableOpacity>
+            <TextInput 
+              style={styles.inputQuantity}
+              value = {'' + qty}
+              keyboardType= 'numeric'
+              onChangeText={(qty) => {
+                setQty(qty)
+                }
+              }/>
+            <TouchableOpacity 
+              style={styles.button}
+              onPress={addQty}>
+              <Ionicons name="add-outline" size={15} color="white" />
+              </TouchableOpacity>
+          </View>
+          {error && <Text style={styles.error}>{error}</Text>}
+          <TouchableOpacity 
+            style={styles.cartButton}
+            onPress={handleAdd} >
+              <Ionicons name="cart-outline" size={15} color="white" />
+              <Text style={styles.cartButtonText}> Add To Cart</Text>
+          </TouchableOpacity>
+      </KeyboardAvoidingView>
     );
 }
 
