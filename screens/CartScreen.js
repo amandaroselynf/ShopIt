@@ -17,6 +17,11 @@ function CartScreen({ navigation }) {
         fetchCart();
     }, []);
 
+
+    const onCheckoutPress = () => {
+         navigation.navigate('Checkout')
+    } 
+
     const fetchProductDetail = ((productId) => {
         // productRef.doc(productId).get().then(prod => {
         //     if(prod.exists)  {
@@ -111,6 +116,9 @@ function CartScreen({ navigation }) {
               </Pressable>
             )}
           />
+          <TouchableOpacity onPress={() => console.log('Add to cart')}>
+              <Text style={styles.btnCheckout}>Checkout</Text>
+          </TouchableOpacity>
         </View>
     );
 }
