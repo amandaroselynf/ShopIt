@@ -120,6 +120,10 @@ function CheckoutScreen({ route, navigation }) {
 			Promise.all([promises, addressPromise]).then(() => {
 				docRef.get().then((doc) => {
 					data.createdAt = doc.data().createdAt
+					navigation.reset({
+						index: 0,
+						routes: [{ name: 'Home'}]
+					});
 					navigation.navigate('OrderDetail', {
 						detail: data
 					});
