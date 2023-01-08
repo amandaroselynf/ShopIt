@@ -132,11 +132,11 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   productImage: {
-    width: 130,
-    height: 100,
-    resizeMode: 'cover',
+    width: '100%',
+    height: undefined,
+    aspectRatio: 1,
+    resizeMode: 'auto',
     borderRadius: 10,
-    position: 'relative', 
     borderWidth: 2,  // add border width
     borderColor: '#ccc',  // add border color
   },
