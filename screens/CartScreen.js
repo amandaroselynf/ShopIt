@@ -23,22 +23,23 @@ function CartScreen({ navigation }) {
         cart : products } )
     } 
 
-const manageQty= (index, cartId, qty, action) => {
-  var newQty = qty
-      if(action === 'Add' ) {
-          newQty++
-      } else
-  if(action === 'Remove') {
-          if(qty==1) {
-      return 
+    const manageQty= (index, cartId, qty, action) => {
+        var newQty = qty
+            if(action === 'Add' ) {
+                newQty++
+            } else
+        if(action === 'Remove') {
+                if(qty==1) {
+            return 
+        } 
+        newQty--
+      } 
+      cartRef.doc(cartId).update({
+        qty: newQty
+      }).then(() => {
+        alert('The product has been added to your cart!');
+      });
   } 
-  newQty--
-} 
-
-cartRef.doc(cartId).update({
-   qty: newQty
-})
-} 
     const fetchCart = async () => {
       const promises = [];
         cartRef
@@ -48,6 +49,7 @@ cartRef.doc(cartId).update({
             const carts = []
             querySnapshot.forEach((cart) => {
               const { id, productId, qty, userId} = cart.data();
+              console.log(id, "aa")
               const promise = productRef.doc(productId).get().then(product => {
                   if(product.exists) {
                     const {name, price, image} = product.data()
@@ -100,7 +102,7 @@ cartRef.doc(cartId).update({
                     <View style={styles.qtyContainer}>
                     <TouchableOpacity 
                       style={styles.button}
-                      onPress={manageQty(index, item.cartId, item.qty, 'Remove' ) }
+                      onPress={() => manageQty(index, item.cartId, item.qty, 'Remove' ) }
                     >
                       <Ionicons name="remove-outline" size={15} color="white" />
                     </TouchableOpacity>
