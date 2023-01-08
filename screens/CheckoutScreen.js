@@ -118,7 +118,6 @@ function CheckoutScreen({ route, navigation }) {
 				promises.push(promise)
 			}
 			Promise.all([promises, addressPromise]).then(() => {
-<<<<<<< HEAD
 				docRef.get().then((doc) => {
 					data.createdAt = doc.data().createdAt
 					navigation.reset({
@@ -130,12 +129,6 @@ function CheckoutScreen({ route, navigation }) {
 					});
 				})
 				
-=======
-				console.log("SUCCESS")
-				navigation.navigate('OrderDetail', {
-					order: data
-				});
->>>>>>> b89cc5ac27881bc2bc8c3e2cfd2a0c99d4681dcf
 			})
 		}).catch((e) => {
 			alert(e.message)
