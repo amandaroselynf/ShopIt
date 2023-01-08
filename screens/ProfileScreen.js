@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { ScrollView } from 'react-native';
 import { firebase } from '../config'
 import Icon from 'react-native-vector-icons/Ionicons';
+import { appStyles } from '../constants/style';
 
 function ProfileScreen({navigation}) {
 
@@ -81,6 +82,12 @@ function ProfileScreen({navigation}) {
           onPress={onUpdatePress}
           style={styles.button}
         />
+        <TouchableOpacity 
+            style={styles.button}
+            onPress={() => navigation.navigate('Orders')}
+            >
+              <Text style={styles.cartButtonText}> View Orders</Text>
+          </TouchableOpacity>
         <Button
           title="Sign Out"
           onPress={handleSignOut}
@@ -92,7 +99,7 @@ function ProfileScreen({navigation}) {
   
   export default ProfileScreen;
 
-  const styles = StyleSheet.create({
+  const styles = {...appStyles, ...StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
@@ -125,4 +132,5 @@ function ProfileScreen({navigation}) {
     success: {
       color: 'green',
     },
-  });
+  })
+}

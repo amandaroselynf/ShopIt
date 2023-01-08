@@ -90,7 +90,7 @@ function CartScreen({ navigation }) {
               >
                 <View style={styles.innerCardContainer}>
 
-                <View style={{marginTop: -80}}>
+                <View>
                     <Image
                         style={styles.productImage}
                         source={{ uri: item.image }}
@@ -181,7 +181,6 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 10,
         position: 'relative', 
-        top: 82,
         borderWidth: 2,  // add border width
         borderColor: '#ccc',  // add border color
       },
