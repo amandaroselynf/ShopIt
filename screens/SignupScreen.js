@@ -61,6 +61,7 @@ export default function SignupScreen({navigation}) {
                     style={styles.logo}
                     source={require('../assets/apulogo.png')}
                 /> */}
+                <Text style={styles.title}>Sign Up</Text>
                 <TextInput
                     style={styles.input}
                     placeholder='Full Name'
@@ -119,7 +120,14 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
-
+        position: 'flexible',
+        left: 0,
+        top: 55,
+        fontSize: 35,
+        fontFamily: 'Impact',
+        fontWeight: 'bold',
+        marginBottom: 100,
+        textAlign: 'center'
     },
     logo: {
         flex: 1,

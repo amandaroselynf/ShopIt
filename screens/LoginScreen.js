@@ -50,14 +50,15 @@ function LoginScreen({navigation}) {
 
     return (
         <View style={styles.container}>
+            <Image
+                style={styles.logo}
+                source={require('../assets/ShopIt.png')}
+            /> 
             <Text style={styles.title}>Welcome to ShopIt</Text>
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%' }}
                 keyboardShouldPersistTaps="always">
-                {/* <Image
-                    style={styles.logo}
-                    source={require('../assets/apulogo.png')}
-                /> */}
+
                 <TextInput
                     style={styles.input}
                     placeholder='E-mail'
@@ -98,30 +99,33 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
+        position: 'absolute',
+        left: 75,
+        top: 55,
         fontSize: 35,
         fontFamily: 'Impact',
         fontWeight: 'bold',
-        marginTop: 20,
-        marginBottom: 20,
+        marginBottom: 150,
         textAlign: 'center'
     },
     logo: {
+        marginTop: 50,
         flex: 1,
-        height: 120,
-        width: 90,
+        height: 100,
+        width: 150,
         alignSelf: "center",
-        margin: 30
+        margin: -50,
     },
     input: {
         height: 48,
         borderRadius: 5,
         overflow: 'hidden',
         backgroundColor: 'white',
-        marginTop: 10,
+        marginTop: -0,
         marginBottom: 10,
         marginLeft: 30,
         marginRight: 30,
-        paddingLeft: 16
+        paddingLeft: 16,
     },
     button: {
         backgroundColor: '#788eec',
@@ -141,11 +145,11 @@ const styles = StyleSheet.create({
     footerView: {
         flex: 1,
         alignItems: "center",
-        marginTop: 20
+        marginTop: 20,
     },
     footerText: {
         fontSize: 16,
-        color: '#2e2e2d'
+        color: '#2e2e2d',
     },
     footerLink: {
         color: "#788eec",
@@ -153,4 +157,3 @@ const styles = StyleSheet.create({
         fontSize: 16
     }
 })
-//test
