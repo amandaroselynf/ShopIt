@@ -78,16 +78,20 @@ function ProductDetailScreen({ route, navigation}) {
     }
       
     return(
-      <View style={styles.container}>
+      <KeyboardAwareScrollView 
+        style={{ flex: 1, width: '100%'}}
+        keyboardShouldPersistTaps="always">
           <Image
               style={styles.productImage}
               source={{ uri: product.image }}
             />
-          <Text style={styles.productName}>{product.name}</Text>
+            <View style={{flexDirection: 'row'}}>
+            <Text style={styles.productName}>{product.name} asdawd w asd awd</Text>
+            <Text style={styles.productPrice}>{'$' + product.price}</Text>
+          </View>
           <Text style={styles.productDesc}>{product.desc}</Text>
-          <Text style={styles.productPrice}>{'$' + product.price}</Text>
 
-          <KeyboardAwareScrollView>
+          
           <View style={styles.qtyContainer}>
             <TouchableOpacity 
               style={styles.button}
@@ -108,7 +112,6 @@ function ProductDetailScreen({ route, navigation}) {
               <Ionicons name="add-outline" size={15} color="white" />
               </TouchableOpacity>
           </View>
-          </KeyboardAwareScrollView>
           {error && <Text style={styles.error}>{error}</Text>}
           <TouchableOpacity 
             style={styles.cartButton}
@@ -116,7 +119,7 @@ function ProductDetailScreen({ route, navigation}) {
               <Ionicons name="cart-outline" size={15} color="white" />
               <Text style={styles.cartButtonText}> Add To Cart</Text>
           </TouchableOpacity>
-          </View>
+        </KeyboardAwareScrollView>
 
   );
 }
@@ -136,30 +139,35 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   productImage: {
-    width: '100%',
+    width: '60%',
     height: undefined,
+    alignSelf: 'center',
     aspectRatio: 1,
-    resizeMode: 'auto',
+    resizeMode: 'cover',
+    margin: 5,
+    marginTop: 15,
     borderRadius: 10,
     borderWidth: 2,  // add border width
     borderColor: '#ccc',  // add border color
   },
   productName:{
     fontWeight: 'bold',
-    fontSize: 30,
-    marginTop: 10
+    textAlignVertical: 'center',
+    justifyContent: 'center',
+    flex: 3,
+    fontSize: 28
   },
   productDesc:{
     marginTop: 10
   },
   productPrice:{
-    position: 'absolute',
     color:'green',
+    flex: 1,
+    textAlignVertical: 'center',
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'right',
-    flexWrap: 'wrap',
-    top:350,
+    // flexWrap: 'wrap',
     right: 0,
   },
   button: {
