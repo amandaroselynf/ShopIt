@@ -89,7 +89,7 @@ function CheckoutScreen({ route, navigation }) {
 	   	// creating order
 	   	const doc = ordersRef.doc()
 		const data = {
-			id: doc.id,
+			// id: doc.id,
 			userId: userId,
 			orderDetail: details,
 			address: address,
@@ -101,8 +101,8 @@ function CheckoutScreen({ route, navigation }) {
 			status: PROCESSING,
 			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 		}
-		doc.set(data)
-		.then(() => {
+		ordersRef.add(data)
+		.then((docRef) => {
 			if(saveAddress) {
 				const addressPromiseUpdate = userRef.doc(userId)
 				.update({
@@ -118,10 +118,13 @@ function CheckoutScreen({ route, navigation }) {
 				promises.push(promise)
 			}
 			Promise.all([promises, addressPromise]).then(() => {
-				console.log("SUCCESS")
-				navigation.navigate('OrderDetail', {
-					detail: data
-				});
+				docRef.get().then((doc) => {
+					data.createdAt = doc.data().createdAt
+					navigation.navigate('OrderDetail', {
+						detail: data
+					});
+				})
+				
 			})
 		}).catch((e) => {
 			alert(e.message)
