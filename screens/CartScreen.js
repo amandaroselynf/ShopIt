@@ -23,22 +23,27 @@ function CartScreen({ navigation }) {
         cart : products } )
     } 
 
-const manageQty= (index, cartId, qty, action) => {
-const newQty = qty
-    if(action === 'Add' ) {
-        newQty++
-} else
-if(action === 'Remove') {
-        if(qty==1) {
-    return 
-} 
-newQty--
-} 
-
-cartRef.doc(cartId).update({
-   qty: newQty
-})
-} 
+    const manageQty= (index, cartId, qty, action) => {
+        var newQty = qty
+            if(action === 'Add' ) {
+                newQty++
+            } else
+        if(action === 'Remove') {
+                if(qty==1) {
+            return 
+        } 
+        newQty--
+      } 
+      cartRef.doc(cartId).update({
+        qty: newQty
+      }).catch((e) => {
+        alert('Something went wrong please try again later.')
+      })
+      // .then(() => {
+      //   alert('The product has been added to your cart!');
+      // });
+    } 
+    
     const fetchCart = async () => {
       const promises = [];
         cartRef
@@ -51,7 +56,6 @@ cartRef.doc(cartId).update({
               const promise = productRef.doc(productId).get().then(product => {
                   if(product.exists) {
                     const {name, price, image} = product.data()
-                    console.log(JSON.stringify(product.data()));
                     carts.push({
                       cartId: id,
                       productName: name,
@@ -100,13 +104,13 @@ cartRef.doc(cartId).update({
                     <View style={styles.qtyContainer}>
                     <TouchableOpacity 
                       style={styles.button}
-                      onPress={manageQty(index, item.cartId, item.qty, 'Remove' ) }
+                      onPress={() => manageQty(index, item.cartId, item.qty, 'Remove' ) }
                     >
                       <Ionicons name="remove-outline" size={15} color="white" />
                     </TouchableOpacity>
                     <TextInput 
                       style={styles.inputQuantity}
-                      // value={'' + qty}
+                      value={'' + item.qty}
                       keyboardType="numeric"
                       onChangeText={(qty) => {
                         // setQty(qty);
@@ -114,7 +118,7 @@ cartRef.doc(cartId).update({
                     />
                     <TouchableOpacity 
                       style={styles.button}
-                      // onPress={addQty}
+                      onPress={() => manageQty(index, item.cartId, item.qty, 'Add' ) }
                     >
                       <Ionicons name="add-outline" size={15} color="white" />
                     </TouchableOpacity>

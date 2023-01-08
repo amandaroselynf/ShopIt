@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react'
-import { Image, Text, TextInput, Button, TouchableOpacity, View, StyleSheet, LogBox } from 'react-native'
+import { Image, Text, TextInput, Button, TouchableOpacity, View, StyleSheet, Dimensions } from 'react-native'
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
@@ -33,8 +33,9 @@ function ProductDetailScreen({ route, navigation}) {
     }
 
     const addCart = async () => {
-      await cartRef.add({
-        id: cartRef.doc().id,
+      const docId = cartRef.doc()
+      await docId.set({
+        id: docId.id,
         userId: userId,
         productId: product.id,
         qty: qty,
@@ -77,6 +78,10 @@ function ProductDetailScreen({ route, navigation}) {
       
     return(
         <View style={styles.container}>
+            <Image
+                style={styles.productImage}
+                source={{ uri: product.image }}
+              />
             <Text style={styles.productName}>{product.name}</Text>
             <Text style={styles.productDesc}>{product.desc}</Text>
             <Text  style={styles.productPrice}>{product.price}</Text>
@@ -125,6 +130,15 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     marginVertical: 10,
     flexWrap: 'wrap',
+  },
+  productImage: {
+    width: 130,
+    height: 100,
+    resizeMode: 'cover',
+    borderRadius: 10,
+    position: 'relative', 
+    borderWidth: 2,  // add border width
+    borderColor: '#ccc',  // add border color
   },
   button: {
     flex: 1,
