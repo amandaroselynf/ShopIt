@@ -1,4 +1,5 @@
 export const ROLE_CUSTOMER = "CUSTOMER"
+export const ROLE_ADMIN = "ADMIN"
 export const PROCESSING = "PROCESSING"
 export const DELIVERING = "DELIVERING"
 export const COMPLETED = "COMPLETED"

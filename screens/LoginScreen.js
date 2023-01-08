@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
+import { ROLE_ADMIN, ROLE_CUSTOMER } from '../constants/const';
 import { appStyles } from '../constants/style';
 
 function LoginScreen({navigation}) {
@@ -32,12 +33,19 @@ function LoginScreen({navigation}) {
                             alert("User does not exist anymore.")
                             return;
                         }
-                        const userData = firestoreDocument.data()
-                
-                        navigation.reset({
-                            index: 0,
-                            routes: [{ name: 'Home'}]
-                        });
+                        if(firestoreDocument.data().role === ROLE_CUSTOMER) {
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Home'}]
+                            });
+                            return;
+                        }  else if(firestoreDocument.data().role === ROLE_ADMIN) {
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Admin'}]
+                            });
+                            return;
+                        } 
                         // navigation.navigate('Home', {userID: userData.id, userName: userData.fullName, userRole: userData.role})
                     })
                     .catch(error => {

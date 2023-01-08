@@ -13,6 +13,7 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import CartScreen from './screens/CartScreen';
 import OrderDetailScreen from './screens/OrderDetailScreen';
 import OrdersScreen from './screens/OrdersScreen';
+import { AdminTabBar } from './navigation/AdminTabBar';
 // import { StatusBar } from 'expo-status-bar';
 // import { StyleSheet, Text, View } from 'react-native';
 const Stack = createNativeStackNavigator();
@@ -32,7 +33,7 @@ function getHeaderTitle(route) {
     case 'Home':
       return 'Products';
     case 'Products':
-      return 'Products';
+      return 'Orders';
     case 'Profile':
       return 'My Profile';
     case 'Cart':
@@ -41,6 +42,10 @@ function getHeaderTitle(route) {
       return 'Product Detail';
     case 'OrderDetail':
       return 'Order Detail';
+    case 'Admin':
+      return 'Manage Orders';
+    case 'ManageOrders':
+      return 'Manage Orders';
   }
 }
 
@@ -52,6 +57,10 @@ export default function App() {
           <Stack.Screen name="SignUp" component={SignupScreen} />
           <Stack.Screen name="Home" component={HomeTabBar} options={({ route }) => ({
             headerTitle: getHeaderTitle(route)
+            })
+          }/>
+          <Stack.Screen name="Admin" component={AdminTabBar} options={({ route }) => ({
+            headerTitle: "Manage Orders"
             })
           }/>
           {/* <Stack.Screen name="Home" component={HomeTabBar} options={{headerShown: false}} initialParams= {{userID: userid, email: email, fullName: fullname, userRole: role}} /> */}
