@@ -4,7 +4,8 @@ import { Image, Text, TextInput, FlatList, TouchableOpacity, Pressable, View, St
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
 import CheckBox from 'expo-checkbox'
-import { PROCESSING } from '../constants/const';
+import Picker from '@react-native-picker/picker';
+import { COLOR_BTN_PRIMARY, COLOR_BTN_PRIMARY_DISABLED } from '../constants/colors';
 
 function CheckoutScreen({ route, navigation }) {
      const { cart } = route.params
@@ -12,8 +13,9 @@ function CheckoutScreen({ route, navigation }) {
      const service = 2
      const [ delivery, setDelivery] = useState(0)
      const [ total, setTotal] = useState(0)
-
+	 const [ details, setDetails ] = useState([])
 	 const [address, setAddress] = useState('');
+	 const [error, setError] = useState('');
 	 const [saveAddress, setSaveAddress] = useState(false);
 
      const userId = firebase.auth().currentUser.uid
@@ -41,8 +43,7 @@ function CheckoutScreen({ route, navigation }) {
 			.then(doc => {
 			if(doc.exists)  {
 				const data = doc.data()
-				if(data.address !== 'string' || data.address.length == 0) {
-					console.log("returning")
+				if(data.address !== 'string' && data.address.length == 0) {
 					return
 				} else {
 					setAddress(data.address.toString())
@@ -59,39 +60,60 @@ function CheckoutScreen({ route, navigation }) {
 	} 
 
 	const handleCheckout = async () => {
+		if(address !== 'string' && address.length === 0) {
+			setError('Please enter your address.')
+			return
+		}
 		const promises = [];
-	   	const orders = [];
+		const addressPromise = [];
 		const details = [];
-		for(item in cart) {
-			const { id, name, image, price, productId, qty } = item
-			const details = ({ 
+		for(let item of cart) {
+			const { cartId, productName, image, price, productId, qty } = item
+			details.push({
 				productId: productId,
-				productName: name,
+				productName: productName,
 				productImage: image,
 				qty: qty,
 				price: price,
 				status: PROCESSING
-			});
-			details.push(details)
+			})
 		} 
 	   	// creating order
 	   	const doc = ordersRef.doc()
 		const data = {
 			id: doc.id,
 			userId: userId,
-			orderDetail: [details],
+			orderDetail: details,
+			address: address,
 			subtotal: subtotal,
 			service: service,
 			delivery: delivery,
 			total: total,
-			status: PROCESSING
+			status: PROCESSING,
+			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 		}
 		doc.set(data)
 		.then(() => {
-			// cartRef
-			navigation.navigate('OrderDetail', {
-				order: data
-			});
+			if(saveAddress) {
+				const addressPromiseUpdate = userRef.doc(userId)
+				.update({
+					address: address,
+				})
+				addressPromise.push(addressPromiseUpdate)
+			} else {
+				addressPromise.push(Promise.resolve(true))
+			}
+			for(let item of cart) {
+				const { cartId } = item
+				const promise = cartRef.doc(cartId).delete()
+				promises.push(promise)
+			}
+			Promise.all([promises, addressPromise]).then(() => {
+				console.log("SUCCESS")
+				navigation.navigate('OrderDetail', {
+					order: data
+				});
+			})
 		}).catch((e) => {
 			alert(e.message)
 		})
@@ -127,7 +149,10 @@ function CheckoutScreen({ route, navigation }) {
 			<Text style={styles.serviceText}>${service}</Text>
 			<Text style={styles.totalLabel}>Total Price</Text>
 			<Text style={styles.totalText}>${total}</Text>
-			<TouchableOpacity style={styles.button} onPress={() => handleCheckout}>
+			{error && <Text style={styles.error}>{error}</Text>}
+			<TouchableOpacity 
+			style={address ? styles.button : Object.assign({}, styles.button, styles.disabled)}
+			onPress={handleCheckout}>
 				<Text style={styles.purchaseText}>Purchase</Text>
 			</TouchableOpacity>
 	
@@ -140,10 +165,29 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#FAFAFA',
       },
-	  checkboxContainer: {
+	checkboxContainer: {
 		flexDirection: "row",
 		marginBottom: 20,
-	  },
+	},
+	button: {
+        backgroundColor: COLOR_BTN_PRIMARY,
+        marginTop: 20,
+        padding: 10,
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: 'center'
+    },
+	disabled: {
+		backgroundColor: COLOR_BTN_PRIMARY_DISABLED,
+	},
+	purchaseText: {
+		color: 'white',
+		fontWeight: 'bold',
+	},
+	error: {
+		color: 'red',
+		fontWeight: 'bold',
+	}
 });
 
 export default CheckoutScreen;
