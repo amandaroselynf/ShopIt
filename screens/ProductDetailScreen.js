@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: undefined,
     aspectRatio: 1,
+    resizeMode: 'center',
     borderRadius: 10,
     borderWidth: 2,  // add border width
     borderColor: '#ccc',  // add border color
