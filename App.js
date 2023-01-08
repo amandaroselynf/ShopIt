@@ -37,6 +37,10 @@ function getHeaderTitle(route) {
       return 'My Profile';
     case 'Cart':
       return 'My Cart';
+    case 'ProductDetail':
+      return 'Product Detail';
+    case 'OrderDetail':
+      return 'Order Detail';
   }
 }
 
@@ -52,9 +56,15 @@ export default function App() {
           }/>
           {/* <Stack.Screen name="Home" component={HomeTabBar} options={{headerShown: false}} initialParams= {{userID: userid, email: email, fullName: fullname, userRole: role}} /> */}
           <Stack.Screen name="Checkout" component={CheckoutScreen}  />
-          <Stack.Screen name="ProductDetail" component={ProductDetailScreen}  />
-          <Stack.Screen name="Orders" component={OrdersScreen}  />
-          <Stack.Screen name="OrderDetail" component={OrderDetailScreen}  />
+          <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={({ route }) => ({
+            headerTitle: getHeaderTitle(route)
+            })} />
+          <Stack.Screen name="Orders" component={OrdersScreen} options={({ route }) => ({
+            headerTitle: getHeaderTitle(route)
+            })} />
+          <Stack.Screen name="OrderDetail" component={OrderDetailScreen} options={({ route }) => ({
+            headerTitle: getHeaderTitle(route)
+            })} />
           <Stack.Screen name="Cart" component={CartScreen} options={({ route }) => ({
             headerTitle: getHeaderTitle(route)
             })

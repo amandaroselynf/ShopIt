@@ -24,7 +24,7 @@ function CheckoutScreen({ route, navigation }) {
 	 const [cardExp, setCardExp] = useState();
 	 const [cardCVV, setCardCVV] = useState();
 
-	 const [selectedPayment, setSelectedPayment] = useState();
+	 const [selectedPayment, setSelectedPayment] = useState('CASH');
 
      const userId = firebase.auth().currentUser.uid
 	 const userRef = firebase.firestore().collection('users')
@@ -89,7 +89,7 @@ function CheckoutScreen({ route, navigation }) {
 	   	// creating order
 	   	const doc = ordersRef.doc()
 		const data = {
-			id: doc.id,
+			// id: doc.id,
 			userId: userId,
 			orderDetail: details,
 			address: address,
@@ -101,8 +101,8 @@ function CheckoutScreen({ route, navigation }) {
 			status: PROCESSING,
 			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 		}
-		doc.set(data)
-		.then(() => {
+		ordersRef.add(data)
+		.then((docRef) => {
 			if(saveAddress) {
 				const addressPromiseUpdate = userRef.doc(userId)
 				.update({
@@ -118,10 +118,17 @@ function CheckoutScreen({ route, navigation }) {
 				promises.push(promise)
 			}
 			Promise.all([promises, addressPromise]).then(() => {
-				console.log("SUCCESS")
-				navigation.navigate('OrderDetail', {
-					order: data
-				});
+				docRef.get().then((doc) => {
+					data.createdAt = doc.data().createdAt
+					navigation.reset({
+						index: 0,
+						routes: [{ name: 'Home'}]
+					});
+					navigation.navigate('OrderDetail', {
+						detail: data
+					});
+				})
+				
 			})
 		}).catch((e) => {
 			alert(e.message)
@@ -135,17 +142,16 @@ function CheckoutScreen({ route, navigation }) {
 			keyboardShouldPersistTaps="always"
 		>
 			<Text style={styles.paymentLabel}>Payment Options</Text>
-			<View style={styles.picker}>
-				<Picker
-					selectedValue={selectedPayment}
-					mode="dropdown"
-					onValueChange={(itemValue, itemIndex) =>
-						setSelectedPayment(itemValue)
-					}>
-					<Picker.Item label="Cash" value="CASH" />
-					<Picker.Item label="Card" value="CARD" />
-				</Picker>
-			</View>
+			<Picker
+				style={Platform.OS === 'ios'? styles.iosPicker : styles.picker}
+				selectedValue={selectedPayment}
+				mode="dropdown"
+				onValueChange={(itemValue, itemIndex) =>
+					setSelectedPayment(itemValue)
+				}>
+				<Picker.Item label="Cash" value="CASH" />
+				<Picker.Item label="Card" value="CARD" />
+			</Picker>
 			{selectedPayment==='CARD' && (
 				<View style={styles.paymentContainer}>
 					<TextInput
@@ -187,13 +193,13 @@ function CheckoutScreen({ route, navigation }) {
 				<Text style={styles.label}> Would you like to save this address for next time?</Text>
 			</View>
 			<Text style={styles.subtotalLabel}>Subtotal</Text>
-			<Text style={styles.subtotalText}>${subtotal}</Text>
+			<Text style={styles.subtotalText}>${subtotal.toFixed(2)}</Text>
 			<Text style={styles.deliveryLabel}>Delivery Fee</Text>
-			<Text style={styles.deliveryText}>${delivery}</Text>
+			<Text style={styles.deliveryText}>${delivery.toFixed(2)}</Text>
 			<Text style={styles.serviceLabel}>Service Fee</Text>
-			<Text style={styles.serviceText}>${service}</Text>
+			<Text style={styles.serviceText}>${service.toFixed(2)}</Text>
 			<Text style={styles.totalLabel}>Total Price</Text>
-			<Text style={styles.totalText}>${total}</Text>
+			<Text style={styles.totalText}>${total.toFixed(2)}</Text>
 			{error && <Text style={styles.error}>{error}</Text>}
 			<TouchableOpacity 
 				disabled={!address && (selectedPayment === 'CARD' && (!cardNumber && !cardExp && !cardCVV))}

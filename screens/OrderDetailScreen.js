@@ -1,52 +1,60 @@
-
 import React, { useEffect, useState } from 'react'
-import { Image, Text, TextInput, Button, FlatList, TouchableOpacity, Pressable, View, StyleSheet, LogBox } from 'react-native'
+import { Image, Text, TextInput, ScrollView, FlatList, TouchableOpacity, Pressable, View, StyleSheet, LogBox } from 'react-native'
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
 import { appStyles } from '../constants/style';
+import { DELIVERING, PROCESSING } from '../constants/const';
 
 function OrderDetailScreen ({route, navigation}) {
     const { detail } = route.params
     const [ details, setDetails] = useState([])
     // const { id, userId, etail, address, subtotal, service, delivery, total, paymentType, status, } = detail 
     useEffect(() => {
-        // const details = []
-        // for(let d of detail) {
-        //     details.push(d)
-        // }
         setDetails(detail.orderDetail)
     }, [])
 
     return (
     <View style={styles.container}>
-      <FlatList
-          style={styles.ordersContainer}
-          data={details}
-          contentContainerStyle={styles.ordersItemContainer}
-          renderItem={({ item }, index) => (
-              <View style={styles.innerCardContainer}>
-                {/* <View style={styles.imageContainer}> */}
-                  <Image
-                      style={styles.productImage}
-                      source={{ uri: item.orderDetail[0].productImage }}
-                  />
-                  {/* </View> */}
-                  <View style={styles.infoContainer}>
-                  <View style={styles.titleContainer}>
-                    <Text style={styles.productTitle}>{item.orderDetail[0].productName}</Text>
-                    <Text style={styles.orderDate}>{new Date(item.createdAt.toDate()).toDateString()}</Text>
-                  </View>
-                    {(item.orderDetail.length > 1) && <Text style={styles.orderOthers}>+ {(item.orderDetail.length - 1)} more items</Text>}
-                    {/* <Text style={styles.orderQty}>{item.totalQty} items</Text> */}
-                    <View style={styles.orderPriceContainer}>
-                      <Text style={styles.orderPriceLabel}>Total</Text>
-                      <Text style={styles.orderPrice}>${item.total}</Text>
+    <View style={styles.topContainer}>
+    <Text style={[ styles.orderStatus, detail.status === PROCESSING ? {color: 'red'} : detail.status === DELIVERING ? {color: 'orange'} : {color: 'green'}]}>{detail.status}</Text>
+    {/* (detail.status=== PROCESSING) ? {color: 'red'}: {color: 'white'} */}
+        {/* <Text style={[styles.orderStatus, { }]}>{detail.status}</Text> */}
+        <Text style={styles.orderDate}>{new Date(detail.createdAt.toDate()).toDateString()}</Text>
+    </View>
+    <Text style={styles.productsHeader}>Products</Text>
+    <View style={{flexDirection: 'column'}}>
+        <View>
+        <FlatList
+            style={styles.productsContainer}
+            data={details}
+            renderItem={({ item }, index) => (
+                <View style={styles.innerCardContainer}>
+                    {/* <View style={styles.imageContainer}> */}
+                    <Image
+                        style={styles.productImage}
+                        source={{ uri: item.productImage }}
+                    />
+                    {/* </View> */}
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.productTitle}>{item.productName}</Text>
+                        <Text style={styles.productPrice}>${Number(item.price).toFixed(2)} x {item.qty} pc</Text>
+                        <View style={styles.subtotalContainer}>
+                            <Text style={styles.subtotalLabel}>Subtotal</Text>
+                            <Text style={styles.subtotal}>${(Math.round((item.price * item.qty)* 100)/100).toFixed(2)}</Text>
+                        </View>
                     </View>
                 </View>
-              </View>
-          )}
-        />
+            )}
+            />
+        </View>
+        <ScrollView>
+            <Text style={styles.orderDelivery}>${Number(detail.subtotal).toFixed(2)}</Text>
+            <Text style={styles.orderDelivery}>${Number(detail.delivery).toFixed(2)}</Text>
+            <Text style={styles.orderDelivery}>${Number(detail.service).toFixed(2)}</Text>
+            <Text style={styles.orderDelivery}>${Number(detail.total).toFixed(2)}</Text>
+        </ScrollView>
+        </View>
     </View>
     );
 }
@@ -54,14 +62,23 @@ function OrderDetailScreen ({route, navigation}) {
 const styles = {...appStyles, ...StyleSheet.create({
     container: {
       flex: 1,
+      padding: 10,
       backgroundColor: '#FAFAFA',
     },
-    ordersContainer: {
+    topContainer: {
+        flexDirection: 'row',
+    },
+    orderStatus: {
+        flex: 1,
+        fontWeight: 'bold',
+    },
+    orderDate: {
+        flex: 1,
+        textAlign: 'right',
+    },
+    productsContainer: {
       flexDirection: 'column',
     },  
-    ordersItemContainer: {
-      justifyContent:'center',
-    },
     orderOthers: {
         justifyContent: 'center',
     },
@@ -80,8 +97,19 @@ const styles = {...appStyles, ...StyleSheet.create({
       flexDirection: 'row',
       flex: 1,
     },
-    orderPriceContainer: {
-      flexDirection: 'row',
+    subtotalContainer: {
+        justifyContent: 'flex-end',
+        alignSelf: 'flex-end',
+        width: '50%',
+        flexDirection: 'row',
+    },
+    subtotalLabel: {
+        flex: 1,
+        marginEnd: 10,
+    },
+    subtotal: {
+        textAlign: 'right',
+        fontWeight: 'bold',
     },
     orderPriceLabel: {
       flex: 1,
@@ -94,14 +122,11 @@ const styles = {...appStyles, ...StyleSheet.create({
       textAlign: 'right',
       fontWeight: 'bold',
     },
-    orderDate: {
-      textAlign: 'right',
-    },
     productPrice: {
       fontSize: 14,
       color: '#333',
       fontWeight: 'bold',
-      marginLeft: 150,
+      flex: 1,
     },
     productImage: {
       width: "25%",
