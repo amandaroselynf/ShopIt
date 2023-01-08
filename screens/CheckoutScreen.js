@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 function CheckoutScreen({ route, navigate }) {
      const { cart } = route.params
      const [ subtotal, setSubtotal] = useState(0)
-     const service = useState(2)
+     const service = 2
      const [ delivery, setDelivery] = useState(0)
      const [ total, setTotal] = useState(0)
 
@@ -16,15 +16,14 @@ function CheckoutScreen({ route, navigate }) {
      
 	useEffect(() => {
 		var subtotal = 0
-		console.log("cart", cart.toString())
-		for(item in cart) {
+		
+		for(let item of cart) {
 			const { cartId, productName, price, image, productId, qty } = item
 			subtotal += (price * qty)
-			console.log(price, qty)
 	    } 
 		setSubtotal(subtotal)
 		setDelivery(generateFees(2, 10)) 
-		setTotal(subtotal + service + delivery) 
+		setTotal(Math.round((subtotal + service + delivery) * 100)/100) 
 	}, [] );
 	
 	const generateFees = (min, max) => {
@@ -54,27 +53,22 @@ function CheckoutScreen({ route, navigate }) {
 	}
 	   
 	    
-  return (
-    <View style={styles.container}>
-        <Text style={styles.subtotalLabel}>Subtotal</Text>
-		<Text style={styles.subtotalText}>${subtotal}</Text>
-		<Text style={styles.deliveryLabel}>Delivery Fee</Text>
-		<Text style={styles.deliveryText}>${delivery}</Text>
-		<Text style={styles.serviceLabel}>Service Fee</Text>
-		<Text style={styles.serviceText}>${service}</Text>
-		<Text style={styles.totalLabel}>Total Price</Text>
-		<Text style={styles.totalText}>${total}</Text>
-		<TouchableOpacity style={styles.button} onPress={handleCheckout}>
-             <Text style={styles.purchaseText}>Purchase</Text>
-        </TouchableOpacity>
+	return (
+        <View style={styles.container}>
+				<Text style={styles.subtotalLabel}>Subtotal</Text>
+				<Text style={styles.subtotalText}>${subtotal}</Text>
+				<Text style={styles.deliveryLabel}>Delivery Fee</Text>
+				<Text style={styles.deliveryText}>${delivery}</Text>
+				<Text style={styles.serviceLabel}>Service Fee</Text>
+				<Text style={styles.serviceText}>${service}</Text>
+				<Text style={styles.totalLabel}>Total Price</Text>
+				<Text style={styles.totalText}>${total}</Text>
+			<TouchableOpacity style={styles.button} onPress={handleCheckout}>
+				<Text style={styles.purchaseText}>Purchase</Text>
+			</TouchableOpacity>
 	
-</View>
-
-
-
-) ;
-	
-
+		</View>
+    );
 }
 
 const styles = StyleSheet.create({

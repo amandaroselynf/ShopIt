@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: undefined,
         aspectRatio: 1,
-        resizeMode: 'center',
+        resizeMode: 'cover',
         borderRadius: 10,
       },
       productTitle: {
