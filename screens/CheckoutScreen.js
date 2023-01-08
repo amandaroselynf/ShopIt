@@ -186,13 +186,13 @@ function CheckoutScreen({ route, navigation }) {
 				<Text style={styles.label}> Would you like to save this address for next time?</Text>
 			</View>
 			<Text style={styles.subtotalLabel}>Subtotal</Text>
-			<Text style={styles.subtotalText}>${subtotal}</Text>
+			<Text style={styles.subtotalText}>${subtotal.toFixed(2)}</Text>
 			<Text style={styles.deliveryLabel}>Delivery Fee</Text>
-			<Text style={styles.deliveryText}>${delivery}</Text>
+			<Text style={styles.deliveryText}>${delivery.toFixed(2)}</Text>
 			<Text style={styles.serviceLabel}>Service Fee</Text>
-			<Text style={styles.serviceText}>${service}</Text>
+			<Text style={styles.serviceText}>${service.toFixed(2)}</Text>
 			<Text style={styles.totalLabel}>Total Price</Text>
-			<Text style={styles.totalText}>${total}</Text>
+			<Text style={styles.totalText}>${total.toFixed(2)}</Text>
 			{error && <Text style={styles.error}>{error}</Text>}
 			<TouchableOpacity 
 				disabled={!address && (selectedPayment === 'CARD' && (!cardNumber && !cardExp && !cardCVV))}
