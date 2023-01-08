@@ -6,8 +6,10 @@ import { Ionicons } from '@expo/vector-icons';
 import CheckBox from 'expo-checkbox'
 import Picker from '@react-native-picker/picker';
 import { COLOR_BTN_PRIMARY, COLOR_BTN_PRIMARY_DISABLED } from '../constants/colors';
+import { appStyles } from '../constants/style';
 
 function CheckoutScreen({ route, navigation }) {
+
      const { cart } = route.params
      const [ subtotal, setSubtotal] = useState(0)
      const service = 2
@@ -117,9 +119,6 @@ function CheckoutScreen({ route, navigation }) {
 		}).catch((e) => {
 			alert(e.message)
 		})
-//            navigation.navigate('OrderDetail', {
-// 		order: orders
-// }) 
 	}
 	   
 	    
@@ -153,41 +152,22 @@ function CheckoutScreen({ route, navigation }) {
 			<TouchableOpacity 
 			style={address ? styles.button : Object.assign({}, styles.button, styles.disabled)}
 			onPress={handleCheckout}>
-				<Text style={styles.purchaseText}>Purchase</Text>
+				<Text style={styles.buttonText}>Purchase</Text>
 			</TouchableOpacity>
 	
 		</View>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
+const styles = {...appStyles, ...StyleSheet.create({
+	container: {
         width: '100%',
         backgroundColor: '#FAFAFA',
-      },
+	},
 	checkboxContainer: {
 		flexDirection: "row",
 		marginBottom: 20,
 	},
-	button: {
-        backgroundColor: COLOR_BTN_PRIMARY,
-        marginTop: 20,
-        padding: 10,
-        borderRadius: 5,
-        alignItems: "center",
-        justifyContent: 'center'
-    },
-	disabled: {
-		backgroundColor: COLOR_BTN_PRIMARY_DISABLED,
-	},
-	purchaseText: {
-		color: 'white',
-		fontWeight: 'bold',
-	},
-	error: {
-		color: 'red',
-		fontWeight: 'bold',
-	}
-});
+})};
 
 export default CheckoutScreen;
