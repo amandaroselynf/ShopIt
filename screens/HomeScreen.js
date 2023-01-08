@@ -92,7 +92,7 @@ function HomeScreen({navigation}) {
 };
 
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FAFAFA',
   },
@@ -196,7 +196,7 @@ const styles = {
         width: 100,
         height: 100,
       },
-}
+});
 
 
 export default HomeScreen;
