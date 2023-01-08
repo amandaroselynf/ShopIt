@@ -6,17 +6,43 @@ import { firebase } from '../config'
 function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
+    const [error, setError] = useState('')
+    
     useEffect(() => {
+        // const checkLoggedIn = () => {
+        //     let currentUser = firebase.auth();
+        //     // console.log('checking', currentUser.toJSON)
+        //     if(currentUser != null) {
+        //         // console.log('checking', currentUser.currentUser.displayName)
+        //         navigation.reset({
+        //             index: 0,
+        //             routes: [{ name: 'Home'}]
+        //         });
+        //     } else {
+        //         navigation.reset({
+        //             index: 0,
+        //             routes: [{ name: 'Login'}]
+        //         });
+        //     }
+        // }
+        // checkLoggedIn()
         setEmail("amanda@gmail.com")
         setPassword("12345678")
-    })
+    }, []);
 
     const onSignupNavPress = () => {
         navigation.navigate('SignUp')
     }
 
     const onLoginPress = async () => {
+        if(typeof email === 'string' && email.length === 0) {
+            setError('Please enter your email.')
+            return
+        }
+        if(typeof password === 'string' && password.length === 0) {
+            setError('Please enter your password.')
+            return
+        }
         await firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
@@ -28,9 +54,10 @@ function LoginScreen({navigation}) {
                     .get()
                     .then(firestoreDocument => {
                         if (!firestoreDocument.exists) {
-                            alert("User does not exist anymore.")
+                            setError(true)
                             return;
                         }
+                        setError(false)
                         const userData = firestoreDocument.data()
                 
                         navigation.reset({
@@ -39,12 +66,14 @@ function LoginScreen({navigation}) {
                         });
                         // navigation.navigate('Home', {userID: userData.id, userName: userData.fullName, userRole: userData.role})
                     })
-                    .catch(error => {
-                        alert(error)
+                    .catch(e => {
+                        setError(e.message)
+                        // alert(error)
                     });
             })
-            .catch(error => {
-                alert(error)
+            .catch(e => {
+                setError('Invalid email or password.')
+                // alert(error)
             })
     }
 
@@ -77,7 +106,8 @@ function LoginScreen({navigation}) {
                     value={password}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
-                />
+                />       
+                {error && <Text style={styles.error}>{error}</Text>}
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => onLoginPress()}>
@@ -96,7 +126,8 @@ export default LoginScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginHorizontal: 30,
     },
     title: {
         position: 'absolute',
@@ -129,8 +160,6 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: '#788eec',
-        marginLeft: 30,
-        marginRight: 30,
         marginTop: 20,
         height: 48,
         borderRadius: 5,
@@ -156,4 +185,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 16
     }
+    },
+    error: {
+        color: 'red',
+        fontWeight: 'bold',
+    },
+
 })

@@ -6,9 +6,11 @@ import HomeScreen from './screens/HomeScreen'
 import SignupScreen from './screens/SignupScreen'
 import ProductDetailScreen from './screens/ProductDetailScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import CheckoutScreen from './screens/CheckoutScreen';
 import { HomeTabBar } from './navigation/HomeTabBar';
 
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import CartScreen from './screens/CartScreen';
 // import { StatusBar } from 'expo-status-bar';
 // import { StyleSheet, Text, View } from 'react-native';
 const Stack = createNativeStackNavigator();
@@ -25,10 +27,12 @@ function getHeaderTitle(route) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
 
   switch (routeName) {
-    case 'Home':
+    case 'Products':
       return 'Products';
     case 'Profile':
       return 'My Profile';
+    case 'Cart':
+      return 'My Cart';
   }
 }
 
@@ -38,17 +42,22 @@ export default function App() {
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="SignUp" component={SignupScreen} />
-          <Stack.Screen name='Home' component={HomeTabBar} options={({ route }) => ({
+          <Stack.Screen name="Home" component={HomeTabBar} options={({ route }) => ({
             headerTitle: getHeaderTitle(route)
             })
           }/>
           {/* <Stack.Screen name="Home" component={HomeTabBar} options={{headerShown: false}} initialParams= {{userID: userid, email: email, fullName: fullname, userRole: role}} /> */}
+          <Stack.Screen name="Checkout" component={CheckoutScreen}  />
           <Stack.Screen name="Detail" component={ProductDetailScreen}  />
+          <Stack.Screen name="Cart" component={CartScreen} options={({ route }) => ({
+            headerTitle: getHeaderTitle(route)
+            })
+          }/>
           <Stack.Screen name="Profile" component={ProfileScreen} options={({ route }) => ({
             headerTitle: getHeaderTitle(route)
             })
           }/>
-        </Stack.Navigator>
+          </Stack.Navigator>
       </NavigationContainer>
   );
 }
