@@ -20,7 +20,7 @@ function CartScreen({ navigation }) {
 
     const onCheckoutPress = () => {
         navigation.navigate('Checkout', {
-        cart : products } )
+        cart : carts } )
     } 
 
     const manageQty= (index, cartId, qty, action) => {
