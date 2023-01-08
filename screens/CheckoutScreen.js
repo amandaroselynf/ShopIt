@@ -24,7 +24,7 @@ function CheckoutScreen({ route, navigation }) {
 	 const [cardExp, setCardExp] = useState();
 	 const [cardCVV, setCardCVV] = useState();
 
-	 const [selectedPayment, setSelectedPayment] = useState();
+	 const [selectedPayment, setSelectedPayment] = useState('CASH');
 
      const userId = firebase.auth().currentUser.uid
 	 const userRef = firebase.firestore().collection('users')
@@ -120,7 +120,7 @@ function CheckoutScreen({ route, navigation }) {
 			Promise.all([promises, addressPromise]).then(() => {
 				console.log("SUCCESS")
 				navigation.navigate('OrderDetail', {
-					order: data
+					detail: data
 				});
 			})
 		}).catch((e) => {
