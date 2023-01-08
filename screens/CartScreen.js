@@ -3,6 +3,7 @@ import { Image, Text, TextInput, Button, FlatList, TouchableOpacity, Pressable, 
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
+import { appStyles } from '../constants/style';
 import { onAuthStateChanged } from '@firebase/auth';
 import { doc } from '@firebase/firestore';
 
@@ -132,16 +133,19 @@ function CartScreen({ navigation }) {
             )}
           />
 
-          <TouchableOpacity style={styles.btnCheckout} onPress={onCheckoutPress}>
-                <Text style={styles.checkoutText}>Checkout</Text>
-            </TouchableOpacity>
+          <TouchableOpacity 
+            disabled={(!carts)}
+            style={(!carts) ? styles.button : styles.buttonDisabled}
+            onPress={onCheckoutPress}>
+                <Text style={styles.buttonText}>Checkout</Text>
+          </TouchableOpacity>
         </View>
     );
 }
 
 export default CartScreen;
 
-const styles = StyleSheet.create({
+const styles = {...appStyles, ...StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
@@ -256,5 +260,5 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 10,
       },
-});
+})};
 
