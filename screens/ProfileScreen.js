@@ -78,22 +78,26 @@ function ProfileScreen({navigation}) {
         />
         {error && <Text style={styles.error}>Error: {error}</Text>}
         {success && <Text style={styles.success}>Success: {success}</Text>}
-        <Button
-          title="Update"
-          onPress={handleSubmit}
-          style={styles.button}
-        />
+
+                <TouchableOpacity
+                    disabled={(!user)}
+                    style={(!user) ? styles.button : styles.buttonDisabled}
+                    onPress={() => handleSubmit()}>
+                    <Text style={styles.buttonText}>Update</Text>
+                </TouchableOpacity>
+
         <TouchableOpacity 
             style={styles.button}
             onPress={() => navigation.navigate('Orders')}
             >
               <Text style={styles.cartButtonText}> View Orders</Text>
           </TouchableOpacity>
-        <Button
-          title="Sign Out"
-          onPress={handleSignOut}
-          style={styles.button}
-        />
+          <TouchableOpacity
+                    disabled={(!user)}
+                    style={(!user) ? styles.button : styles.buttonDisabled}
+                    onPress={() => handleSignOut()}>
+                    <Text style={styles.buttonText}>Sign Out</Text>
+          </TouchableOpacity>
       </View>
     );
   };
