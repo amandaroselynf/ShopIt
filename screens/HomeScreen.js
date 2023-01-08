@@ -160,9 +160,10 @@ const styles = StyleSheet.create({
         marginRight: 20,
       },
       productImage: {
-        width: 100,
-        height: 100,
-        resizeMode: 'cover',
+        width: '100%',
+        height: undefined,
+        aspectRatio: 1,
+        resizeMode: 'auto',
         borderRadius: 10,
       },
       productTitle: {
