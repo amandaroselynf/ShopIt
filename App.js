@@ -6,6 +6,7 @@ import HomeScreen from './screens/HomeScreen'
 import SignupScreen from './screens/SignupScreen'
 import ProductDetailScreen from './screens/ProductDetailScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import CheckoutScreen from './screens/CheckoutScreen';
 import { HomeTabBar } from './navigation/HomeTabBar';
 
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
@@ -55,7 +56,7 @@ export default function App() {
             headerTitle: getHeaderTitle(route)
             })
           }/>
-        </Stack.Navigator>
+	<Stack.Screen name="Checkout" component={CheckoutScreen}  />        </Stack.Navigator>
       </NavigationContainer>
   );
 }
