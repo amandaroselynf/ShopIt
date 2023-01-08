@@ -23,6 +23,22 @@ function CartScreen({ navigation }) {
         cart : products } )
     } 
 
+const manageQty= (index, cartId, qty, action) => {
+const newQty = qty
+    if(action === 'Add' ) {
+        newQty++
+} else
+if(action === 'Remove') {
+        if(qty==1) {
+    return 
+} 
+newQty--
+} 
+
+cartRef.doc(cartId).update({
+   qty: newQty
+})
+} 
     const fetchCart = async () => {
       const promises = [];
         cartRef
@@ -62,7 +78,7 @@ function CartScreen({ navigation }) {
             style={styles.productsContainer}
             data={carts}
             contentContainerStyle={styles.productItemContainer}
-            renderItem={({ item }) => (
+            renderItem={({ item }, index) => (
               <Pressable style={styles.cardContainer}
                 onPress={() => navigation.navigate('Detail', {
                   product: item
@@ -84,7 +100,7 @@ function CartScreen({ navigation }) {
                     <View style={styles.qtyContainer}>
                     <TouchableOpacity 
                       style={styles.button}
-                      // onPress={removeQty}
+                      onPress={manageQty(index, item.cartId, item.qty, 'Remove' ) }
                     >
                       <Ionicons name="remove-outline" size={15} color="white" />
                     </TouchableOpacity>
