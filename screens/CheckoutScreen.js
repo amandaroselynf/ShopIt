@@ -150,7 +150,7 @@ function CheckoutScreen({ route, navigation }) {
 			<Text style={styles.totalText}>${total}</Text>
 			{error && <Text style={styles.error}>{error}</Text>}
 			<TouchableOpacity 
-				disabled={address}
+				disabled={!address}
 				style={address ? styles.button : styles.buttonDisabled}
 				onPress={handleCheckout}>
 				<Text style={styles.buttonText}>Purchase</Text>
