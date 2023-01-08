@@ -8,7 +8,7 @@ import { doc } from '@firebase/firestore';
 
 function CartScreen({ navigation }) {
     const [carts, setCarts] = useState([])
-    const [products, setProducts] = useState([])
+    // const [products, setProducts] = useState([])
     const cartRef = firebase.firestore().collection('carts');
     const productRef = firebase.firestore().collection('products');
     const userId = firebase.auth().currentUser.uid;
@@ -23,74 +23,44 @@ function CartScreen({ navigation }) {
         cart : products } )
     } 
 
-    const fetchProductDetail = ((productId) => {
-        productRef.doc(productId).get().then(prod => {
-            if(prod.exists)  {
-                return new Promise (resolve => {
-                    resolve({price, image} = prod.data())
-                });
-            }
-        })
-        return new Promise
-            ((resolve, reject) => {
-                productRef.doc(productId).get().then(prod => {
-                if(prod.exists)  {
-                    resolve(prod.data())
-                }
-                else {
-                    reject()
-                }
-            });
-        });
-    });
-
     const fetchCart = async () => {
+      const promises = [];
         cartRef
         .where('userId', '==', userId)
         .onSnapshot(
           querySnapshot => {
             const carts = []
-            querySnapshot.forEach((doc) => {
-                const { id, productId, qty, userId} = doc.data()
-                carts.push({
-                    id,
-                    productId,
-                    qty,
-                    userId
-                })
-                 products.push(fetchProductDetail(productId))
-            })          
-            setCarts(carts) 
-            Promise.all(products).then((result) => {
-                console.log("NOTF", "s")
-                console.log(result.toString(), 'A')
-                setProducts(result)
+            querySnapshot.forEach((cart) => {
+              const { id, productId, qty, userId} = cart.data();
+              const promise = productRef.doc(productId).get().then(product => {
+                  if(product.exists) {
+                    const {name, price, image} = product.data()
+                    console.log(JSON.stringify(product.data()));
+                    carts.push({
+                      cartId: id,
+                      productName: name,
+                      price,
+                      image,
+                      productId: productId, 
+                      qty: qty
+                    });
+                  }
+              })
+              promises.push(promise)
+              
+            }) 
+            Promise.all(promises).then(() => {
+              setCarts(carts);
             });
-          }
-        )
-        const products = []
-        for(let i = 0; i < carts.length; i++) {
-            await fetchProductDetail(carts[i].productId).then((product) => {
-                const {name, price, image} = product
-                products.push({
-                    cartId: carts[i].id,
-                    productName: name,
-                    price,
-                    image,
-		                productId: carts[i].productId, 
-                    qty: carts[i].qty}
-                )
-            });
-        }
-        setProducts(products)
-      }
+          }  
+          )}
 
     return (
         <View style={styles.container}>
-         <Text style={styles.sectionTitle}>Your Cart</Text>
+         {/* <Text style={styles.sectionTitle}>Your Cart</Text> */}
         <FlatList
             style={styles.productsContainer}
-            data={products}
+            data={carts}
             contentContainerStyle={styles.productItemContainer}
             renderItem={({ item }) => (
               <Pressable style={styles.cardContainer}
@@ -105,7 +75,7 @@ function CartScreen({ navigation }) {
                         style={styles.productImage}
                         source={{ uri: item.image }}
                     />
-                    <Text style={styles.productTitle}>{item.name}</Text>
+                    <Text style={styles.productTitle}>{item.productName}</Text>
                     <View style={styles.priceContainer}>
                         <Text style={styles.productPrice}>${item.price}</Text>
                     </View>
@@ -142,11 +112,9 @@ function CartScreen({ navigation }) {
             )}
           />
 
-          <TouchableOpacity onPress={() => console.log('Add to cart')}>
-                      <View style={{width: 300}}>
-                        <Text style={styles.btnCheckout}>Checkout</Text>
-                      </View>
-                    </TouchableOpacity>
+          <TouchableOpacity style={styles.btnCheckout} onPress={onCheckoutPress}>
+                <Text style={styles.checkoutText}>Checkout</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -156,6 +124,7 @@ export default CartScreen;
 const styles = StyleSheet.create({
     container: {
         width: '100%',
+        height: '100%',
         backgroundColor: '#FAFAFA',
       },
       btnRemove: {
@@ -249,12 +218,17 @@ const styles = StyleSheet.create({
       btnCheckout: {
         color: '#fff',
         fontSize: 15,
-        fontWeight: 'bold',
-        backgroundColor: 'green',
-        padding: 7,
         textAlign: 'center',
-        borderRadius: 4,
-        marginLeft: 65,
+        backgroundColor: '#788eec',
+        marginTop: 20,
+        height: 48,
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: 'center'
+      },
+      checkoutText: {
+        color: 'white',
+        fontWeight: 'bold'
       },
       sectionTitle: {
         fontSize: 24,
