@@ -1069,6 +1069,11 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
+"@expo-google-fonts/open-sans@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/open-sans/-/open-sans-0.2.2.tgz#def732e59536745a7df324b870643b57b25620f8"
+  integrity sha512-jITtlGDb5QZ3O8W70eqvGki7+tYGQ/+pPEv58RM7n5QQ6xXJPXumE4KnjDClEvEQ2zZYzVlVo6InqARIgEf1Kg==
+
 "@expo/bunyan@4.0.0", "@expo/bunyan@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@expo/bunyan/-/bunyan-4.0.0.tgz#be0c1de943c7987a9fbd309ea0b1acd605890c7b"
@@ -6012,6 +6017,11 @@ react-native-codegen@^0.70.6:
     flow-parser "^0.121.0"
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
+
+react-native-fonts@^0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-fonts/-/react-native-fonts-0.0.0.tgz#11637d37075755238c0d7215d316a9209464e0b9"
+  integrity sha512-C1lIG2LeLV/ab6sSnb1NMxGz5qUu4RFKvrl8vlqnsXyQeKJo5Dr3VN4uEGrqdZxqJCuoxsN+ODLGZFc10qnixw==
 
 react-native-gesture-handler@^2.8.0:
   version "2.8.0"

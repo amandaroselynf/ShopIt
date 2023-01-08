@@ -53,15 +53,15 @@ export default function SignupScreen({navigation}) {
     }
 
     return (
-        <View style={styles.container}>
-            <KeyboardAwareScrollView
-                style={{ flex: 1, width: '100%' }}
-                keyboardShouldPersistTaps="always">
-                {/* <Image
-                    style={styles.logo}
-                    source={require('../assets/apulogo.png')}
-                /> */}
-                <TextInput
+                <View style={styles.container}>
+                <KeyboardAwareScrollView
+                    style={{ flex: 1, width: '100%' }}
+                    keyboardShouldPersistTaps="always">
+                    {/* <Image
+                        style={styles.logo}
+                        source={require('../assets/apulogo.png')}
+                    /> */}
+                    <TextInput
                     style={styles.input}
                     placeholder='Full Name'
                     placeholderTextColor="#aaaaaa"
@@ -69,8 +69,8 @@ export default function SignupScreen({navigation}) {
                     value={fullName}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
-                />
-                <TextInput
+                    />
+                    <TextInput
                     style={styles.input}
                     placeholder='E-mail'
                     placeholderTextColor="#aaaaaa"
@@ -78,8 +78,8 @@ export default function SignupScreen({navigation}) {
                     value={email}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
-                />
-                <TextInput
+                    />
+                    <TextInput
                     style={styles.input}
                     placeholderTextColor="#aaaaaa"
                     secureTextEntry
@@ -88,8 +88,8 @@ export default function SignupScreen({navigation}) {
                     value={password}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
-                />
-                <TextInput
+                    />
+                    <TextInput
                     style={styles.input}
                     placeholderTextColor="#aaaaaa"
                     secureTextEntry
@@ -98,8 +98,8 @@ export default function SignupScreen({navigation}) {
                     value={confirmPassword}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
-                />
-                <TouchableOpacity
+                    />
+                    <TouchableOpacity
                     style={styles.button}
                     onPress={() => onRegisterPress()}>
                     <Text style={styles.buttonTitle}>Create account</Text>
@@ -116,56 +116,47 @@ export default function SignupScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center'
-    },
-    title: {
-
-    },
-    logo: {
-        flex: 1,
-        height: 120,
-        width: 90,
-        alignSelf: "center",
-        margin: 30
-    },
-    input: {
-        height: 48,
+        backgroundColor: '#FFF',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      logo: {
+        width: 200,
+        height: 200,
+        marginBottom: 20,
+      },
+      input: {
+        height: 50,
+        width: '80%',
+        borderColor: '#333',
+        borderWidth: 1,
         borderRadius: 5,
-        overflow: 'hidden',
-        backgroundColor: 'white',
-        marginTop: 10,
         marginBottom: 10,
-        marginLeft: 30,
-        marginRight: 30,
-        paddingLeft: 16
-    },
-    button: {
-        backgroundColor: '#788eec',
-        marginLeft: 30,
-        marginRight: 30,
-        marginTop: 20,
-        height: 48,
+        paddingHorizontal: 10,
+      },
+      button: {
+        backgroundColor: '#333',
+        width: '80%',
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
         borderRadius: 5,
-        alignItems: "center",
-        justifyContent: 'center'
-    },
-    buttonTitle: {
-        color: 'white',
+        marginTop: 10,
+      },
+      buttonTitle: {
+        color: '#FFF',
+        fontSize: 20,
+      },
+      footerView: {
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 20,
+      },
+      footerText: {
         fontSize: 16,
-        fontWeight: "bold"
-    },
-    footerView: {
-        flex: 1,
-        alignItems: "center",
-        marginTop: 20
-    },
-    footerText: {
-        fontSize: 16,
-        color: '#2e2e2d'
-    },
-    footerLink: {
-        color: "#788eec",
-        fontWeight: "bold",
-        fontSize: 16
-    }
+      },
+      footerLink: {
+        color: '#333',
+        fontWeight: 'bold',
+      },
 })
