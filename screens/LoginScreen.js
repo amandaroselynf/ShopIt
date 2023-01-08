@@ -9,7 +9,7 @@ function LoginScreen({navigation}) {
     const [password, setPassword] = useState('')
 
     useEffect(() => {
-     setEmail("amanda@gmail.com")
+        setEmail("amanda@gmail.com")
         setPassword("12345678")
     },[])   
 
