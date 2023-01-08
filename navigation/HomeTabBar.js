@@ -8,7 +8,7 @@ const Tab = createMaterialBottomTabNavigator();
 export function HomeTabBar() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} options={{
+      <Tab.Screen name="Products" component={HomeScreen} options={{
         tabBarLabel: 'Home',
         tabBarIcon: () => (
             <Ionicons name="home" size={20} />

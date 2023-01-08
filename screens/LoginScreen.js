@@ -7,10 +7,28 @@ function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    
     useEffect(() => {
+        // const checkLoggedIn = () => {
+        //     let currentUser = firebase.auth();
+        //     // console.log('checking', currentUser.toJSON)
+        //     if(currentUser != null) {
+        //         // console.log('checking', currentUser.currentUser.displayName)
+        //         navigation.reset({
+        //             index: 0,
+        //             routes: [{ name: 'Home'}]
+        //         });
+        //     } else {
+        //         navigation.reset({
+        //             index: 0,
+        //             routes: [{ name: 'Login'}]
+        //         });
+        //     }
+        // }
+        // checkLoggedIn()
         setEmail("amanda@gmail.com")
         setPassword("12345678")
-    })
+    }, []);
 
     const onSignupNavPress = () => {
         navigation.navigate('SignUp')
@@ -76,6 +94,7 @@ function LoginScreen({navigation}) {
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                 />
+                {error && <Text style={styles.error}>Error: {error}</Text>}
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => onLoginPress()}>
@@ -145,5 +164,9 @@ const styles = StyleSheet.create({
         color: "#788eec",
         fontWeight: "bold",
         fontSize: 16
-    }
+    },
+    error: {
+        color: 'red',
+    },
+
 })

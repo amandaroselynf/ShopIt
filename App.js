@@ -25,7 +25,7 @@ function getHeaderTitle(route) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
 
   switch (routeName) {
-    case 'Home':
+    case 'Products':
       return 'Products';
     case 'Profile':
       return 'My Profile';
@@ -38,7 +38,7 @@ export default function App() {
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="SignUp" component={SignupScreen} />
-          <Stack.Screen name='Home' component={HomeTabBar} options={({ route }) => ({
+          <Stack.Screen name="Home" component={HomeTabBar} options={({ route }) => ({
             headerTitle: getHeaderTitle(route)
             })
           }/>
