@@ -57,14 +57,14 @@ function CheckoutScreen({ route, navigate }) {
   return (
     <View style={styles.container}>
         <Text style={styles.subtotalLabel}>Subtotal</Text>
-	<Text style={styles.subtotalText}>${subtotal}</Text>
-	<Text style={styles.deliveryLabel}>Delivery Fee</Text>
-	<Text style={styles.deliveryText}>${delivery}</Text>
-	<Text style={styles.serviceLabel}>Service Fee</Text>
-	<Text style={styles.serviceText}>${service}</Text>
-	<Text style={styles.totalLabel}>Total Price</Text>
-	<Text style={styles.totalText}>${total}</Text>
-	<TouchableOpacity style={styles.button} onPress={handleCheckout}>
+		<Text style={styles.subtotalText}>${subtotal}</Text>
+		<Text style={styles.deliveryLabel}>Delivery Fee</Text>
+		<Text style={styles.deliveryText}>${delivery}</Text>
+		<Text style={styles.serviceLabel}>Service Fee</Text>
+		<Text style={styles.serviceText}>${service}</Text>
+		<Text style={styles.totalLabel}>Total Price</Text>
+		<Text style={styles.totalText}>${total}</Text>
+		<TouchableOpacity style={styles.button} onPress={handleCheckout}>
              <Text style={styles.purchaseText}>Purchase</Text>
         </TouchableOpacity>
 	

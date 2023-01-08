@@ -36,10 +36,14 @@ function CartScreen({ navigation }) {
       } 
       cartRef.doc(cartId).update({
         qty: newQty
-      }).then(() => {
-        alert('The product has been added to your cart!');
-      });
-  } 
+      }).catch((e) => {
+        alert('Something went wrong please try again later.')
+      })
+      // .then(() => {
+      //   alert('The product has been added to your cart!');
+      // });
+    } 
+    
     const fetchCart = async () => {
       const promises = [];
         cartRef
@@ -49,11 +53,9 @@ function CartScreen({ navigation }) {
             const carts = []
             querySnapshot.forEach((cart) => {
               const { id, productId, qty, userId} = cart.data();
-              console.log(id, "aa")
               const promise = productRef.doc(productId).get().then(product => {
                   if(product.exists) {
                     const {name, price, image} = product.data()
-                    console.log(JSON.stringify(product.data()));
                     carts.push({
                       cartId: id,
                       productName: name,
@@ -108,7 +110,7 @@ function CartScreen({ navigation }) {
                     </TouchableOpacity>
                     <TextInput 
                       style={styles.inputQuantity}
-                      // value={'' + qty}
+                      value={'' + item.qty}
                       keyboardType="numeric"
                       onChangeText={(qty) => {
                         // setQty(qty);
@@ -116,7 +118,7 @@ function CartScreen({ navigation }) {
                     />
                     <TouchableOpacity 
                       style={styles.button}
-                      // onPress={addQty}
+                      onPress={() => manageQty(index, item.cartId, item.qty, 'Add' ) }
                     >
                       <Ionicons name="add-outline" size={15} color="white" />
                     </TouchableOpacity>
