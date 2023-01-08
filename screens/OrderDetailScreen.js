@@ -8,23 +8,26 @@ import { appStyles } from '../constants/style';
 
 function OrderDetailScreen ({route, navigation}) {
     const { detail } = route.params
-    // const { id, userId, orderDetail, address, subtotal, service, delivery, total, paymentType, status, } = detail 
+    const [ details, setDetails] = useState([])
+    // const { id, userId, etail, address, subtotal, service, delivery, total, paymentType, status, } = detail 
     useEffect(() => {
+        // const details = []
+        // for(let d of detail) {
+        //     details.push(d)
+        // }
+        setDetails(detail.orderDetail)
+        console.log(JSON.stringify(details.orderDetail[0]))
+        // console.log(JSON.stringify(details))
         
     }, [])
 
     return (
-        <View style={styles.container}>
+    <View style={styles.container}>
       <FlatList
           style={styles.ordersContainer}
-          data={orders}
+          data={details}
           contentContainerStyle={styles.ordersItemContainer}
           renderItem={({ item }, index) => (
-            <Pressable style={styles.cardContainer}
-              onPress={() => navigation.navigate('OrderDetail', {
-                detail: item
-              })} 
-            >
               <View style={styles.innerCardContainer}>
                 {/* <View style={styles.imageContainer}> */}
                   <Image
@@ -45,7 +48,6 @@ function OrderDetailScreen ({route, navigation}) {
                     </View>
                 </View>
               </View>
-          </Pressable>
           )}
         />
     </View>
