@@ -1,11 +1,12 @@
 
 import React, { useEffect, useState } from 'react'
-import { Image, Text, TextInput, Button, KeyboardAvoidingView, TouchableOpacity, View, StyleSheet, Dimensions } from 'react-native'
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Image, Text, TextInput, Button, TouchableOpacity,KeyboardAvoidingView, View, StyleSheet, Dimensions } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
 import { onAuthStateChanged } from '@firebase/auth';
 import { doc } from '@firebase/firestore';
+
 
 function ProductDetailScreen({ route, navigation}) {
     const { product } = route.params;
@@ -77,15 +78,16 @@ function ProductDetailScreen({ route, navigation}) {
     }
       
     return(
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS == "ios" ? "padding" : null}>
+      <View style={styles.container}>
           <Image
               style={styles.productImage}
               source={{ uri: product.image }}
             />
           <Text style={styles.productName}>{product.name}</Text>
           <Text style={styles.productDesc}>{product.desc}</Text>
-          <Text  style={styles.productPrice}>{product.price}</Text>
+          <Text style={styles.productPrice}>{'$' + product.price}</Text>
 
+          <KeyboardAwareScrollView>
           <View style={styles.qtyContainer}>
             <TouchableOpacity 
               style={styles.button}
@@ -106,6 +108,7 @@ function ProductDetailScreen({ route, navigation}) {
               <Ionicons name="add-outline" size={15} color="white" />
               </TouchableOpacity>
           </View>
+          </KeyboardAwareScrollView>
           {error && <Text style={styles.error}>{error}</Text>}
           <TouchableOpacity 
             style={styles.cartButton}
@@ -113,8 +116,9 @@ function ProductDetailScreen({ route, navigation}) {
               <Ionicons name="cart-outline" size={15} color="white" />
               <Text style={styles.cartButtonText}> Add To Cart</Text>
           </TouchableOpacity>
-      </KeyboardAvoidingView>
-    );
+          </View>
+
+  );
 }
 
 export default ProductDetailScreen;
@@ -123,7 +127,7 @@ const styles = StyleSheet.create({
   container: {
     margin: 20,
     flexDirection: 'column',
-    flex: 1,
+    // flex: 1,
   },
   qtyContainer: {
     flexDirection: 'row',
@@ -135,10 +139,28 @@ const styles = StyleSheet.create({
     width: '100%',
     height: undefined,
     aspectRatio: 1,
-    resizeMode: 'cover',
+    resizeMode: 'auto',
     borderRadius: 10,
     borderWidth: 2,  // add border width
     borderColor: '#ccc',  // add border color
+  },
+  productName:{
+    fontWeight: 'bold',
+    fontSize: 30,
+    marginTop: 10
+  },
+  productDesc:{
+    marginTop: 10
+  },
+  productPrice:{
+    position: 'absolute',
+    color:'green',
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'right',
+    flexWrap: 'wrap',
+    top:350,
+    right: 0,
   },
   button: {
     flex: 1,
