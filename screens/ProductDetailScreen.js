@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react'
-import { Image, Text, TextInput, Button, TouchableOpacity, View, StyleSheet, LogBox } from 'react-native'
+import { Image, Text, TextInput, Button, TouchableOpacity, View, StyleSheet, Dimensions } from 'react-native'
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
@@ -33,8 +33,9 @@ function ProductDetailScreen({ route, navigation}) {
     }
 
     const addCart = async () => {
-      await cartRef.add({
-        id: cartRef.doc().id,
+      const docId = cartRef.doc()
+      await docId.set({
+        id: docId.id,
         userId: userId,
         productId: product.id,
         qty: qty,
