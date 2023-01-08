@@ -16,9 +16,6 @@ function OrderDetailScreen ({route, navigation}) {
         //     details.push(d)
         // }
         setDetails(detail.orderDetail)
-        console.log(JSON.stringify(details.orderDetail[0]))
-        // console.log(JSON.stringify(details))
-        
     }, [])
 
     return (
