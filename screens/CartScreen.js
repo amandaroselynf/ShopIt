@@ -19,8 +19,8 @@ function CartScreen({ navigation }) {
 
 
     const onCheckoutPress = () => {
-         navigation.navigate('Checkout', {
-	 cart : products } )
+        navigation.navigate('Checkout', {
+        cart : products } )
     } 
 
     const fetchProductDetail = ((productId) => {
@@ -42,7 +42,6 @@ function CartScreen({ navigation }) {
                 }
             });
         });
-
     });
 
     const fetchCart = async () => {
@@ -73,16 +72,14 @@ function CartScreen({ navigation }) {
         for(let i = 0; i < carts.length; i++) {
             await fetchProductDetail(carts[i].productId).then((product) => {
                 const {name, price, image} = product
-                console.log(name, price)
                 products.push({
-                    id: carts[i].id,
-                    name,
+                    cartId: carts[i].id,
+                    productName: name,
                     price,
                     image,
-		    productId: carts[i].productId, 
+		                productId: carts[i].productId, 
                     qty: carts[i].qty}
                 )
-                console.log(products[i].name, 'push')
             });
         }
         setProducts(products)
