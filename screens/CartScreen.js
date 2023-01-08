@@ -24,15 +24,15 @@ function CartScreen({ navigation }) {
     } 
 
 const manageQty= (index, cartId, qty, action) => {
-const newQty = qty
-    if(action === 'Add' ) {
-        newQty++
-} else
-if(action === 'Remove') {
-        if(qty==1) {
-    return 
-} 
-newQty--
+  var newQty = qty
+      if(action === 'Add' ) {
+          newQty++
+      } else
+  if(action === 'Remove') {
+          if(qty==1) {
+      return 
+  } 
+  newQty--
 } 
 
 cartRef.doc(cartId).update({
