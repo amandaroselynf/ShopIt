@@ -120,11 +120,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
-        position: 'flexible',
         left: 0,
         top: 55,
         fontSize: 35,
-        fontFamily: 'Impact',
         fontWeight: 'bold',
         marginBottom: 100,
         textAlign: 'center'

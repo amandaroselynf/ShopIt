@@ -100,10 +100,8 @@ const styles = StyleSheet.create({
     },
     title: {
         position: 'absolute',
-        left: 75,
         top: 55,
         fontSize: 35,
-        fontFamily: 'Impact',
         fontWeight: 'bold',
         marginBottom: 150,
         textAlign: 'center'
