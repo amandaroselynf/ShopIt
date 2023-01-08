@@ -4,9 +4,9 @@ import { Image, Text, TextInput, FlatList, TouchableOpacity, Pressable, View, St
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
 import CheckBox from 'expo-checkbox'
-import Picker from '@react-native-picker/picker';
-import { COLOR_BTN_PRIMARY, COLOR_BTN_PRIMARY_DISABLED } from '../constants/colors';
+import { Picker } from '@react-native-picker/picker';
 import { appStyles } from '../constants/style';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 function CheckoutScreen({ route, navigation }) {
 
@@ -19,6 +19,11 @@ function CheckoutScreen({ route, navigation }) {
 	 const [address, setAddress] = useState('');
 	 const [error, setError] = useState('');
 	 const [saveAddress, setSaveAddress] = useState(false);
+	 const [cardNumber, setCardNumber] = useState();
+	 const [cardExp, setCardExp] = useState();
+	 const [cardCVV, setCardCVV] = useState();
+
+	 const [selectedPayment, setSelectedPayment] = useState();
 
      const userId = firebase.auth().currentUser.uid
 	 const userRef = firebase.firestore().collection('users')
@@ -91,6 +96,7 @@ function CheckoutScreen({ route, navigation }) {
 			service: service,
 			delivery: delivery,
 			total: total,
+			paymentType: selectedPayment,
 			status: PROCESSING,
 			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 		}
@@ -123,8 +129,47 @@ function CheckoutScreen({ route, navigation }) {
 	   
 	    
 	return (
-        <View style={styles.container}>
+        <KeyboardAwareScrollView 
+			style={{ flex: 1, width: '100%' }}
+			keyboardShouldPersistTaps="always"
+		>
 			<Text style={styles.paymentLabel}>Payment Options</Text>
+			<View style={styles.picker}>
+				<Picker
+					selectedValue={selectedPayment}
+					mode="dropdown"
+					onValueChange={(itemValue, itemIndex) =>
+						setSelectedPayment(itemValue)
+					}>
+					<Picker.Item label="Cash" value="CASH" />
+					<Picker.Item label="Card" value="CARD" />
+				</Picker>
+			</View>
+			{selectedPayment==='CARD' && (
+				<View style={styles.paymentContainer}>
+					<TextInput
+						style={styles.input}
+						placeholder='Card Number'
+						value={cardNumber}
+						onChangeText={setCardNumber}
+					/>
+					<View style={{flexDirection: 'row'}}>
+						<TextInput
+							style={[styles.input, styles.flex]}
+							placeholder='Exp'
+							value={cardExp}
+							onChangeText={setCardExp}
+						/>
+						<TextInput
+							style={[styles.input, styles.flex]}
+							keyboardType='numeric'
+							placeholder='CVV'
+							value={cardCVV}
+							onChangeText={setCardCVV}
+						/>
+					</View>
+				</View>
+			)}
 			<Text style={styles.addressLabel}>Address</Text>
 			<TextInput
 				style={styles.TextInput}
@@ -150,13 +195,13 @@ function CheckoutScreen({ route, navigation }) {
 			<Text style={styles.totalText}>${total}</Text>
 			{error && <Text style={styles.error}>{error}</Text>}
 			<TouchableOpacity 
-				disabled={!address}
-				style={address ? styles.button : styles.buttonDisabled}
+				disabled={!address && (selectedPayment === 'CARD' && (!cardNumber && !cardExp && !cardCVV))}
+				style={(address && ((selectedPayment === 'CARD' && (cardNumber && cardExp && cardCVV))) || (selectedPayment === 'CASH'))? styles.button : styles.buttonDisabled}
 				onPress={handleCheckout}>
 				<Text style={styles.buttonText}>Purchase</Text>
 			</TouchableOpacity>
 	
-		</View>
+		</KeyboardAwareScrollView>
     );
 }
 
@@ -169,6 +214,22 @@ const styles = {...appStyles, ...StyleSheet.create({
 		flexDirection: "row",
 		marginBottom: 20,
 	},
+	paymentContainer: {
+		margin: 5,
+		padding: 5,
+		backgroundColor: "#AAAAAA",
+		borderRadius: 5,
+	},
+	picker:{
+		borderWidth: 1,
+		borderColor: "black",
+		borderRadius: 10,
+		marginTop: 10,
+		marginHorizontal: 4,
+	},
+	flex: {
+		flex: 1,
+	}
 })};
 
 export default CheckoutScreen;

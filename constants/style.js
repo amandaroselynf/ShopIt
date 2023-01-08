@@ -28,6 +28,15 @@ export const appStyles = StyleSheet.create({
     disabled: {
         backfaceVisibility: COLOR_BTN_PRIMARY_DISABLED,
     },  
+    input: {
+        padding: 10,
+        borderRadius: 5,
+        overflow: 'hidden',
+        backgroundColor: 'white',
+        marginVertical:5,
+        marginHorizontal: 10,
+        // paddingLeft: 16,
+    },
     error: {
 		color: 'red',
 		fontWeight: 'bold',
