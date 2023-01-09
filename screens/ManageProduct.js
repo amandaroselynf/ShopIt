@@ -105,7 +105,7 @@ function ManageProduct({ route, navigation }) {
             }).then(() => {
                 navigation.reset({
                     index: 0,
-                    routes: [{ name: 'AdminView'}]
+                    routes: [{ name: 'Admin'}]
                 });
             // }).catch()
         });
