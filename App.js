@@ -16,13 +16,14 @@ import OrdersScreen from './screens/OrdersScreen';
 import { AdminTabBar } from './navigation/AdminTabBar';
 import AdminViewProducts from './screens/AdminViewProducts';
 import ManageProduct from './screens/ManageProduct';
+import ManageOrders from './screens/ManageOrders';
 // import { StatusBar } from 'expo-status-bar';
 // import { StyleSheet, Text, View } from 'react-native';
 const Stack = createNativeStackNavigator();
 
 function getHeaderTitle(route) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
-
+console.log(route)
   switch (routeName) {
     case 'Home':
       return 'Products';
@@ -41,9 +42,40 @@ function getHeaderTitle(route) {
     case 'ViewProducts':
       return 'View Products';
     case 'ManageOrders':
-      return 'Orders';
+      return 'Manage Orders';
+    case 'ViewOrders':
+      return 'Manage Orders';
     case 'AdminView':
       return 'Orders';
+      case 'ViewOrders':
+      return 'Manage Orders';
+    case 'Admin':
+      return 'Manage Orders';
+  }
+}
+
+function getAdminTitle(route) {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Admin';
+console.log(route)
+  switch (routeName) {
+    case 'Profile':
+      return 'My Profile';
+    case 'Orders':
+      return 'Orders';
+    case 'OrderDetail':
+      return 'Order Details';
+    case 'ViewProducts':
+      return 'View Products';
+    case 'ManageOrders':
+      return 'Manage Orders';
+    case 'ViewOrders':
+      return 'Manage Orders';
+    case 'AdminView':
+      return 'Orders';
+    case 'ViewOrders':
+      return 'Manage Orders';
+    case 'Admin':
+      return 'Manage Orders';
   }
 }
 
@@ -59,9 +91,12 @@ export default function App() {
             })
           }/>
           <Stack.Screen name="Admin" component={AdminTabBar} options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
+            headerTitle: getAdminTitle(route)
             })
           }/>
+          <Stack.Screen name="ManageOrders" component={ManageOrders} options={() => ({
+            headerTitle: "Manage Orders"
+            })}/>
            <Stack.Screen name="Products" component={HomeScreen} />
           <Stack.Screen name="AdminView" component={AdminViewProducts} />
           <Stack.Screen name="ManageProduct" component={ManageProduct} options={() => ({

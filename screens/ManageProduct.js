@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, Text, TextInput, FlatList, ActivityIndicator, TouchableOpacity, Pressable, View, StyleSheet, LogBox, InteractionManager } from 'react-native'
+import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native'
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
@@ -7,7 +7,7 @@ import CheckBox from 'expo-checkbox'
 import { Picker } from '@react-native-picker/picker';
 import { appStyles } from '../constants/style';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { PROCESSING, ROLE_ADMIN } from '../constants/const';
+import { ROLE_ADMIN } from '../constants/const';
 
 import * as ImagePicker from 'expo-image-picker';
 
@@ -132,66 +132,71 @@ function ManageProduct({ route, navigation }) {
     }
 	    
 	return (
-        <KeyboardAwareScrollView 
-			style={[ styles.container,{ flex: 1, width: '100%' }]}
-			keyboardShouldPersistTaps="always"
-		>
         <View style={styles.container}>
-            {image && <Image source={{uri: image}} style={{width: 170 , height: 200}}/>}
-            <TouchableOpacity style={styles.button} onPress={selectImage}>
+        <KeyboardAwareScrollView 
+            style={{ flex: 1, width: '100%' }}
+            keyboardShouldPersistTaps="always"
+        >
+        <View>
+        <View style={styles.imageLayout}>
+        <View style={styles.imageContainer}>
+            <Image source={{uri: image}} style={styles.productImage}/>
+        </View>
+            <TouchableOpacity style={[styles.button, {marginTop: 0, borderRadius: 0}]} onPress={selectImage}>
                 <Text style={styles.buttonText}>Select Image</Text>
             </TouchableOpacity>
-            {/* {!uploading ? (<TouchableOpacity onPress={uploadImage}>
-            <Text style={styles.buttonText}>Upload Image</Text>
-            </TouchableOpacity>) : <ActivityIndicator size={'small'} color='black' />} */}
         </View>
-        <TextInput
-            style={styles.input}
-            placeholder='Product Name'
-            placeholderTextColor="#aaaaaa"
-            onChangeText={(text) => setName(text)}
-            value={name}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-        />
-        <TextInput
-            style={[styles.input, {textAlignVertical: 'top'}]}
-            placeholder='Product Description'
-            multiline={true}
-            numberOfLines={3}
-            placeholderTextColor="#aaaaaa"
-            onChangeText={(text) => setDesc(text)}
-            value={desc}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-        />
-        <TextInput
-            style={styles.input}
-            placeholder='Product Price'
-            keyboardType='decimal-pad'
-            placeholderTextColor="#aaaaaa"
-            onChangeText={(text) => setPrice(text)}
-            value={price.toString()}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-        />
-        { action === "Create" && 
-			<TouchableOpacity 
-				disabled={name.length === 0 || price.length === 0 || typeof image === 'undefined'}
-				style={[(name.length > 0 && price!=0 && typeof image !== 'undefined')? styles.button : styles.buttonDisabled, {marginHorizontal: 0}]}
-				onPress={uploadImage}>
-				<Text style={styles.buttonText}>Add Product</Text>
-			</TouchableOpacity>
-        }
-        { action === "Update" && 
-			<TouchableOpacity 
-                disabled={name.length === 0 || price.length === 0 || typeof image === 'undefined'}
-                style={[(name.length > 0 && price!=0 && typeof image !== 'undefined')? styles.button : styles.buttonDisabled, {marginHorizontal: 0}]}
-				onPress={uploadImage}>
-				<Text style={styles.buttonText}>Update Product</Text>
-			</TouchableOpacity>
-        }
+        
+            <TextInput
+                style={styles.input}
+                placeholder='Product Name'
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setName(text)}
+                value={name}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+            />
+            <TextInput
+                style={[styles.input, {textAlignVertical: 'top'}]}
+                placeholder='Product Description'
+                multiline={true}
+                numberOfLines={3}
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setDesc(text)}
+                value={desc}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder='Product Price'
+                keyboardType='decimal-pad'
+                placeholderTextColor="#aaaaaa"
+                onChangeText={(text) => setPrice(text)}
+                value={price.toString()}
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+            />
+            { action === "Create" && 
+                <TouchableOpacity 
+                    disabled={name.length === 0 || price.length === 0 || typeof image === 'undefined'}
+                    style={[(name.length > 0 && price!=0 && typeof image !== 'undefined')? styles.button : styles.buttonDisabled, {marginHorizontal: 0}]}
+                    onPress={uploadImage}>
+                    <Ionicons name="pencil-outline" size={15} color="white" />
+                    <Text style={styles.buttonText}>Add Product</Text>
+                </TouchableOpacity>
+            }
+            { action === "Update" && 
+                <TouchableOpacity 
+                    disabled={name.length === 0 || price.length === 0 || typeof image === 'undefined'}
+                    style={[(name.length > 0 && price!=0 && typeof image !== 'undefined')? styles.button : styles.buttonDisabled, {marginHorizontal: 0}]}
+                    onPress={uploadImage}>
+                    <Text style={styles.buttonText}>Update Product</Text>
+                </TouchableOpacity>
+            }
+            </View>
 		</KeyboardAwareScrollView>
+        </View>
     );
 }
 
@@ -201,6 +206,22 @@ const styles = {...appStyles, ...StyleSheet.create({
 		padding:15,
 		flex: 1,
 	},
+    productImage: {
+        width: '100%',
+        height: undefined,
+        aspectRatio: 1,
+        justifyContent: 'center',
+        resizeMode: 'cover',
+    },
+    imageLayout: {
+        width: '70%',
+        justifyContent: 'center',
+        alignSelf: 'center',
+    },
+    imageContainer: {
+        
+        borderWidth: 1,
+    }
 })};
 
 export default ManageProduct;
