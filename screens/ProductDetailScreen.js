@@ -86,17 +86,10 @@ function ProductDetailScreen({ route, navigation}) {
     }
 
     const handleDelete = async () => {
-      productsRef.doc(product.id).delete().then(() => {
-        // navigation.navigate('Admin', {screen: 'AdminView'});
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Admin'}]
-        });
-          // navigation.reset({
-          //     index: 0,
-          //     routes: [{ name: 'AdminView'}]
-          // });
+      await productsRef.doc(product.id).delete().then(() => {
+        navigation.goBack()
       }).catch((e) => {
+        console.log(e)
           alert("Something went wrong please try again later.")
       })
   }

@@ -104,10 +104,7 @@ function ManageProduct({ route, navigation }) {
                 price: Number(price),
                 image: url,
             }).then(() => {
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'Admin'}]
-                });
+                navigation.goBack()
             // }).catch()
         });
         
