@@ -16,6 +16,8 @@ function OrderDetailScreen ({route, navigation}) {
 
     return (
     <View style={styles.container}>
+    {detail.customer !== 'undefined' && <Text style={styles.customerName}>{detail.customer}</Text>}
+    {detail.email !== 'undefined' && <Text style={styles.customerEmail}>{detail.email}</Text>}
     <View style={styles.topContainer}>
     <Text style={[ styles.orderStatus, detail.status === PROCESSING ? {color: 'red'} : detail.status === DELIVERING ? {color: 'orange'} : {color: 'green'}]}>{detail.status}</Text>
     {/* (detail.status=== PROCESSING) ? {color: 'red'}: {color: 'white'} */}
@@ -49,10 +51,12 @@ function OrderDetailScreen ({route, navigation}) {
             />
         </View>
         <ScrollView>
-            <Text style={styles.orderDelivery}>${Number(detail.subtotal).toFixed(2)}</Text>
+            <Text style={styles.orderAddressLabel}>Address</Text>
+            <Text style={styles.orderAddress}>{detail.address}</Text>
+            <Text style={styles.orderSubtotal}>${Number(detail.subtotal).toFixed(2)}</Text>
             <Text style={styles.orderDelivery}>${Number(detail.delivery).toFixed(2)}</Text>
-            <Text style={styles.orderDelivery}>${Number(detail.service).toFixed(2)}</Text>
-            <Text style={styles.orderDelivery}>${Number(detail.total).toFixed(2)}</Text>
+            <Text style={styles.orderService}>${Number(detail.service).toFixed(2)}</Text>
+            <Text style={styles.orderTotal}>${Number(detail.total).toFixed(2)}</Text>
         </ScrollView>
         </View>
     </View>
@@ -75,6 +79,9 @@ const styles = {...appStyles, ...StyleSheet.create({
     orderDate: {
         flex: 1,
         textAlign: 'right',
+    },
+    orderSubtotal: {
+      marginTop: 10,
     },
     productsContainer: {
       flexDirection: 'column',

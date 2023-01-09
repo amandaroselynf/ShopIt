@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 // import {
 //   getFirestore
 // } from "firebase/firestore"
+import 'firebase/compat/storage';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 

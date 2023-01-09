@@ -25,7 +25,7 @@ export function HomeTabBar() {
     <Tab.Screen name="Profile" component={ProfileScreen} options={{
         tabBarLabel: 'Profile',
         tabBarIcon: () => (
-            <Ionicons name="person" size={20} />
+            <Ionicons name="person-outline" size={20} />
         )
         }}
       />

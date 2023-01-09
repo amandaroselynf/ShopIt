@@ -5,16 +5,18 @@ import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
 import { onAuthStateChanged } from '@firebase/auth';
 import { doc } from '@firebase/firestore';
+import { ROLE_ADMIN, ROLE_CUSTOMER } from '../constants/const';
 
 
 function ProductDetailScreen({ route, navigation}) {
-    const { product } = route.params;
+    const { product, action } = route.params;
     // const [minQty, setMinQty] = useState(true)
     // const [product, setProduct] = useState({});
     const [qty, setQty] = useState(1);
     const [error, setError] = useState(false);
     const userId = firebase.auth().currentUser.uid;
     const cartRef = firebase.firestore().collection('carts');
+    const productsRef = firebase.firestore().collection('products');
 
     const removeQty = () => {
       if(qty <= 1) {
@@ -75,6 +77,29 @@ function ProductDetailScreen({ route, navigation}) {
           // alert(error)
       });
     }
+
+    const onUpdatePress= () => {
+      navigation.navigate('ManageProduct', {
+        product: product,
+        action: "Update"
+      })
+    }
+
+    const handleDelete = async () => {
+      productsRef.doc(product.id).delete().then(() => {
+        // navigation.navigate('Admin', {screen: 'AdminView'});
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Admin'}]
+        });
+          // navigation.reset({
+          //     index: 0,
+          //     routes: [{ name: 'AdminView'}]
+          // });
+      }).catch((e) => {
+          alert("Something went wrong please try again later.")
+      })
+  }
       
     return(
       <KeyboardAwareScrollView 
@@ -91,6 +116,7 @@ function ProductDetailScreen({ route, navigation}) {
           <Text style={styles.productDesc}>{product.desc}</Text>
 
           
+          { action === ROLE_CUSTOMER && 
           <View style={styles.qtyContainer}>
             <TouchableOpacity 
               style={styles.button}
@@ -111,13 +137,33 @@ function ProductDetailScreen({ route, navigation}) {
               <Ionicons name="add-outline" size={15} color="white" />
               </TouchableOpacity>
           </View>
+        }
           {error && <Text style={styles.error}>{error}</Text>}
+          { action === ROLE_CUSTOMER && 
           <TouchableOpacity 
             style={styles.cartButton}
             onPress={handleAdd} >
               <Ionicons name="cart-outline" size={15} color="white" />
               <Text style={styles.cartButtonText}> Add To Cart</Text>
           </TouchableOpacity>
+          }
+          { action === ROLE_ADMIN &&  (
+            <View>
+              <TouchableOpacity 
+                style={styles.cartButton}
+                onPress={onUpdatePress} >
+                  <Ionicons name="pencil-outline" size={15} color="white" />
+                  <Text style={styles.cartButtonText}> Update Product</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                  style={styles.cartButton}
+                  onPress={handleDelete}>
+                <Ionicons name="trash-outline" size={15} color="white" />
+                <Text style={styles.cartButtonText}> Delete Product</Text>
+            </TouchableOpacity>
+          </View>)
+        }
+          
         </KeyboardAwareScrollView>
 
   );

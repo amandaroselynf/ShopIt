@@ -35,7 +35,6 @@ export const appStyles = StyleSheet.create({
         overflow: 'hidden',
         backgroundColor: 'white',
         marginVertical:5,
-        marginHorizontal: 10,
         // paddingLeft: 16,
     },
     error: {

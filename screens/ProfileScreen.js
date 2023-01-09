@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native';
 import { firebase } from '../config'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { appStyles } from '../constants/style';
+import { ROLE_CUSTOMER } from '../constants/const';
 
 
 function ProfileScreen({navigation}) {
@@ -12,6 +13,7 @@ function ProfileScreen({navigation}) {
     const [user, setUser] = useState('');
     const [fullName, setName] = useState('');
     const [address, setAddress] = useState('');
+    const [role, setRole] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
   
@@ -52,6 +54,7 @@ function ProfileScreen({navigation}) {
                 setUser(data)
                 setName(data.fullName)
                 setAddress(data.address)
+                setRole(data.role)
             } else {
               console.log('Error', 'User not found.');
             }
@@ -69,34 +72,41 @@ function ProfileScreen({navigation}) {
           value={fullName}
           onChangeText={setName}
         />
+        {role === ROLE_CUSTOMER && 
+        <View>
         <Text style={styles.label}>Address:</Text>
-        <Text onChangeText={setAddress}>{address}</Text>
-        <TextInput
-          style={styles.TextInput}
-          value={address}
-          onChangeText={setAddress}
-        />
+      
+          <Text onChangeText={setAddress}>{address}</Text>
+          <TextInput
+            style={styles.TextInput}
+            value={address}
+            onChangeText={setAddress}
+          />
+        </View>
+        }
         {error && <Text style={styles.error}>Error: {error}</Text>}
         {success && <Text style={styles.success}>Success: {success}</Text>}
 
-                <TouchableOpacity
-                    disabled={(!user)}
-                    style={(!user) ? styles.button : styles.buttonDisabled}
-                    onPress={() => handleSubmit()}>
-                    <Text style={styles.buttonText}>Update</Text>
-                </TouchableOpacity>
-
-        <TouchableOpacity 
+        {role === ROLE_CUSTOMER && 
+        <View>
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleSubmit()}>
+              <Text style={styles.buttonText}>Update</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
             style={styles.button}
             onPress={() => navigation.navigate('Orders')}
             >
               <Text style={styles.cartButtonText}> View Orders</Text>
           </TouchableOpacity>
+          </View>
+        }
           <TouchableOpacity
-                    disabled={(!user)}
-                    style={(!user) ? styles.button : styles.buttonDisabled}
-                    onPress={() => handleSignOut()}>
-                    <Text style={styles.buttonText}>Sign Out</Text>
+              style={[styles.button, {width: '100%'}]}
+              onPress={() => handleSignOut()}>
+              <Text style={styles.buttonText}>Sign Out</Text>
           </TouchableOpacity>
       </View>
     );
@@ -123,13 +133,6 @@ function ProfileScreen({navigation}) {
       borderWidth: 1,
       marginBottom: 10,
       padding: 10,
-    },
-    button: {
-      backgroundColor: '#3f51b5', // Material Design color
-      padding: 15,
-      borderRadius: 5,
-      width: '100%',
-      margin: 10,
     },
     error: {
       color: 'red',

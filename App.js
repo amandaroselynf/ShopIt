@@ -14,6 +14,8 @@ import CartScreen from './screens/CartScreen';
 import OrderDetailScreen from './screens/OrderDetailScreen';
 import OrdersScreen from './screens/OrdersScreen';
 import { AdminTabBar } from './navigation/AdminTabBar';
+import AdminViewProducts from './screens/AdminViewProducts';
+import ManageProduct from './screens/ManageProduct';
 // import { StatusBar } from 'expo-status-bar';
 // import { StyleSheet, Text, View } from 'react-native';
 const Stack = createNativeStackNavigator();
@@ -42,10 +44,6 @@ function getHeaderTitle(route) {
       return 'Product Detail';
     case 'OrderDetail':
       return 'Order Detail';
-    case 'Admin':
-      return 'Manage Orders';
-    case 'ManageOrders':
-      return 'Manage Orders';
   }
 }
 
@@ -61,6 +59,14 @@ export default function App() {
           }/>
           <Stack.Screen name="Admin" component={AdminTabBar} options={({ route }) => ({
             headerTitle: "Manage Orders"
+            })
+          }/>
+          <Stack.Screen name="AdminView" component={AdminViewProducts} options={({ route }) => ({
+            headerTitle: "View Products"
+            })
+          }/>
+          <Stack.Screen name="ManageProduct" component={ManageProduct} options={({ route }) => ({
+            headerTitle: "Manage Product"
             })
           }/>
           {/* <Stack.Screen name="Home" component={HomeTabBar} options={{headerShown: false}} initialParams= {{userID: userid, email: email, fullName: fullname, userRole: role}} /> */}

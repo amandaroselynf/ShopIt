@@ -6,6 +6,7 @@ import { firebase } from '../config'
 import 'react-native-fonts';
 // import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
+import { ROLE_CUSTOMER } from '../constants/const';
 // import Icon from 'react-native-vector-icons/Ionicons';
 
 function HomeScreen({navigation}) {
@@ -113,7 +114,8 @@ function HomeScreen({navigation}) {
             renderItem={({ item }) => (
               <Pressable style={styles.cardContainer}
                 onPress={() => navigation.navigate('ProductDetail', {
-                  product: item
+                  product: item,
+                  action: ROLE_CUSTOMER
                 })}
               >
                 <View style={styles.innerCardContainer}>
