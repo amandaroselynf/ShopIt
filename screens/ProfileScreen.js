@@ -41,6 +41,11 @@ function ProfileScreen({navigation}) {
           setOldAddress(address)
           setSuccess('Profile updated successfully');
           setError(null);
+          setTimeout(() => {
+            // After 3 seconds set the show value to false
+            setSuccess('')
+          }, 5000)
+          
         })
         .catch(error => {
           setError(error.message);
@@ -95,12 +100,13 @@ function ProfileScreen({navigation}) {
         </View>
         }
         {error && <Text style={styles.error}>Error: {error}</Text>}
-        {success && <Text style={styles.success}>Success: {success}</Text>}
+        {success && <Text style={styles.success}>{success}</Text>}
 
         {role === ROLE_CUSTOMER && 
         <View style={{width: '100%'}}>
           <TouchableOpacity
-              style={[(oldName !== fullName || oldAddress !== address) ? styles.button : styles.buttonDisabled, ]}
+              disabled={(oldName === fullName || oldAddress === address && fullName == '') }
+              style={[((oldName !== fullName || oldAddress !== address) && fullName != '') ? styles.button : styles.buttonDisabled, ]}
               // style={[styles.button, {width: '100%', alignSelf: 'center'}]}
               onPress={() => handleSubmit()}>
               <Text style={styles.buttonText}>Update</Text>
