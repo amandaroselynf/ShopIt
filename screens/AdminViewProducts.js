@@ -15,7 +15,7 @@ function AdminViewProducts({ navigation }) {
 
 	useEffect(() => {
     const fetchProducts = async () => {
-      productRef
+      await productRef
       .onSnapshot(
         querySnapshot => {
           const products = []
@@ -24,10 +24,11 @@ function AdminViewProducts({ navigation }) {
             products.push({
               id: doc.id,
               name,
-	      desc, 
+	            desc, 
               price,
               image
             })
+            console.log(name)
           })
           setProducts(products)
         }
@@ -62,7 +63,7 @@ function AdminViewProducts({ navigation }) {
             style={styles.productsContainer}
             data={filteredProducts}
             columnWrapperStyle={styles.productRow}
-            numColumns={2}
+            numColumns={1}
             renderItem={({ item }) => (
               <Pressable style={styles.cardContainer}
                 onPress={() => navigation.navigate('ProductDetail', {
@@ -150,7 +151,6 @@ const styles = {...appStyles, ...StyleSheet.create({
     },
     itemStyle: {
         fontSize: 15,
-        height: 75,
         color: 'black',
         textAlign: 'center',
         fontWeight: 'bold',
