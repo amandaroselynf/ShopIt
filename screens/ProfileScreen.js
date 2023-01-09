@@ -66,19 +66,21 @@ function ProfileScreen({navigation}) {
     return (
       <View style={styles.container}>
         <Text style={styles.label}>Name:</Text>
-        <Text onChangeText={setName}>{fullName}</Text>
+        {/* <Text onChangeText={setName}>{fullName}</Text> */}
         <TextInput
-          style={styles.TextInput}
+          style={styles.input}
           value={fullName}
           onChangeText={setName}
         />
         {role === ROLE_CUSTOMER && 
-        <View>
+        <View style={{width: '100%'}}>
         <Text style={styles.label}>Address:</Text>
       
-          <Text onChangeText={setAddress}>{address}</Text>
+          {/* <Text onChangeText={setAddress}>{address}</Text> */}
           <TextInput
-            style={styles.TextInput}
+            style={[styles.input, {textAlignVertical: 'top', width: '100%'}]}
+            multiline={true}
+            numberOfLines={3}
             value={address}
             onChangeText={setAddress}
           />
@@ -88,7 +90,7 @@ function ProfileScreen({navigation}) {
         {success && <Text style={styles.success}>Success: {success}</Text>}
 
         {role === ROLE_CUSTOMER && 
-        <View>
+        <View style={{width: '100%'}}>
           <TouchableOpacity
               style={styles.button}
               onPress={() => handleSubmit()}>
@@ -96,15 +98,15 @@ function ProfileScreen({navigation}) {
           </TouchableOpacity>
           
           <TouchableOpacity 
-            style={styles.button}
+            style={[styles.button]}
             onPress={() => navigation.navigate('Orders')}
             >
-              <Text style={styles.cartButtonText}> View Orders</Text>
+              <Text style={styles.buttonText}> View Orders</Text>
           </TouchableOpacity>
           </View>
         }
           <TouchableOpacity
-              style={[styles.button, {width: '100%'}]}
+              style={styles.button}
               onPress={() => handleSignOut()}>
               <Text style={styles.buttonText}>Sign Out</Text>
           </TouchableOpacity>
@@ -117,8 +119,8 @@ function ProfileScreen({navigation}) {
   const styles = {...appStyles, ...StyleSheet.create({
     container: {
       flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
+      width: '100%',
+      flexDirection: 'column',
       padding: 20,
     },
     label: {
