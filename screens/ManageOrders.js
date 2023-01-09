@@ -10,7 +10,6 @@ import { COMPLETED, DELIVERING, PROCESSING } from '../constants/const';
 function ManageOrders({ navigation }) {
      const [ orders, setOrders] = useState([]) 
 
-     const userId = firebase.auth().currentUser.uid
      const ordersRef = firebase.firestore().collection('orders')
      const usersRef = firebase.firestore().collection('users')
 	useEffect(() => {
@@ -26,8 +25,7 @@ function ManageOrders({ navigation }) {
     }
 
 	const fetchOrders = async () => {
-	  const orders = [] 
-      const promises = []
+    const promises = []
 	  await ordersRef
     .orderBy('createdAt', 'desc')
 		.onSnapshot(
@@ -39,8 +37,10 @@ function ManageOrders({ navigation }) {
           for(let detail of orderDetail) {
             totalQty+=detail.qty
           }
+          console.log(userId)
             const promise = usersRef.doc(userId).get().then((userDoc) => {
                 const userData = userDoc.data()
+                console.log(userData.fullName)
                 orders.push({
                     id: doc.id,
                     customer: userData.fullName,

@@ -23,7 +23,6 @@ const Stack = createNativeStackNavigator();
 
 function getHeaderTitle(route) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
-console.log(route)
   switch (routeName) {
     case 'Home':
       return 'Products';
@@ -45,18 +44,11 @@ console.log(route)
       return 'Manage Orders';
     case 'ViewOrders':
       return 'Manage Orders';
-    case 'AdminView':
-      return 'Orders';
-      case 'ViewOrders':
-      return 'Manage Orders';
-    case 'Admin':
-      return 'Manage Orders';
   }
 }
 
 function getAdminTitle(route) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Admin';
-console.log(route)
   switch (routeName) {
     case 'Profile':
       return 'My Profile';

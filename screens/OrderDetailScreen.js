@@ -11,21 +11,22 @@ function OrderDetailScreen ({route, navigation}) {
     const [ details, setDetails] = useState([])
     // const { id, userId, etail, address, subtotal, service, delivery, total, paymentType, status, } = detail 
     useEffect(() => {
-        setDetails(detail.orderDetail)
+        setDetails(detail.orderDetail);
+        console.log(detail.customer);
     }, [])
 
     return (
     <View style={styles.container}>
-    {(detail.customer !== undefined && detail.email !== undefined) ? 
-    <View>
-      <View style={styles.UserContainer}>
+    {/* {(detail.customer !== undefined && detail.email !== undefined) &&  */}
+    {(detail.customer !== undefined && detail.email !== undefined)  && <View style={styles.userContainer}>
         {/* {detail.customer !== 'undefined' && <Text style={styles.userLabel}>Username:</Text>} */}
-        <Text style={styles.userText}>{detail.customer}</Text>
-        <Text style={styles.userText}>{detail.email}</Text>
+        {detail.customer !== undefined && <Text style={styles.userText}>{detail.customer}</Text>}
+        {detail.email !== undefined && <Text style={[styles.userText, {justifyContent: 'flex-end', alignSelf: 'flex-end', textAlign: 'right'}]}>{detail.email}</Text>}
       </View>
-      <View style={styles.LineAbove}></View>
-     </View>
-    : null}
+    }
+    {(detail.customer !== undefined && detail.email !== undefined) && <View style={styles.LineAbove}></View>}
+
+    {/* } */}
     {/* <View style={styles.UserContainer}>
       <Text style={styles.userLabel}>Email:</Text>
       {detail.email !== 'undefined' && <Text style={styles.userText}>{detail.email}</Text>}

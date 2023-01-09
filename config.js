@@ -27,6 +27,6 @@ const firebaseConfig = {
   } else {
     firebase.app()
   }
-  firebase.firestore().settings({ experimentalForceLongPolling: true });
+  firebase.firestore().settings({ timestampsInSnapshot: true, merge: true});
   export { firebase };
   
