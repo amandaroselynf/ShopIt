@@ -16,16 +16,20 @@ function OrderDetailScreen ({route, navigation}) {
 
     return (
     <View style={styles.container}>
-    <View style={styles.UserContainer}>
-      {/* {detail.customer !== 'undefined' && <Text style={styles.userLabel}>Username:</Text>} */}
-      {detail.customer !== 'undefined' && <Text style={styles.userText}>{detail.customer}</Text>}
-      {detail.email !== 'undefined' && <Text style={styles.userText}>{detail.email}</Text>}
-    </View>
+    {(detail.customer !== undefined && detail.email !== undefined) ? 
+    <View>
+      <View style={styles.UserContainer}>
+        {/* {detail.customer !== 'undefined' && <Text style={styles.userLabel}>Username:</Text>} */}
+        <Text style={styles.userText}>{detail.customer}</Text>
+        <Text style={styles.userText}>{detail.email}</Text>
+      </View>
+      <View style={styles.LineAbove}></View>
+     </View>
+    : null}
     {/* <View style={styles.UserContainer}>
       <Text style={styles.userLabel}>Email:</Text>
       {detail.email !== 'undefined' && <Text style={styles.userText}>{detail.email}</Text>}
     </View> */}
-    <View style={styles.LineAbove}></View>
     
 
     <View style={styles.topContainer}>
@@ -51,9 +55,9 @@ function OrderDetailScreen ({route, navigation}) {
                     <View style={styles.infoContainer}>
                         <Text style={styles.productTitle}>{item.productName}</Text>
                         <Text style={styles.productPrice}>${Number(item.price).toFixed(2)} x {item.qty} pc</Text>
-                        <View style={styles.subtotalContainer}>
+                        <View style={styles.priceContainer}>
                             <Text style={styles.subtotalLabel}>Subtotal</Text>
-                            <Text style={styles.subtotal}>${(Math.round((item.price * item.qty)* 100)/100).toFixed(2)}</Text>
+                            <Text style={styles.subtotal}> ${(Math.round((item.price * item.qty)* 100)/100).toFixed(2)}</Text>
                         </View>
                     </View>
                 </View>
@@ -73,7 +77,7 @@ function OrderDetailScreen ({route, navigation}) {
 
 
             <View style={styles.LineAbove}></View>
-            <View style={styles.SubtotalContainer}>
+            <View style={styles.subtotalContainer}>
               <Text style={styles.subtotalLabel}>Subtotal</Text>
               <Text style={styles.subtotalText}>${Number(detail.subtotal).toFixed(2)}</Text>
             </View>
@@ -111,7 +115,7 @@ const styles = {...appStyles, ...StyleSheet.create({
     topContainer: {
         flexDirection: 'row',
     },
-    UserContainer: {
+    userContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       paddingVertical: 5,
@@ -120,6 +124,7 @@ const styles = {...appStyles, ...StyleSheet.create({
       color: '#333'
     },
     userText: {
+      flex: 1,
       color: '#333',
     },
     orderStatus: {
@@ -141,7 +146,6 @@ const styles = {...appStyles, ...StyleSheet.create({
       borderColor: '#333',  // add border color
     },  
     productsHeader: {
-      textAlign: 'center',
       fontSize: 20,
       fontWeight: 'bold',
     },  
@@ -149,6 +153,7 @@ const styles = {...appStyles, ...StyleSheet.create({
         justifyContent: 'center',
     },
     addressContainer: {
+      marginTop: 5,
     },
     addressInput: {
       textAlignVertical: 'top',
@@ -162,7 +167,6 @@ const styles = {...appStyles, ...StyleSheet.create({
       fontSize: 18,
       marginTop: 10,
       fontWeight: 'bold',
-      textAlign: 'center'
     },
     productTitle: {
       fontSize: 15,
@@ -174,6 +178,7 @@ const styles = {...appStyles, ...StyleSheet.create({
       flexDirection: 'column',
       marginLeft: 5,
       flex: 2,
+      padding: 15,
       // borderWidth: 2,
       // borderColor: '#D3D3D3'
     },
@@ -181,20 +186,22 @@ const styles = {...appStyles, ...StyleSheet.create({
       flexDirection: 'row',
       flex: 1,
     },
-    // subtotalContainer: {
-    //     justifyContent: 'flex-end',
-    //     alignSelf: 'flex-end',
-    //     width: '50%',
-    //     flexDirection: 'row',
-    // },
-    // subtotalLabel: {
-    //     flex: 1,
-    //     marginEnd: 10,
-    // },
-    // subtotal: {
-    //     textAlign: 'right',
-    //     fontWeight: 'bold',
-    // },
+    priceContainer: {
+        justifyContent: 'flex-end',
+        alignSelf: 'flex-end',
+        width: '75%',
+        flexDirection: 'row',
+    },
+    subtotalLabel: {
+        flex: 1,
+        textAlignVertical: 'center',
+        marginEnd: 10,
+    },
+    subtotal: {
+        textAlignVertical: 'center',
+        textAlign: 'right',
+        fontWeight: 'bold',
+    },
     orderPriceLabel: {
       flex: 1,
       marginEnd: 10,
@@ -263,7 +270,7 @@ const styles = {...appStyles, ...StyleSheet.create({
       margin: 6,
       borderColor: '#000'
     },
-    SubtotalContainer: {
+    subtotalContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       paddingVertical: 8,
