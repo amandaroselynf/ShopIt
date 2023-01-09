@@ -67,11 +67,13 @@ function ProfileScreen({navigation}) {
       <View style={styles.container}>
         <Text style={styles.label}>Name:</Text>
         {/* <Text onChangeText={setName}>{fullName}</Text> */}
+        <View style={{width: '100%'}} pointerEvents={role === ROLE_CUSTOMER ? 'auto': 'none'}>
         <TextInput
           style={styles.input}
           value={fullName}
           onChangeText={setName}
         />
+        </View>
         {role === ROLE_CUSTOMER && 
         <View style={{width: '100%'}}>
         <Text style={styles.label}>Address:</Text>

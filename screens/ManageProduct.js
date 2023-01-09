@@ -170,22 +170,23 @@ function ManageProduct({ route, navigation }) {
             placeholder='Product Price'
             keyboardType='decimal-pad'
             placeholderTextColor="#aaaaaa"
-            onChangeText={(text) => setPrice(Number(text))}
+            onChangeText={(text) => setPrice(text)}
             value={price.toString()}
             underlineColorAndroid="transparent"
             autoCapitalize="none"
         />
         { action === "Create" && 
 			<TouchableOpacity 
-				disabled={!name && !price}
-				style={[(name.length > 0 && price.length >0)? styles.button : styles.buttonDisabled, {marginHorizontal: 0}]}
+				disabled={name.length === 0 || price.length === 0 || typeof image === 'undefined'}
+				style={[(name.length > 0 && price!=0 && typeof image !== 'undefined')? styles.button : styles.buttonDisabled, {marginHorizontal: 0}]}
 				onPress={uploadImage}>
 				<Text style={styles.buttonText}>Add Product</Text>
 			</TouchableOpacity>
         }
         { action === "Update" && 
 			<TouchableOpacity 
-                style={styles.button}
+                disabled={name.length === 0 || price.length === 0 || typeof image === 'undefined'}
+                style={[(name.length > 0 && price!=0 && typeof image !== 'undefined')? styles.button : styles.buttonDisabled, {marginHorizontal: 0}]}
 				onPress={uploadImage}>
 				<Text style={styles.buttonText}>Update Product</Text>
 			</TouchableOpacity>
