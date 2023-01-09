@@ -20,32 +20,33 @@ import ManageProduct from './screens/ManageProduct';
 // import { StyleSheet, Text, View } from 'react-native';
 const Stack = createNativeStackNavigator();
 
-var userid=""
-var email = ""
-var fullname = ""
-var role = ""
-
 function getHeaderTitle(route) {
-  // If the focused route is not found, we need to assume it's the initial screen
-  // This can happen during if there hasn't been any navigation inside the screen
-  // In our case, it's "Feed" as that's the first screen inside the navigator
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
 
   switch (routeName) {
     case 'Home':
       return 'Products';
     case 'Products':
-      return 'Orders';
+      return 'Products';
     case 'Profile':
       return 'My Profile';
     case 'Cart':
       return 'My Cart';
-    case 'ProductDetail':
-      return 'Product Detail';
+    case 'Orders':
+      return 'Orders';
     case 'OrderDetail':
-      return 'Order Detail';
+      return 'Order Details';
+    case 'Checkout':
+      return 'Checkout';
+    case 'ViewProducts':
+      return 'View Products';
+    case 'ManageOrders':
+      return 'Orders';
+    case 'AdminView':
+      return 'Orders';
   }
 }
+
 
 export default function App() {
   return (
@@ -58,36 +59,24 @@ export default function App() {
             })
           }/>
           <Stack.Screen name="Admin" component={AdminTabBar} options={({ route }) => ({
-            headerTitle: "Manage Orders"
+            headerTitle: getHeaderTitle(route)
             })
           }/>
-          <Stack.Screen name="AdminView" component={AdminViewProducts} options={({ route }) => ({
-            headerTitle: "View Products"
-            })
-          }/>
-          <Stack.Screen name="ManageProduct" component={ManageProduct} options={({ route }) => ({
+           <Stack.Screen name="Products" component={HomeScreen} />
+          <Stack.Screen name="AdminView" component={AdminViewProducts} />
+          <Stack.Screen name="ManageProduct" component={ManageProduct} options={() => ({
             headerTitle: "Manage Product"
-            })
-          }/>
-          {/* <Stack.Screen name="Home" component={HomeTabBar} options={{headerShown: false}} initialParams= {{userID: userid, email: email, fullName: fullname, userRole: role}} /> */}
+            })}/>
           <Stack.Screen name="Checkout" component={CheckoutScreen}  />
-          <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
+          <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={() => ({
+            headerTitle: "Product Detail"
             })} />
-          <Stack.Screen name="Orders" component={OrdersScreen} options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
-            })} />
-          <Stack.Screen name="OrderDetail" component={OrderDetailScreen} options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
-            })} />
-          <Stack.Screen name="Cart" component={CartScreen} options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
-            })
-          }/>
-          <Stack.Screen name="Profile" component={ProfileScreen} options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
-            })
-          }/>
+          <Stack.Screen name="Orders" component={OrdersScreen} />
+          <Stack.Screen name="OrderDetail" component={OrderDetailScreen} options={() => ({
+            headerTitle: "Order Detail"
+            })}/>
+          <Stack.Screen name="Cart" component={CartScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
           </Stack.Navigator>
       </NavigationContainer>
   );

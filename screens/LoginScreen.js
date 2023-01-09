@@ -63,9 +63,8 @@ function LoginScreen({navigation}) {
                 style={styles.logo}
                 source={require('../assets/ShopIt.png')}
             /> 
-            <Text style={styles.title}>Welcome to ShopIt</Text>
             <KeyboardAwareScrollView
-                style={{ flex: 1, width: '100%' }}
+                style={styles.fieldContainer}
                 keyboardShouldPersistTaps="always">
 
                 <TextInput
@@ -106,34 +105,25 @@ export default LoginScreen;
 const styles = {...appStyles, ...StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection: 'column',
+        padding: 50,
+    },
+    fieldContainer: {
+        width: '100%',
+        // padding: 40,
     },
     title: {
-        position: 'absolute',
-        top: 55,
-        fontSize: 35,
+        fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 150,
         textAlign: 'center'
     },
     logo: {
-        marginTop: 50,
-        flex: 1,
-        height: 100,
-        width: 150,
+        width: '100%',
+        height: undefined,
+        aspectRatio: 1,
+        flex: 5,
         alignSelf: "center",
-        margin: -50,
-    },
-    input: {
-        height: 48,
-        borderRadius: 5,
-        overflow: 'hidden',
-        backgroundColor: 'white',
-        marginTop: -0,
-        marginBottom: 10,
-        marginLeft: 30,
-        marginRight: 30,
-        paddingLeft: 16,
     },
     customButton: {
         marginHorizontal: 20,
