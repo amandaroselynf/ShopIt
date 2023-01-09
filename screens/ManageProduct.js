@@ -8,6 +8,7 @@ import { Picker } from '@react-native-picker/picker';
 import { appStyles } from '../constants/style';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ROLE_ADMIN } from '../constants/const';
+import { COLOR_BTN_PRIMARY, COLOR_BTN_PRIMARY_DISABLED } from '../constants/colors';
 
 import * as ImagePicker from 'expo-image-picker';
 
@@ -180,18 +181,18 @@ function ManageProduct({ route, navigation }) {
             { action === "Create" && 
                 <TouchableOpacity 
                     disabled={name.length === 0 || price.length === 0 || typeof image === 'undefined'}
-                    style={[(name.length > 0 && price!=0 && typeof image !== 'undefined')? styles.button : styles.buttonDisabled, {marginHorizontal: 0}]}
+                    style={[(name.length > 0 && price!=0 && typeof image !== 'undefined')? styles.iconButton : styles.iconButtonDisabled, {marginHorizontal: 0}]}
                     onPress={uploadImage}>
                     <Ionicons name="pencil-outline" size={15} color="white" />
-                    <Text style={styles.buttonText}>Add Product</Text>
+                    <Text style={styles.iconButtonText}>Add Product</Text>
                 </TouchableOpacity>
             }
             { action === "Update" && 
                 <TouchableOpacity 
                     disabled={name.length === 0 || price.length === 0 || typeof image === 'undefined'}
-                    style={[(name.length > 0 && price!=0 && typeof image !== 'undefined')? styles.button : styles.buttonDisabled, {marginHorizontal: 0}]}
+                    style={[(name.length > 0 && price!=0 && typeof image !== 'undefined')? styles.iconButton : styles.iconButtonDisabled, {marginHorizontal: 0}]}
                     onPress={uploadImage}>
-                    <Text style={styles.buttonText}>Update Product</Text>
+                    <Text style={styles.iconButtonText}>Update Product</Text>
                 </TouchableOpacity>
             }
             </View>
@@ -221,7 +222,26 @@ const styles = {...appStyles, ...StyleSheet.create({
     imageContainer: {
         
         borderWidth: 1,
-    }
+    },
+    iconButton: {
+        backgroundColor: COLOR_BTN_PRIMARY,
+        padding: 10,
+        marginTop: 10,
+        borderRadius: 5,
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    iconButtonDisabled: {
+        backgroundColor: COLOR_BTN_PRIMARY_DISABLED,
+        padding: 10,
+        marginTop: 10,
+        borderRadius: 5,
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    iconButtonText: {
+        color: 'white',
+    },
 })};
 
 export default ManageProduct;

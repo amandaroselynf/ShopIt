@@ -141,25 +141,25 @@ function ProductDetailScreen({ route, navigation}) {
           {error && <Text style={styles.error}>{error}</Text>}
           { action === ROLE_CUSTOMER && 
           <TouchableOpacity 
-            style={styles.cartButton}
+            style={styles.iconButton}
             onPress={handleAdd} >
               <Ionicons name="cart-outline" size={15} color="white" />
-              <Text style={styles.cartButtonText}> Add To Cart</Text>
+              <Text style={styles.iconButtonText}> Add To Cart</Text>
           </TouchableOpacity>
           }
           { action === ROLE_ADMIN &&  (
             <View>
               <TouchableOpacity 
-                style={styles.cartButton}
+                style={styles.iconButton}
                 onPress={onUpdatePress} >
                   <Ionicons name="pencil-outline" size={15} color="white" />
-                  <Text style={styles.cartButtonText}> Update Product</Text>
+                  <Text style={styles.iconButtonText}> Update Product</Text>
               </TouchableOpacity>
               <TouchableOpacity 
-                  style={styles.cartButton}
+                  style={styles.iconButton}
                   onPress={handleDelete}>
                 <Ionicons name="trash-outline" size={15} color="white" />
-                <Text style={styles.cartButtonText}> Delete Product</Text>
+                <Text style={styles.iconButtonText}> Delete Product</Text>
             </TouchableOpacity>
           </View>)
         }
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: 'center'
   },
-  cartButton: {
+  iconButton: {
     backgroundColor: '#788eec',
     padding: 10,
     marginTop: 10,
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  cartButtonText: {
+  iconButtonText: {
     color: 'white',
   },
   inputQuantity: {
