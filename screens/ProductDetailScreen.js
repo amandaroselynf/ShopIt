@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, Text, TextInput, Button, TouchableOpacity,KeyboardAvoidingView, View, StyleSheet, Dimensions } from 'react-native'
+import { Image, Text, TextInput, Alert, Button, TouchableOpacity,KeyboardAvoidingView, View, StyleSheet, Dimensions } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { firebase } from '../config'
 import { Ionicons } from '@expo/vector-icons';
@@ -43,15 +43,15 @@ function ProductDetailScreen({ route, navigation}) {
         qty: qty,
       })
       .then(() => {
-        alert('The product has been added to your cart!');
+        Alert.alert('Success','The product has been added to your cart!');
       })
     }
 
-    const updateExisting = async () => {
-      await cartRef.doc(doc.docs[0].id).update({
+    const updateExisting = async (docId) => {
+      await cartRef.doc(docId).update({
         qty: qty
       }).then(() => {
-        alert('The product has been added to your cart!');
+        Alert.alert('Success','The quantity of the product in the cart has been updated!');
       });
     }
 
@@ -67,7 +67,7 @@ function ProductDetailScreen({ route, navigation}) {
           if(doc.empty) {
             addCart()            
           } else {
-            updateExisting()
+            updateExisting(doc.docs[0].id)
           }
             
             // navigation.navigate('Home', {userID: userData.id, userName: userData.fullName, userRole: userData.role})

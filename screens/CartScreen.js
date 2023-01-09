@@ -141,12 +141,14 @@ function CartScreen({ navigation }) {
             )}
           />
 
+        <View style={{margin: 10}}>
           <TouchableOpacity 
             disabled={(carts.length===0)}
             style={(carts.length>0) ? styles.button : styles.buttonDisabled}
             onPress={onCheckoutPress}>
                 <Text style={styles.buttonText}>Checkout</Text>
           </TouchableOpacity>
+          </View>
         </View>
     );
 }

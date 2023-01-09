@@ -16,8 +16,8 @@ function OrderDetailScreen ({route, navigation}) {
 
     return (
     <View style={styles.container}>
-    {detail.customer !== 'undefined' && <Text style={styles.customerName}>{detail.customer}</Text>}
-    {detail.email !== 'undefined' && <Text style={styles.customerEmail}>{detail.email}</Text>}
+    {detail.customer ? <Text style={styles.customerName}>{detail.customer}</Text> : null}
+    {detail.email ? <Text style={styles.customerEmail}>{detail.email}</Text>: null}
     <View style={styles.topContainer}>
     <Text style={[ styles.orderStatus, detail.status === PROCESSING ? {color: 'red'} : detail.status === DELIVERING ? {color: 'orange'} : {color: 'green'}]}>{detail.status}</Text>
     {/* (detail.status=== PROCESSING) ? {color: 'red'}: {color: 'white'} */}
