@@ -25,7 +25,9 @@ function ManageProduct({ route, navigation }) {
 	useEffect(() => {
 		if(action === "Update") {
             setName(product.name)
-            setDesc(product.desc)
+            if(product.desc !== 'undefined') {
+                setDesc(product.desc)
+            }
             setImage(product.image)
             setPrice(product.price)
         }
@@ -159,7 +161,7 @@ function ManageProduct({ route, navigation }) {
             numberOfLines={3}
             placeholderTextColor="#aaaaaa"
             onChangeText={(text) => setDesc(text)}
-            value={desc.toString()}
+            value={desc}
             underlineColorAndroid="transparent"
             autoCapitalize="none"
         />
@@ -168,7 +170,7 @@ function ManageProduct({ route, navigation }) {
             placeholder='Product Price'
             keyboardType='decimal-pad'
             placeholderTextColor="#aaaaaa"
-            onChangeText={(text) => setPrice(text)}
+            onChangeText={(text) => setPrice(Number(text))}
             value={price.toString()}
             underlineColorAndroid="transparent"
             autoCapitalize="none"
