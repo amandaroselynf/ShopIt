@@ -16,36 +16,69 @@ import OrdersScreen from './screens/OrdersScreen';
 import { AdminTabBar } from './navigation/AdminTabBar';
 import AdminViewProducts from './screens/AdminViewProducts';
 import ManageProduct from './screens/ManageProduct';
+import ManageOrders from './screens/ManageOrders';
 // import { StatusBar } from 'expo-status-bar';
 // import { StyleSheet, Text, View } from 'react-native';
 const Stack = createNativeStackNavigator();
 
-var userid=""
-var email = ""
-var fullname = ""
-var role = ""
-
 function getHeaderTitle(route) {
-  // If the focused route is not found, we need to assume it's the initial screen
-  // This can happen during if there hasn't been any navigation inside the screen
-  // In our case, it's "Feed" as that's the first screen inside the navigator
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
-
+console.log(route)
   switch (routeName) {
     case 'Home':
       return 'Products';
     case 'Products':
-      return 'Orders';
+      return 'Products';
     case 'Profile':
       return 'My Profile';
     case 'Cart':
       return 'My Cart';
-    case 'ProductDetail':
-      return 'Product Detail';
+    case 'Orders':
+      return 'Orders';
     case 'OrderDetail':
-      return 'Order Detail';
+      return 'Order Details';
+    case 'Checkout':
+      return 'Checkout';
+    case 'ViewProducts':
+      return 'View Products';
+    case 'ManageOrders':
+      return 'Manage Orders';
+    case 'ViewOrders':
+      return 'Manage Orders';
+    case 'AdminView':
+      return 'Orders';
+      case 'ViewOrders':
+      return 'Manage Orders';
+    case 'Admin':
+      return 'Manage Orders';
   }
 }
+
+function getAdminTitle(route) {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Admin';
+console.log(route)
+  switch (routeName) {
+    case 'Profile':
+      return 'My Profile';
+    case 'Orders':
+      return 'Orders';
+    case 'OrderDetail':
+      return 'Order Details';
+    case 'ViewProducts':
+      return 'View Products';
+    case 'ManageOrders':
+      return 'Manage Orders';
+    case 'ViewOrders':
+      return 'Manage Orders';
+    case 'AdminView':
+      return 'Orders';
+    case 'ViewOrders':
+      return 'Manage Orders';
+    case 'Admin':
+      return 'Manage Orders';
+  }
+}
+
 
 export default function App() {
   return (
@@ -58,36 +91,27 @@ export default function App() {
             })
           }/>
           <Stack.Screen name="Admin" component={AdminTabBar} options={({ route }) => ({
+            headerTitle: getAdminTitle(route)
+            })
+          }/>
+          <Stack.Screen name="ManageOrders" component={ManageOrders} options={() => ({
             headerTitle: "Manage Orders"
-            })
-          }/>
-          <Stack.Screen name="AdminView" component={AdminViewProducts} options={({ route }) => ({
-            headerTitle: "View Products"
-            })
-          }/>
-          <Stack.Screen name="ManageProduct" component={ManageProduct} options={({ route }) => ({
+            })}/>
+           <Stack.Screen name="Products" component={HomeScreen} />
+          <Stack.Screen name="AdminView" component={AdminViewProducts} />
+          <Stack.Screen name="ManageProduct" component={ManageProduct} options={() => ({
             headerTitle: "Manage Product"
-            })
-          }/>
-          {/* <Stack.Screen name="Home" component={HomeTabBar} options={{headerShown: false}} initialParams= {{userID: userid, email: email, fullName: fullname, userRole: role}} /> */}
+            })}/>
           <Stack.Screen name="Checkout" component={CheckoutScreen}  />
-          <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
+          <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={() => ({
+            headerTitle: "Product Detail"
             })} />
-          <Stack.Screen name="Orders" component={OrdersScreen} options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
-            })} />
-          <Stack.Screen name="OrderDetail" component={OrderDetailScreen} options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
-            })} />
-          <Stack.Screen name="Cart" component={CartScreen} options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
-            })
-          }/>
-          <Stack.Screen name="Profile" component={ProfileScreen} options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
-            })
-          }/>
+          <Stack.Screen name="Orders" component={OrdersScreen} />
+          <Stack.Screen name="OrderDetail" component={OrderDetailScreen} options={() => ({
+            headerTitle: "Order Detail"
+            })}/>
+          <Stack.Screen name="Cart" component={CartScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
           </Stack.Navigator>
       </NavigationContainer>
   );

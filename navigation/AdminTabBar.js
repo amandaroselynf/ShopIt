@@ -9,7 +9,7 @@ const Tab = createMaterialBottomTabNavigator();
 export function AdminTabBar() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="ManageOrders" component={ManageOrders} options={{
+      <Tab.Screen name="ViewOrders" component={ManageOrders} options={{
         tabBarLabel: 'Orders',
         tabBarIcon: () => (
             <Ionicons name="document-text-outline" size={20} />
