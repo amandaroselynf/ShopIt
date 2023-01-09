@@ -16,10 +16,20 @@ function OrderDetailScreen ({route, navigation}) {
 
     return (
     <View style={styles.container}>
-    {detail.customer !== 'undefined' && <Text style={styles.customerName}>{detail.customer}</Text>}
-    {detail.email !== 'undefined' && <Text style={styles.customerEmail}>{detail.email}</Text>}
+    <View style={styles.UserContainer}>
+      {/* {detail.customer !== 'undefined' && <Text style={styles.userLabel}>Username:</Text>} */}
+      {detail.customer !== 'undefined' && <Text style={styles.userText}>{detail.customer}</Text>}
+      {detail.email !== 'undefined' && <Text style={styles.userText}>{detail.email}</Text>}
+    </View>
+    {/* <View style={styles.UserContainer}>
+      <Text style={styles.userLabel}>Email:</Text>
+      {detail.email !== 'undefined' && <Text style={styles.userText}>{detail.email}</Text>}
+    </View> */}
+    <View style={styles.LineAbove}></View>
+    
+
     <View style={styles.topContainer}>
-    <Text style={[ styles.orderStatus, detail.status === PROCESSING ? {color: 'red'} : detail.status === DELIVERING ? {color: 'orange'} : {color: 'green'}]}>{detail.status}</Text>
+        <Text style={[ styles.orderStatus, detail.status === PROCESSING ? {color: 'red'} : detail.status === DELIVERING ? {color: 'orange'} : {color: 'green'}]}>{detail.status}</Text>
     {/* (detail.status=== PROCESSING) ? {color: 'red'}: {color: 'white'} */}
         {/* <Text style={[styles.orderStatus, { }]}>{detail.status}</Text> */}
         <Text style={styles.orderDate}>{new Date(detail.createdAt.toDate()).toDateString()}</Text>
@@ -50,13 +60,42 @@ function OrderDetailScreen ({route, navigation}) {
             )}
             />
         </View>
+
         <ScrollView>
-            <Text style={styles.orderAddressLabel}>Address</Text>
-            <Text style={styles.orderAddress}>{detail.address}</Text>
-            <Text style={styles.orderSubtotal}>${Number(detail.subtotal).toFixed(2)}</Text>
-            <Text style={styles.orderDelivery}>${Number(detail.delivery).toFixed(2)}</Text>
-            <Text style={styles.orderService}>${Number(detail.service).toFixed(2)}</Text>
-            <Text style={styles.orderTotal}>${Number(detail.total).toFixed(2)}</Text>
+            {/* <View style={styles.LineAbove}></View> */}
+            <View style={styles.addressContainer}>
+              <Text style={styles.addressLabel}>Address</Text>
+              <Text 
+                style={styles.addressInput}>
+                {detail.address}
+              </Text>
+            </View>
+
+
+            <View style={styles.LineAbove}></View>
+            <View style={styles.SubtotalContainer}>
+              <Text style={styles.subtotalLabel}>Subtotal</Text>
+              <Text style={styles.subtotalText}>${Number(detail.subtotal).toFixed(2)}</Text>
+            </View>
+
+            <View style={styles.DeliveryContainer}>
+              <Text style={styles.deliveryLabel}>Delivery Fee</Text>
+              <Text style={styles.deliverText}>${Number(detail.delivery).toFixed(2)}</Text>
+            </View>	
+
+            <View style={styles.ServiceContainer}>
+              <Text style={styles.serviceLabel}>Service Fee</Text>
+              <Text style={styles.serviceText}>${Number(detail.service).toFixed(2)}</Text>
+            </View>
+
+            <View style={styles.LineAbove}></View>
+            <View style={styles.TotalContainer}>
+              <Text style={styles.totalLabel}>Total Price</Text>
+              <Text style={styles.totalText}>${Number(detail.total).toFixed(2)}</Text>
+            </View>
+            <View style={styles.LineAbove}></View>
+          
+            
         </ScrollView>
         </View>
     </View>
@@ -72,6 +111,17 @@ const styles = {...appStyles, ...StyleSheet.create({
     topContainer: {
         flexDirection: 'row',
     },
+    UserContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: 5,
+    },
+    userLabel: {
+      color: '#333'
+    },
+    userText: {
+      color: '#333',
+    },
     orderStatus: {
         flex: 1,
         fontWeight: 'bold',
@@ -79,15 +129,40 @@ const styles = {...appStyles, ...StyleSheet.create({
     orderDate: {
         flex: 1,
         textAlign: 'right',
+        textDecorationLine: 'underline',
     },
     orderSubtotal: {
       marginTop: 10,
     },
     productsContainer: {
       flexDirection: 'column',
+      height: '50%',
+      borderWidth: 2,  // add border width
+      borderColor: '#333',  // add border color
+    },  
+    productsHeader: {
+      textAlign: 'center',
+      fontSize: 20,
+      fontWeight: 'bold',
     },  
     orderOthers: {
         justifyContent: 'center',
+    },
+    addressContainer: {
+    },
+    addressInput: {
+      textAlignVertical: 'top',
+      padding: 10,
+          borderRadius: 5,
+          overflow: 'hidden',
+          backgroundColor: 'white',
+          marginVertical:5,
+    },
+    addressLabel: {
+      fontSize: 18,
+      marginTop: 10,
+      fontWeight: 'bold',
+      textAlign: 'center'
     },
     productTitle: {
       fontSize: 15,
@@ -99,29 +174,40 @@ const styles = {...appStyles, ...StyleSheet.create({
       flexDirection: 'column',
       marginLeft: 5,
       flex: 2,
+      // borderWidth: 2,
+      // borderColor: '#D3D3D3'
     },
     titleContainer: {
       flexDirection: 'row',
       flex: 1,
     },
-    subtotalContainer: {
-        justifyContent: 'flex-end',
-        alignSelf: 'flex-end',
-        width: '50%',
-        flexDirection: 'row',
-    },
-    subtotalLabel: {
-        flex: 1,
-        marginEnd: 10,
-    },
-    subtotal: {
-        textAlign: 'right',
-        fontWeight: 'bold',
-    },
+    // subtotalContainer: {
+    //     justifyContent: 'flex-end',
+    //     alignSelf: 'flex-end',
+    //     width: '50%',
+    //     flexDirection: 'row',
+    // },
+    // subtotalLabel: {
+    //     flex: 1,
+    //     marginEnd: 10,
+    // },
+    // subtotal: {
+    //     textAlign: 'right',
+    //     fontWeight: 'bold',
+    // },
     orderPriceLabel: {
       flex: 1,
       marginEnd: 10,
       textAlign: 'right',
+    },
+    LineBelow: {
+      borderBottomWidth: 2,
+      marginTop: 5,
+      borderBottomColor: '#D3D3D3',
+    },
+    LineAbove: {
+      borderBottomWidth: 2,
+      borderBottomColor: '#D3D3D3',
     },
     orderPrice: {
       alignItems: 'flex-end',
@@ -137,10 +223,10 @@ const styles = {...appStyles, ...StyleSheet.create({
     },
     productImage: {
       width: "25%",
-      height: undefined,
-      aspectRatio: 1,
-      resizeMode: 'cover',
-      borderRadius: 10,
+      height: "95%",
+      marginLeft: 3,
+      marginTop: 2,
+      borderRadius: 15,
       borderWidth: 2,  // add border width
       borderColor: '#ccc',  // add border color
     },
@@ -172,6 +258,60 @@ const styles = {...appStyles, ...StyleSheet.create({
       // alignItems: 'center',
       flexDirection: 'row',
       flexWrap: 'wrap',
+      borderWidth: 2,
+      borderRadius: 15,
+      margin: 6,
+      borderColor: '#000'
+    },
+    SubtotalContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: 8,
+    },
+    subtotalLabel: {
+      fontSize: 16,
+      color: '#333'
+      },
+    subtotalText: {
+      fontSize: 16,
+      color: '#333',
+      },
+    DeliveryContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: 5,
+    },
+    deliveryLabel: {
+      color: '#333'
+    },
+    deliveryText: {
+      color: '#333',
+    },
+    ServiceContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: 5,
+    },
+    serviceLabel: {
+      color: '#333'
+    },
+    serviceText: {
+      color: '#333',
+    },
+    TotalContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: 10
+    },
+    totalLabel: {
+      fontSize: 18,
+      color: '#333',
+      fontWeight: 'bold'
+    },
+    totalText: {
+      fontSize: 18,
+      color: '#333',
+      fontWeight: 'bold'
     },
 })
 }
