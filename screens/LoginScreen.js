@@ -9,11 +9,6 @@ function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    useEffect(() => {
-        setEmail("amanda@gmail.com")
-        setPassword("12345678")
-    },[])   
-
     const onSignupNavPress = () => {
         navigation.navigate('SignUp')
     }
