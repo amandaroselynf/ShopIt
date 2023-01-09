@@ -40,18 +40,14 @@ function CartScreen({ navigation }) {
       }).catch((e) => {
         alert(e)
       })
-      // .then(() => {
-      //   alert('The product has been added to your cart!');
-      // });
     } 
 
-    const removeItem = (cartId) => {
-      cartRef.doc(cartId).delete({
-
-      }).catch((e) => {
-        alert('Something went wrong please try again later.')
-      })
-    }
+  const removeItem = (cartId) => {
+    cartRef.doc(cartId).delete({
+    }).catch((e) => {
+      alert('Something went wrong please try again later.')
+    })
+  }
     
     const fetchCart = async () => {
       const promises = [];
@@ -75,14 +71,13 @@ function CartScreen({ navigation }) {
                     });
                   }
               })
-              promises.push(promise)
-              
-            }) 
-            Promise.all(promises).then(() => {
-              setCarts(carts);
-            });
-          }  
-          )}
+            promises.push(promise)
+          }) 
+          Promise.all(promises).then(() => {
+            setCarts(carts);
+          });
+        }  
+      )}
 
     return (
         <View style={styles.container}>

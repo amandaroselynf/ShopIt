@@ -8,21 +8,22 @@ import { Picker } from '@react-native-picker/picker';
 import { COMPLETED, DELIVERING, PROCESSING } from '../constants/const';
 
 function ManageOrders({ navigation }) {
-     const [ orders, setOrders] = useState([]) 
+  const [ orders, setOrders] = useState([]) 
 
-     const ordersRef = firebase.firestore().collection('orders')
-     const usersRef = firebase.firestore().collection('users')
+  const ordersRef = firebase.firestore().collection('orders')
+  const usersRef = firebase.firestore().collection('users')
+  
 	useEffect(() => {
 	  fetchOrders()
 	}, [] );
 
-    const updateStatus = (orderId, status) => {
-        ordersRef.doc(orderId).update({
-          status: status  
-        }).catch((e)=> {
-            alert('Something went wrong please try again later.')
-        })
-    }
+  const updateStatus = (orderId, status) => {
+      ordersRef.doc(orderId).update({
+        status: status  
+      }).catch((e)=> {
+          alert('Something went wrong please try again later.')
+      })
+  }
 
 	const fetchOrders = async () => {
     const promises = []
@@ -37,27 +38,25 @@ function ManageOrders({ navigation }) {
           for(let detail of orderDetail) {
             totalQty+=detail.qty
           }
-          console.log(userId)
-            const promise = usersRef.doc(userId).get().then((userDoc) => {
-                const userData = userDoc.data()
-                console.log(userData.fullName)
-                orders.push({
-                    id: doc.id,
-                    customer: userData.fullName,
-                    email: userData.email,
-                    orderDetail,
-                    address,
-                    subtotal, 
-                    service,
-                    delivery,
-                    total,
-                    status,
-                    paymentType,
-                    createdAt,
-                    totalQty
-                });
-            });
-            promises.push(promise)
+          const promise = usersRef.doc(userId).get().then((userDoc) => {
+              const userData = userDoc.data()
+              orders.push({
+                  id: doc.id,
+                  customer: userData.fullName,
+                  email: userData.email,
+                  orderDetail,
+                  address,
+                  subtotal, 
+                  service,
+                  delivery,
+                  total,
+                  status,
+                  paymentType,
+                  createdAt,
+                  totalQty
+              });
+          });
+          promises.push(promise)
         });
         Promise.all(promises).then(() => {
             setOrders(orders)

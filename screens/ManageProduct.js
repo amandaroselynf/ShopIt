@@ -91,13 +91,9 @@ function ManageProduct({ route, navigation }) {
           }
           )
       }
-
-
     
 
     const handleCreate = async (url) => {
-        // uploadImage((url) =>{
-        //     console.log(url)
             productsRef.add({
                 name,
                 desc,
@@ -105,26 +101,21 @@ function ManageProduct({ route, navigation }) {
                 image: url,
             }).then(() => {
                 navigation.goBack()
-            // }).catch()
         });
-        
     }
 
     const handleUpdate = async (url) => {
-        // uploadImage((url) =>{
-        //     console.log(url)
-            const updated = ({
-                name,
-                desc,
-                price: Number(price),
-                image: url,
+        const updated = ({
+            name,
+            desc,
+            price: Number(price),
+            image: url,
+        })
+        productsRef.doc(product.id).update(updated).then(() => {
+            navigation.navigate("ProductDetail", {
+                product: updated,
+                action: ROLE_ADMIN
             })
-            productsRef.doc(product.id).update(updated).then(() => {
-                navigation.navigate("ProductDetail", {
-                    product: updated,
-                    action: ROLE_ADMIN
-                })
-            // }).catch()
         });
         
     }
