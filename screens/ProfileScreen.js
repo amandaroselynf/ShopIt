@@ -11,6 +11,8 @@ import { ROLE_CUSTOMER } from '../constants/const';
 function ProfileScreen({navigation}) {
 
     const [user, setUser] = useState('');
+    const [oldName, setOldName] = useState('');
+    const [oldAddress, setOldAddress] = useState('');
     const [fullName, setName] = useState('');
     const [address, setAddress] = useState('');
     const [role, setRole] = useState('');
@@ -29,12 +31,14 @@ function ProfileScreen({navigation}) {
         });
       });
     }
-    const onUpdatePress = () => {
-      userRef.update
-    }
+    // const onUpdatePress = () => {
+    //   userRef.update
+    // }
     const handleSubmit = () => {
       userRef.update({fullName, address})
         .then(() => {
+          setOldName(fullName)
+          setOldAddress(address)
           setSuccess('Profile updated successfully');
           setError(null);
         })
@@ -52,6 +56,8 @@ function ProfileScreen({navigation}) {
             if(doc.exists)  {
               const data = doc.data()
                 setUser(data)
+                setOldName(data.fullName)
+                setOldAddress(data.address)
                 setName(data.fullName)
                 setAddress(data.address)
                 setRole(data.role)
@@ -94,13 +100,14 @@ function ProfileScreen({navigation}) {
         {role === ROLE_CUSTOMER && 
         <View style={{width: '100%'}}>
           <TouchableOpacity
-              style={styles.button}
+              style={[(oldName !== fullName || oldAddress !== address) ? styles.button : styles.buttonDisabled, ]}
+              // style={[styles.button, {width: '100%', alignSelf: 'center'}]}
               onPress={() => handleSubmit()}>
               <Text style={styles.buttonText}>Update</Text>
           </TouchableOpacity>
           
           <TouchableOpacity 
-            style={[styles.button]}
+            style={styles.button}
             onPress={() => navigation.navigate('Orders')}
             >
               <Text style={styles.buttonText}> View Orders</Text>
@@ -108,7 +115,7 @@ function ProfileScreen({navigation}) {
           </View>
         }
           <TouchableOpacity
-              style={styles.button}
+              style={[styles.button, {width: '100%', alignSelf: 'center'}]}
               onPress={() => handleSignOut()}>
               <Text style={styles.buttonText}>Sign Out</Text>
           </TouchableOpacity>

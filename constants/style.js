@@ -15,7 +15,9 @@ export const appStyles = StyleSheet.create({
         padding: 12,
         borderRadius: 5,
         alignItems: "center",
-        justifyContent: 'center'
+        justifyContent: 'center',
+        width: '100%',
+        alignSelf: 'center',
     },
     buttonDisabled: {
         backgroundColor: COLOR_BTN_PRIMARY_DISABLED,
@@ -24,7 +26,9 @@ export const appStyles = StyleSheet.create({
         padding: 12,
         borderRadius: 5,
         alignItems: "center",
-        justifyContent: 'center'
+        justifyContent: 'center',
+        width: '100%',
+        alignSelf: 'center',
     },
     disabled: {
         backfaceVisibility: COLOR_BTN_PRIMARY_DISABLED,
